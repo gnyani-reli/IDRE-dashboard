@@ -166,6 +166,9 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 /* -- CHART INSIGHT (Logic3) -- */
 #tab-l3 .chart-insight { font-size: 12px; color: var(--muted); line-height: 1.65; padding: 12px 16px; border-top: 1px solid #edf0f2; background: var(--surface2); border-radius: 0 0 8px 8px; margin: 0; }
 #tab-l3 .chart-insight strong { color: var(--text); }
+#tab-l3 .chart-insight-plain { font-size: 11.5px; color: var(--muted); line-height: 1.65; padding: 12px 16px; border-top: 1px solid #edf0f2; background: #f7f9fb; border-left: 3px solid var(--blue); border-radius: 0 0 8px 8px; margin: 0; }
+#tab-l3 .chart-insight-plain strong { color: var(--text); }
+#tab-l3 .bar-list + .chart-insight { margin-top: 14px; }
 /* -- HEADER META (Logic3) -- */
 #tab-l3 .header-meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
 /* -- RESPONSIVE (Logic3) -- */
@@ -510,8 +513,8 @@ table.t tr:hover td{background:#fafafa}
     </div>
   </div>
   <div class="two-col" style="margin-top:-8px;margin-bottom:18px;gap:10px;">
-    <p class="chart-insight" style="margin:0;">Each dot is one provider. Providers <strong>above the 60% line</strong> win the majority of their disputes not on merit but because the opposing health plan never filed a response. The concentration of high-volume providers in the upper-right corner shows this is not a small-sample fluke — it is a <strong>systematic pattern</strong> driven by emergency medicine and radiology billing groups whose dispute volumes make plan non-response most damaging.</p>
-    <p class="chart-insight" style="margin:0;"><strong>354 providers</strong> met the flag threshold of 60%+ default-win share with at least 10 wins and 50 disputes. The vast majority are <strong>emergency medicine groups</strong> — tight billing timelines and high dispute volumes in emergency care create exactly the conditions where plan non-response is most likely to go unchallenged. Hover any name to see the full entity name.</p>
+    <p class="chart-insight chart-insight-plain" style="margin:0;">When a health plan misses the federal IDR deadline, the dispute can close in the provider&#39;s favor without a hearing — that&#39;s a <strong>default win</strong>. Each dot is one provider: left-to-right is how many disputes they were in; up-and-down is what <strong>share of their wins</strong> came from the plan not responding (not from a merits decision).<br><br>We flag dots <strong>above the 60% line</strong> because most of those wins are driven by <strong>plan silence</strong>, not adjudication — especially when the dot is also far to the right (high dispute volume).</p>
+    <p class="chart-insight chart-insight-plain" style="margin:0;">This panel ranks every <strong>flagged</strong> provider by default-win share — of all their disputes, how many ended because the plan never answered (subject to minimum wins and dispute counts).<br><br>We flag providers at the top because <strong>rank order</strong> shows who relies most on plans missing deadlines at scale — the priority list for compliance review. Hover a row to see the full legal entity name.</p>
   </div>
 
   <!-- ROW 2: Plan Scatter + Plan Table -->
@@ -572,8 +575,8 @@ table.t tr:hover td{background:#fafafa}
     </div>
   </div>
   <div class="two-col" style="margin-top:-8px;margin-bottom:18px;gap:10px;">
-    <p class="chart-insight" style="margin:0;">Each dot is a health plan. Plans <strong>far above the flag line and to the right</strong> carry the highest absolute risk — large dispute volumes combined with high non-response rates. A plan with 50,000 disputes and an 80% default-loss rate has effectively <strong>forfeited tens of thousands of cases</strong> without ever engaging the arbitration process. This is not a technicality; it is a compliance failure that directly transfers claim value from payers to providers.</p>
-    <p class="chart-insight" style="margin:0;"><strong>57 plans</strong> were flagged for a default-loss rate of 40%+ with at least 50 disputes. Several show <strong>100% non-response</strong> — complete compliance failure. In some cases this is linked to insolvency (e.g. Friday Health Plans), billing intermediary breakdowns, or TPA processing failures that left entire dispute queues unattended across multiple quarters.</p>
+    <p class="chart-insight chart-insight-plain" style="margin:0;">Each dot is one <strong>health plan</strong>. Left-to-right is how many disputes involved that plan; up-and-down is what share of those disputes the plan <strong>lost because it never responded</strong> (default loss rate). Dot color shows severity tiers starting at 40%.<br><br>We flag plans <strong>high and to the right</strong> because large volume plus a high default-loss rate means many cases exit without the plan ever engaging IDR — that&#39;s operational or compliance failure at scale, not an isolated clerical miss.</p>
+    <p class="chart-insight chart-insight-plain" style="margin:0;">This table sorts plans by default-loss rate among plans with enough disputes to compare fairly — who forfeits the most share of their portfolio to silence.<br><br>We flag leaders here because even <strong>national carriers</strong> can move massive dollars through uncontested defaults; rank surfaces where plan-side response breakdowns warrant accountability beyond a single national average.</p>
   </div>
 
   <!-- BAR CHARTS ROW -->
@@ -585,7 +588,7 @@ table.t tr:hover td{background:#fafafa}
       </div>
       <div class="card-body">
         <div class="bar-list" id="provBarList"></div>
-        <p class="chart-insight">This ranks providers by <strong>raw default-win volume</strong> — the absolute number of disputes won purely because the plan went silent. High-volume winners here are not necessarily the most egregious rate-wise, but they represent the <strong>largest financial transfers</strong> driven by non-response. A single provider with 3,000+ default wins has captured significant out-of-network reimbursement without a single contested arbitration outcome.</p>
+        <p class="chart-insight chart-insight-plain">These bars rank providers by <strong>raw count</strong> of default wins — how many disputes each provider won solely because the opposing plan never responded.<br><br>We flag the longest bars because <strong>sheer volume</strong> shows where the biggest payment flows move without arbitration — priority targets for financial exposure even when the provider&#39;s <em>rate</em> is not the highest on the scatter plot.</p>
       </div>
     </div>
     <div class="card">
@@ -595,7 +598,7 @@ table.t tr:hover td{background:#fafafa}
       </div>
       <div class="card-body">
         <div class="bar-list" id="planBarList"></div>
-        <p class="chart-insight">This ranks plans by <strong>total default losses</strong> — disputes forfeited by not responding. The top plans here (bcbstx.com, aetna.com, uhc.com) are large national insurers whose sheer dispute volume means even a moderate non-response rate generates tens of thousands of lost cases. These losses represent <strong>uncontested payments</strong> made at provider-requested rates, with no opportunity for the plan to present its offer.</p>
+        <p class="chart-insight chart-insight-plain">These bars rank plans by <strong>total default losses</strong> — how many disputes each plan forfeited because it did not respond in time.<br><br>We flag top entries because <strong>mass-scale</strong> forfeitures concentrate at large national insurers: even a modest non-response rate across millions of members yields tens of thousands of uncontested outcomes — that&#39;s systemic exposure, not one bad week.</p>
       </div>
     </div>
   </div>
@@ -612,7 +615,7 @@ table.t tr:hover td{background:#fafafa}
     <div class="card-body" style="padding:14px 18px 12px;">
       <div id="l3GeoMap" style="width:100%;"></div>
       <div id="l3GeoLegend" style="margin-top:10px;"></div>
-      <p class="chart-insight" style="margin-top:12px;">States shaded in <strong>deep red</strong> have the highest share of disputes ending in a provider default win — meaning health plans operating in those states are systematically failing to respond. This is not simply a function of dispute volume; it reflects <strong>geographic compliance gaps</strong> where certain plans or billing networks exploit non-response concentrated in specific service-location states. Hover any state to see its default-win rate, total wins, and dispute count.</p>
+      <p class="chart-insight chart-insight-plain" style="margin-top:12px;">This map colors each <strong>state (by service location)</strong> by the share of disputes in that state that ended in a provider default win — the plan never filed a response. Darker red = a larger share of in-state disputes closed that way. Grey = not enough data in the extract.<br><br>We flag the deepest red states because geography surfaces <strong>where</strong> plan non-response clusters — useful for regional oversight, not just a single national rate. Hover a state for its exact share, win count, and dispute count.</p>
     </div>
   </div>
 
