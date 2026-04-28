@@ -1,0 +1,2036 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>
+      Logic 1 — High Payment Cases Decided Too Quickly · CMS IDRE Audit
+    </title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+      /* ===== RESET & BASE ===== */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family:
+          "Inter",
+          -apple-system,
+          sans-serif;
+        background: #f4f6f8;
+        color: #1b1b1b;
+        font-size: 13.5px;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ===== DESIGN TOKENS ===== */
+      :root {
+        --bg: #f4f6f8;
+        --surface: #ffffff;
+        --surface2: #f2f2f1;
+        --border: #dfe1e2;
+        --text: #1b1b1b;
+        --muted: #565c65;
+        --faint: #6f777f;
+        --red: #c0392b;
+        --orange: #d35400;
+        --amber: #ba7517;
+        --blue: #185fa5;
+        --blue-lt: #dce8f5;
+        --green: #1a7a4a;
+        --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+      }
+
+      /* ===== TAB NAV (standardized heading) ===== */
+      .tab-nav {
+        background: #fff;
+        border-bottom: 1px solid #dfe1e2;
+        padding: 0 clamp(10px, 2vw, 24px);
+        display: flex;
+        align-items: flex-end;
+        gap: 2px;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      }
+      .tab-btn {
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        padding: 14px 22px 11px;
+        font-size: 13px;
+        font-family: inherit;
+        font-weight: 500;
+        color: #565c65;
+        cursor: pointer;
+        transition:
+          color 0.15s,
+          border-color 0.15s;
+        white-space: nowrap;
+        line-height: 1;
+      }
+      .tab-btn:hover {
+        color: #1b1b1b;
+      }
+      .tab-btn.active {
+        color: #185fa5;
+        border-bottom-color: #185fa5;
+        font-weight: 600;
+      }
+
+      /* ===== SHARED COMPONENTS ===== */
+      .section-label {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: #565c65;
+        margin-bottom: 10px;
+      }
+      .kpi {
+        background: #fff;
+        border-radius: 10px;
+        border: 1px solid #dfe1e2;
+        padding: 14px 16px;
+      }
+      .kpi-lbl {
+        font-size: 11px;
+        color: #565c65;
+        margin-bottom: 6px;
+        line-height: 1.4;
+        font-weight: 500;
+      }
+      .kpi-val {
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1;
+      }
+      .kpi-desc {
+        font-size: 11.5px;
+        color: #6f777f;
+        margin-top: 6px;
+        line-height: 1.4;
+      }
+      .card {
+        background: #fff;
+        border: 1px solid #dfe1e2;
+        border-radius: 10px;
+      }
+      .note {
+        font-size: 11px;
+        color: #6f777f;
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+      .footnote {
+        font-size: 10.5px;
+        color: #6f777f;
+        text-align: center;
+        margin-top: 2rem;
+        border-top: 1px solid #edf0f2;
+        padding-top: 14px;
+        line-height: 1.6;
+      }
+
+      /* ===== TOOLTIP ===== */
+      .tooltip {
+        position: fixed;
+        pointer-events: none;
+        display: none;
+        z-index: 200;
+        background: #1a1916;
+        color: #f3f0eb;
+        padding: 12px 15px;
+        border-radius: 8px;
+        font-size: 12px;
+        line-height: 1.5;
+        max-width: 280px;
+        box-shadow: var(--shadow-md);
+        border: 1px solid #333;
+      }
+      .tt-title {
+        font-weight: 600;
+        font-size: 13px;
+        margin-bottom: 8px;
+        padding-bottom: 7px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        color: #fff;
+      }
+      .tt-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        font-size: 12px;
+        color: #ccc;
+      }
+      .tt-row span:last-child {
+        font-weight: 600;
+        color: #fff;
+      }
+      .tt-badge {
+        display: inline-block;
+        margin-top: 8px;
+        padding: 3px 10px;
+        border-radius: 100px;
+        font-size: 10px;
+        font-weight: 600;
+      }
+      .tt-badge.flag {
+        background: #7c2020;
+        color: #fff;
+      }
+      .tt-badge.ok {
+        background: #1a4a2a;
+        color: #fff;
+      }
+
+      /* ===== LOGIC 1 PAGE ===== */
+      .page {
+        width: 100%;
+        padding: 12px clamp(8px, 1.4vw, 16px) 22px;
+      }
+
+      .header {
+        margin-bottom: 14px;
+      }
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        background: var(--surface2);
+        border: 1px solid #d5d7da;
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 8px;
+        flex-wrap: wrap;
+      }
+      .header h1 {
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 1.2;
+        color: var(--text);
+      }
+      .header-meta {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+      .insight {
+        background: var(--blue-lt);
+        border-left: 4px solid var(--blue);
+        border-radius: 0 8px 8px 0;
+        padding: 12px 16px;
+        font-size: 13px;
+        color: #0c447c;
+        line-height: 1.6;
+        margin-bottom: 24px;
+      }
+      .insight-red {
+        background: #fdecea;
+        border-left: 4px solid var(--red);
+        border-radius: 0 8px 8px 0;
+        padding: 12px 16px;
+        font-size: 13px;
+        color: #7a1a12;
+        line-height: 1.6;
+        margin-bottom: 16px;
+      }
+      .insight-green {
+        background: #e8f5ee;
+        border-left: 4px solid var(--green);
+        border-radius: 0 8px 8px 0;
+        padding: 12px 16px;
+        font-size: 13px;
+        color: #0e3d22;
+        line-height: 1.6;
+        margin-top: 12px;
+      }
+
+      .kpi-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+      .kpi.k-blue .kpi-val {
+        color: var(--blue);
+      }
+      .kpi.k-red .kpi-val {
+        color: var(--red);
+      }
+      .kpi.k-orange .kpi-val {
+        color: var(--orange);
+      }
+      .kpi.k-amber .kpi-val {
+        color: var(--amber);
+      }
+      .kpi.k-green .kpi-val {
+        color: var(--green);
+      }
+
+      .act-label {
+        font-size: 9.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.4px;
+        color: var(--faint);
+        margin: 26px 0 4px;
+      }
+      .act-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 10px;
+        padding-bottom: 9px;
+        border-bottom: 2px solid var(--border);
+      }
+
+      /* ===== TWO-COL PAIRED ROW ===== */
+      .two-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+      .paired-row {
+        align-items: stretch;
+      }
+      .paired-row > .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+      .paired-row > .card > .card-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+      }
+      .card-header {
+        padding: 14px 18px 12px;
+        border-bottom: 1px solid #edf0f2;
+        flex-shrink: 0;
+      }
+      .card-title {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+        margin-bottom: 3px;
+      }
+      .card-sub {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+      .card-body {
+        padding: 16px 18px;
+        overflow-x: auto;
+      }
+
+      /* ===== CANVAS WRAPS ===== */
+      .chart-wrap {
+        position: relative;
+        height: 320px;
+        background: #fafaf8;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .chart-wrap canvas {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+      }
+      .chart-note {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.65;
+        padding: 12px 16px;
+        border-top: 1px solid #edf0f2;
+        background: var(--surface2);
+        border-radius: 0 0 8px 8px;
+        margin: 0;
+      }
+      .chart-note strong {
+        color: var(--text);
+      }
+
+      /* ===== DATA TABLES ===== */
+      .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
+      .data-table th {
+        background: var(--surface2);
+        border-bottom: 1px solid #edf0f2;
+        padding: 8px 12px;
+        text-align: left;
+        font-size: 10.5px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        color: var(--muted);
+        white-space: nowrap;
+        cursor: pointer;
+        user-select: none;
+      }
+      .data-table th:hover {
+        color: var(--blue);
+      }
+      .data-table th.r {
+        text-align: right;
+      }
+      .data-table td {
+        padding: 7px 12px;
+        border-bottom: 1px solid #edf0f2;
+        vertical-align: middle;
+      }
+      .data-table td.r {
+        text-align: right;
+        font-family: "DM Mono", monospace;
+      }
+      .data-table tr:last-child td {
+        border-bottom: none;
+      }
+      .data-table tr:hover td {
+        background: var(--surface2);
+      }
+      .sticky-head th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: var(--surface2);
+      }
+      .name-cell {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 0;
+      }
+      .scroll-wrap {
+        overflow-y: auto;
+      }
+      .scroll-wrap::-webkit-scrollbar {
+        width: 5px;
+      }
+      .scroll-wrap::-webkit-scrollbar-track {
+        background: var(--surface2);
+      }
+      .scroll-wrap::-webkit-scrollbar-thumb {
+        background: #ced3dc;
+        border-radius: 4px;
+      }
+      /* Fit Act 2 + Act 3 tables without horizontal scroll */
+      #tbl_idre,
+      #tbl_prov {
+        table-layout: fixed;
+      }
+      #tbl_idre th,
+      #tbl_idre td,
+      #tbl_prov th,
+      #tbl_prov td {
+        padding: 6px 8px;
+      }
+      #tbl_idre th,
+      #tbl_prov th {
+        white-space: normal;
+        line-height: 1.2;
+      }
+
+      /* ===== BADGES ===== */
+      .bar-badge {
+        display: inline-block;
+        font-size: 9px;
+        font-weight: 600;
+        padding: 2px 7px;
+        border-radius: 100px;
+        letter-spacing: 0.3px;
+      }
+      .badge-flagged {
+        background: #fde8e8;
+        color: var(--red);
+      }
+      .badge-ok {
+        background: #e4f5ec;
+        color: var(--green);
+      }
+      .badge-insuf {
+        background: #f2f2f1;
+        color: var(--faint);
+      }
+
+      /* ===== NUMERIC COLORS ===== */
+      .pct-red {
+        color: var(--red);
+        font-weight: 600;
+      }
+      .pct-orange {
+        color: var(--orange);
+        font-weight: 600;
+      }
+      .pct-amber {
+        color: var(--amber);
+        font-weight: 600;
+      }
+      .pct-green {
+        color: var(--green);
+        font-weight: 600;
+      }
+      .pct-ok {
+        color: var(--muted);
+      }
+
+      /* ===== CALLOUT ===== */
+      .callout {
+        background: var(--blue-lt);
+        border-left: 3px solid var(--blue);
+        border-radius: 0 6px 6px 0;
+        padding: 8px 12px;
+        font-size: 11px;
+        color: var(--blue);
+        line-height: 1.5;
+        margin-top: 12px;
+      }
+
+      /* ===== CRITERIA BOX ===== */
+      .criteria-box {
+        margin-top: 10px;
+        background: #f7f9fb;
+        border: 1px solid #d9e2ec;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 11.5px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .criteria-box strong {
+        color: var(--text);
+      }
+      .criteria-box ul {
+        margin: 6px 0 0 16px;
+        padding: 0;
+      }
+      .criteria-box li {
+        margin: 2px 0;
+      }
+
+      /* ===== LEGEND ROW ===== */
+      .legend-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px 14px;
+        margin-bottom: 12px;
+      }
+      .li {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .dash-line {
+        width: 16px;
+        height: 2px;
+        border-radius: 1px;
+        flex-shrink: 0;
+      }
+
+      /* sort indicators */
+      .sort-asc::after {
+        content: " ▲";
+        font-size: 9px;
+        color: var(--blue);
+      }
+      .sort-desc::after {
+        content: " ▼";
+        font-size: 9px;
+        color: var(--blue);
+      }
+
+      @media (max-width: 800px) {
+        .kpi-strip {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+        .header-top {
+          flex-direction: column;
+          align-items: stretch;
+        }
+      }
+      @media (max-width: 480px) {
+        .kpi-strip {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ===== TOOLTIP ===== -->
+    <div class="tooltip" id="tt">
+      <div class="tt-title" id="tt-title"></div>
+      <div id="tt-body"></div>
+    </div>
+
+    <!-- ===== PAGE ===== -->
+    <div class="page">
+      <!-- HEADER -->
+      <div class="header">
+        <div class="header-top">
+          <div>
+            <h1>Higher-Payment Cases Are Being Resolved Faster — Not Slower</h1>
+            <div class="header-meta">
+              Logic 1 · Payment Timing Anomaly · Q1 + Q2 2025 · OON Emergency +
+              Air Ambulance
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INSIGHT -->
+      <div class="insight">
+        Across <strong>1.2 million qualifying merit decisions</strong>, cases
+        where IDREs approved payments furthest above the federal benchmark were
+        resolved in fewer days — not more. Routine cases near the QPA benchmark
+        took a median of <strong>39 days</strong>; cases approved at more than
+        500% of the benchmark took a median of <strong>32 days</strong>. This
+        7-day inversion is present at <strong>10 of 14 certified IDREs</strong>,
+        confirming it is systemic rather than isolated. A compliant review
+        process produces the opposite pattern: larger deviations from benchmark
+        should require more scrutiny, not less.
+      </div>
+
+      <!-- KPI STRIP -->
+      <div class="kpi-strip">
+        <div class="kpi k-red">
+          <div class="kpi-lbl">System-level inversion (median)</div>
+          <div class="kpi-desc" style="margin-bottom: 8px">
+            Extreme-tier cases resolved faster than Routine-tier cases
+          </div>
+          <div class="kpi-val">7 days</div>
+        </div>
+        <div class="kpi k-blue">
+          <div class="kpi-lbl">Qualifying records</div>
+          <div class="kpi-desc" style="margin-bottom: 8px">
+            After filters: default=No, provider wins, matched IDRE, valid
+            numeric fields
+          </div>
+          <div class="kpi-val">1,209,444</div>
+        </div>
+        <div class="kpi k-red">
+          <div class="kpi-lbl">IDREs flagged</div>
+          <div class="kpi-desc" style="margin-bottom: 8px">
+            Extreme cases faster than Routine · minimum 50 Extreme-tier cases
+          </div>
+          <div class="kpi-val">6 of 14</div>
+        </div>
+        <div class="kpi k-amber">
+          <div class="kpi-lbl">QPA below 50% of Medicare</div>
+          <div class="kpi-desc" style="margin-bottom: 8px">
+            Share of Routine-tier cases where QPA was already below half
+            Medicare rate
+          </div>
+          <div class="kpi-val">81.4%</div>
+        </div>
+      </div>
+
+      <!-- ═══ ACT 1: CORE INVERSION ═══ -->
+      <div class="act-label">Act 1 — Core Finding</div>
+      <div class="act-title">
+        Median days to IDRE determination decreases as payment tier increases
+      </div>
+
+      <div class="two-col paired-row">
+        <!-- LEFT: line chart -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              Median days by payment tier — should slope upward, slopes down
+            </div>
+            <div class="card-sub">
+              Each point = median days for all disputes in that tier. The
+              downward slope confirms larger awards are receiving less, not
+              more, review time.
+            </div>
+          </div>
+          <div class="card-body" style="padding: 14px 16px 0">
+            <div class="legend-row">
+              <span class="li"
+                ><span class="dot" style="background: #1a7a4a"></span>Routine
+                &lt;150% QPA</span
+              >
+              <span class="li"
+                ><span class="dot" style="background: #ba7517"></span>Elevated
+                150–300%</span
+              >
+              <span class="li"
+                ><span class="dot" style="background: #d35400"></span>High
+                300–500%</span
+              >
+              <span class="li"
+                ><span class="dot" style="background: #c0392b"></span>Extreme
+                &gt;500%</span
+              >
+            </div>
+            <div class="chart-wrap" style="height: 280px">
+              <canvas id="c_line"></canvas>
+            </div>
+          </div>
+          <p class="chart-note">
+            A compliant review process produces an upward slope — larger
+            deviations from benchmark require more scrutiny. The consistent
+            downward trend across all four tiers, confirmed at both the average
+            and median level, indicates high-payment decisions are processed
+            through a lower-scrutiny path regardless of financial magnitude.
+          </p>
+        </div>
+
+        <!-- RIGHT: IQR bar chart -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              IQR spread by tier — P25 → Median → P75
+            </div>
+            <div class="card-sub">
+              The spread narrows for the Extreme tier (24–48 days) vs. Routine
+              (26–91 days). High-payment cases are not just faster on average —
+              they are consistently fast, inconsistent with individualized case
+              review.
+            </div>
+          </div>
+          <div class="card-body" style="padding: 14px 16px 0">
+            <div class="chart-wrap" style="height: 306px">
+              <canvas id="c_iqr"></canvas>
+            </div>
+          </div>
+          <p class="chart-note">
+            The narrowing interquartile range at the Extreme tier means these
+            decisions are not only faster but more <strong>uniform</strong>. If
+            IDREs were applying individual case scrutiny, the spread should be
+            wider for high-complexity high-payment cases — not tighter.
+          </p>
+        </div>
+      </div>
+
+      <!-- Summary below act 1 -->
+      <div
+        class="two-col"
+        style="margin-top: -4px; margin-bottom: 24px; gap: 10px"
+      >
+        <p
+          class="chart-note"
+          style="border-radius: 8px; border: 1px solid #edf0f2"
+        >
+          Routine cases (near QPA) resolved in median <strong>39 days</strong>.
+          Extreme cases (&gt;500% QPA) resolved in median
+          <strong>32 days</strong>. Both the average and median show the same
+          inversion — this is not an artifact of outliers. P75 drops from 91
+          days (Routine) to 48 days (Extreme), meaning even the slowest Extreme
+          cases are resolved faster than the typical Routine case.
+        </p>
+        <p
+          class="chart-note"
+          style="border-radius: 8px; border: 1px solid #edf0f2"
+        >
+          Additionally, the Medicare fee schedule cross-check reveals that
+          <strong>81.4% of even Routine-tier cases</strong> have a QPA set below
+          50% of the Medicare rate for the same service — confirming the high
+          payment variance is partly a reflection of an artificially low QPA
+          baseline, not solely provider overasking. The Medicare comparison (Act
+          3) separates these two explanations at the service code level.
+        </p>
+      </div>
+
+      <!-- ═══ ACT 2: BY IDRE ═══ -->
+      <div class="act-label">Act 2 — IDRE Attribution</div>
+      <div class="act-title">
+        The inversion is systemic — present at 10 of 14 certified IDREs
+      </div>
+
+      <div class="two-col paired-row">
+        <!-- LEFT: horizontal bar gap chart -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              Day gap by IDRE — Routine median days minus Extreme median days
+            </div>
+            <div class="card-sub">
+              Positive bars = Extreme cases resolved faster than Routine
+              (flagged). Negative = Extreme cases took longer (expected
+              behavior). Sorted by gap descending.
+            </div>
+          </div>
+          <div class="card-body" style="padding: 14px 16px 0">
+            <div class="legend-row">
+              <span class="li"
+                ><span class="dot" style="background: #c0392b"></span>FLAGGED —
+                Extreme faster than Routine</span
+              >
+              <span class="li"
+                ><span class="dot" style="background: #1a7a4a"></span>No
+                inversion detected</span
+              >
+              <span class="li"
+                ><span
+                  class="dot"
+                  style="background: rgba(140, 152, 163, 0.55)"
+                ></span
+                >Insufficient data (&lt;50 Extreme cases)</span
+              >
+            </div>
+            <div class="chart-wrap" style="height: 340px">
+              <canvas id="c_idre"></canvas>
+            </div>
+          </div>
+          <p class="chart-note">
+            <strong>IPRO</strong> leads with a 49-day gap (Routine: 107 days →
+            Extreme: 58 days). Capitol Bridge follows at 18.5 days.
+            <strong>iMPROve Health</strong> is the notable exception: Extreme
+            cases take 38 more days than Routine — exactly the expected behavior
+            under compliant review. This contrast confirms the inversion
+            elsewhere reflects choices at specific entities, not an inherent
+            property of the process.
+          </p>
+        </div>
+
+        <!-- RIGHT: IDRE table -->
+        <div
+          class="card"
+          style="display: flex; flex-direction: column; overflow: hidden"
+        >
+          <div class="card-header" style="flex-shrink: 0">
+            <div class="card-title">
+              IDRE inversion detail — all 14 certified entities
+            </div>
+            <div class="card-sub">
+              Flagged = ≥50 Extreme-tier cases AND Extreme median days &lt;
+              Routine median days. Sorted by day gap descending.
+            </div>
+          </div>
+          <div
+            class="card-body"
+            style="
+              padding: 0;
+              overflow-x: hidden;
+              overflow-y: auto;
+              overscroll-behavior: contain;
+              max-height: 420px;
+            "
+          >
+            <table
+              class="data-table sticky-head"
+              style="width: 96%; margin: 0 auto"
+              id="tbl_idre"
+            >
+              <colgroup>
+                <col style="width: 5%" />
+                <col style="width: 27%" />
+                <col style="width: 10%" />
+                <col style="width: 10%" />
+                <col style="width: 10%" />
+                <col style="width: 10%" />
+                <col style="width: 10%" />
+                <col style="width: 10%" />
+                <col style="width: 8%" />
+                <col style="width: 10%" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="r" onclick="sortT('tbl_idre', 0)">No ↕</th>
+                  <th onclick="sortT('tbl_idre', 1)">IDRE ↕</th>
+                  <th class="r" onclick="sortT('tbl_idre', 2)">
+                    Routine Cases ↕
+                  </th>
+                  <th class="r" onclick="sortT('tbl_idre', 3)">
+                    Elevated Cases ↕
+                  </th>
+                  <th class="r" onclick="sortT('tbl_idre', 4)">High Cases ↕</th>
+                  <th class="r" onclick="sortT('tbl_idre', 5)">
+                    Extreme Cases ↕
+                  </th>
+                  <th class="r" onclick="sortT('tbl_idre', 6)">
+                    Routine Med. ↕
+                  </th>
+                  <th class="r" onclick="sortT('tbl_idre', 7)">
+                    Extreme Med. ↕
+                  </th>
+                  <th class="r" onclick="sortT('tbl_idre', 8)">Day Gap ↕</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="tb_idre"></tbody>
+            </table>
+          </div>
+          <div class="callout" style="margin: 10px 14px 14px">
+            <strong>10 flagged IDREs</strong> (positive day gap with ≥50
+            Extreme-tier cases). 3 have insufficient Extreme-tier data. 1 shows
+            no inversion (Provider Resources, −5 days).
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ ACT 3: PROVIDERS ═══ -->
+      <div class="act-label">Act 3 — Priority Audit Targets</div>
+      <div class="act-title">
+        Providers benefiting most from fast Extreme-tier decisions at flagged
+        IDREs
+      </div>
+
+      <div class="insight-red">
+        <strong>Critical observation — halomd.com domain:</strong> Dozens of
+        separately named provider entities share the billing email domain
+        halomd.com — NPPA Services, Precision Emergency Physicians, Emergency
+        Medicine Specialists, IES Arizona PLLC, Villa Park Neurological
+        Services, and more. When grouped by domain, halomd.com is the single
+        largest beneficiary of fast Extreme-tier decisions across multiple
+        flagged IDREs. Financial relationships between these entities require
+        IDRE certification records and billing entity registration filings.
+      </div>
+
+      <div class="two-col paired-row">
+        <!-- LEFT: provider bar chart -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              Top provider-IDRE pairs by Extreme-tier case count at flagged
+              IDREs
+            </div>
+            <div class="card-sub">
+              Minimum 10 Extreme-tier cases per pair.
+              <span style="color: var(--red); font-weight: 600"
+                >■ Red = halomd.com domain</span
+              >
+              &nbsp;<span style="color: var(--blue); font-weight: 600"
+                >■ Blue = other domains</span
+              >. Hover for detail.
+            </div>
+          </div>
+          <div class="card-body" style="padding: 14px 16px 0">
+            <div class="chart-wrap" style="height: 340px">
+              <canvas id="c_prov"></canvas>
+            </div>
+          </div>
+          <p class="chart-note">
+            Singleton Associates accounts for nearly 20,000 Extreme-tier cases
+            split across IPRO and EdiPhy Advisors. The halomd.com corporate
+            network, when treated as a single billing entity, represents an even
+            larger combined volume. Median days for halomd.com entities at
+            EdiPhy range from 26–35 days — consistent with the IDRE's
+            system-level inversion.
+          </p>
+        </div>
+
+        <!-- RIGHT: provider table -->
+        <div
+          class="card"
+          style="display: flex; flex-direction: column; overflow: hidden"
+        >
+          <div class="card-header" style="flex-shrink: 0">
+            <div class="card-title">
+              Provider-IDRE pairs — Extreme tier at flagged IDREs
+            </div>
+            <div class="card-sub">
+              Sorted by Extreme case count. Minimum 10 cases per pair. Avg QPA %
+              Medicare — low values indicate the QPA baseline itself may be
+              artificially low.
+            </div>
+          </div>
+          <div
+            class="card-body"
+            style="
+              padding: 0;
+              overflow-x: hidden;
+              overflow-y: auto;
+              overscroll-behavior: contain;
+              max-height: 420px;
+            "
+          >
+            <table
+              class="data-table sticky-head"
+              style="width: 96%; margin: 0 auto"
+              id="tbl_prov"
+            >
+              <colgroup>
+                <col style="width: 5%" />
+                <col style="width: 23%" />
+                <col style="width: 14%" />
+                <col style="width: 15%" />
+                <col style="width: 7%" />
+                <col style="width: 11%" />
+                <col style="width: 10%" />
+                <col style="width: 9%" />
+                <col style="width: 6%" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="r" onclick="sortT('tbl_prov', 0)">No ↕</th>
+                  <th onclick="sortT('tbl_prov', 1)">Provider ↕</th>
+                  <th onclick="sortT('tbl_prov', 2)">Domain ↕</th>
+                  <th onclick="sortT('tbl_prov', 3)">IDRE ↕</th>
+                  <th onclick="sortT('tbl_prov', 4)">State ↕</th>
+                  <th class="r" onclick="sortT('tbl_prov', 5)">
+                    Extreme Cases ↕
+                  </th>
+                  <th class="r" onclick="sortT('tbl_prov', 6)">Med. Days ↕</th>
+                  <th class="r" onclick="sortT('tbl_prov', 7)">
+                    Avg Offer %QPA ↕
+                  </th>
+                  <th class="r" onclick="sortT('tbl_prov', 8)">QPA % Med ↕</th>
+                </tr>
+              </thead>
+              <tbody id="tb_prov"></tbody>
+            </table>
+          </div>
+          <div class="callout" style="margin: 10px 14px 14px">
+            NPPA Services (halomd.com) at EdiPhy: average offer
+            <strong>437,083%</strong> of QPA, average provider offer
+            <strong>341,679%</strong> of Medicare. This is driven by service
+            codes (e.g. CPT 95937) where QPA is near zero relative to Medicare.
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ ACT 4: SERVICE CODES ═══ -->
+      <div class="act-label">Act 4 — Medicare Benchmark</div>
+      <div class="act-title">
+        Which service codes drive high variance — and is the QPA the problem?
+      </div>
+
+      <div class="insight">
+        For each Extreme-tier service code, the QPA is compared against the
+        Medicare fee schedule. <strong>BOTH</strong> = QPA below 50% of Medicare
+        AND provider offer above 3× Medicare simultaneously — the insurer is
+        underpaying and the provider is overasking. <strong>LOW QPA</strong> =
+        high variance explained primarily by artificially low benchmark. The
+        majority of Extreme-tier service codes fall into the BOTH category.
+      </div>
+
+      <div class="two-col paired-row">
+        <!-- LEFT: bar chart by service code -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">
+              Median offer % QPA by service code — Extreme tier only
+            </div>
+            <div class="card-sub">
+              <span style="color: var(--red); font-weight: 600"
+                >■ Red = BOTH</span
+              >
+              &nbsp;<span style="color: var(--orange); font-weight: 600"
+                >■ Amber = LOW QPA</span
+              >
+              &nbsp;<span style="color: var(--green); font-weight: 600"
+                >■ Green = Within expected</span
+              >. Hover for detail.
+            </div>
+          </div>
+          <div class="card-body" style="padding: 14px 16px 0">
+            <div class="chart-wrap" style="height: 320px">
+              <canvas id="c_svc"></canvas>
+            </div>
+          </div>
+          <p class="chart-note">
+            CPT 95937 (neuromuscular junction test) and 95955 (EEG during
+            surgery) are the most extreme — QPA values at 0.03–0.04% of Medicare
+            alongside approved provider offers exceeding 300,000% of Medicare.
+            These are not outliers in the ordinary sense; they represent service
+            codes where the dispute process has produced outcomes structurally
+            disconnected from any federal payment reference.
+          </p>
+        </div>
+
+        <!-- RIGHT: service code table -->
+        <div
+          class="card"
+          style="display: flex; flex-direction: column; overflow: hidden"
+        >
+          <div class="card-header" style="flex-shrink: 0">
+            <div class="card-title">
+              Service code benchmark comparison — Extreme tier
+            </div>
+            <div class="card-sub">
+              Minimum 20 disputes per code. Interpretation answers whether high
+              variance reflects insurer underpaying (LOW QPA), provider
+              overasking (HIGH VARIANCE), or both simultaneously (BOTH).
+            </div>
+          </div>
+          <div
+            class="card-body"
+            style="
+              padding: 0;
+              overflow-y: auto;
+              overscroll-behavior: contain;
+              max-height: 400px;
+            "
+          >
+            <table
+              class="data-table sticky-head"
+              style="width: 100%"
+              id="tbl_svc"
+            >
+              <colgroup>
+                <col style="width: 8%" />
+                <col style="width: 22%" />
+                <col style="width: 7%" />
+                <col style="width: 12%" />
+                <col style="width: 8%" />
+                <col style="width: 10%" />
+                <col style="width: 11%" />
+                <col style="width: 10%" />
+                <col style="width: 12%" />
+              </colgroup>
+              <thead>
+                <tr>
+                  <th onclick="sortT('tbl_svc', 0)">Code ↕</th>
+                  <th onclick="sortT('tbl_svc', 1)">Description ↕</th>
+                  <th class="r" onclick="sortT('tbl_svc', 2)">N ↕</th>
+                  <th class="r" onclick="sortT('tbl_svc', 3)">
+                    Med. Offer %QPA ↕
+                  </th>
+                  <th class="r" onclick="sortT('tbl_svc', 4)">Avg Days ↕</th>
+                  <th class="r" onclick="sortT('tbl_svc', 5)">QPA %Med ↕</th>
+                  <th class="r" onclick="sortT('tbl_svc', 6)">
+                    Provider %Med ↕
+                  </th>
+                  <th class="r" onclick="sortT('tbl_svc', 7)">%QPA&lt;50 ↕</th>
+                  <th onclick="sortT('tbl_svc', 8)">Interpretation ↕</th>
+                </tr>
+              </thead>
+              <tbody id="tb_svc"></tbody>
+            </table>
+          </div>
+          <div
+            class="insight-green"
+            style="margin: 10px 14px 14px; border-radius: 0 6px 6px 0"
+          >
+            <strong>How to read Interpretation:</strong> BOTH = QPA below
+            Medicare AND provider offer above 3× Medicare — two problems
+            simultaneously. LOW QPA = high variance mainly from artificially low
+            benchmark. WITHIN EXPECTED = no benchmark flags triggered.
+            Commercial payers typically reimburse at 150–200% of Medicare; QPAs
+            below 50% of Medicare are outside this range.
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /page -->
+
+    <script>
+      // ── DATA ─────────────────────────────────────────────────────────────
+
+      const TIER_COLORS = {
+        r: "#1a7a4a",
+        e: "#ba7517",
+        h: "#d35400",
+        x: "#c0392b",
+      };
+
+      const idreData = [
+        {
+          n: "IPRO",
+          r: 68756,
+          e: 682,
+          h: 113,
+          x: 63,
+          rm: 107,
+          em: 58,
+          gap: 49,
+          flag: "FLAG",
+        },
+        {
+          n: "iMPROve Health",
+          r: 34289,
+          e: 262,
+          h: 32,
+          x: 24,
+          rm: 84,
+          em: 44,
+          gap: 40,
+          flag: "INSUF",
+        },
+        {
+          n: "Capitol Bridge, LLC",
+          r: 46373,
+          e: 675,
+          h: 141,
+          x: 95,
+          rm: 67,
+          em: 48.5,
+          gap: 18.5,
+          flag: "FLAG",
+        },
+        {
+          n: "EdiPhy Advisors, LLC",
+          r: 84415,
+          e: 3599,
+          h: 367,
+          x: 273,
+          rm: 41,
+          em: 28,
+          gap: 13,
+          flag: "FLAG",
+        },
+        {
+          n: "Network Medical Review Co.",
+          r: 16508,
+          e: 347,
+          h: 57,
+          x: 33,
+          rm: 64,
+          em: 59,
+          gap: 5,
+          flag: "INSUF",
+        },
+        {
+          n: "C2C Innovative Solutions",
+          r: 94666,
+          e: 867,
+          h: 256,
+          x: 205,
+          rm: 35,
+          em: 32,
+          gap: 3,
+          flag: "FLAG",
+        },
+        {
+          n: "Maximus Federal Services",
+          r: 23439,
+          e: 899,
+          h: 302,
+          x: 269,
+          rm: 33,
+          em: 30,
+          gap: 3,
+          flag: "FLAG",
+        },
+        {
+          n: "Keystone Peer Review Org.",
+          r: 9421,
+          e: 279,
+          h: 49,
+          x: 47,
+          rm: 21,
+          em: 19,
+          gap: 2,
+          flag: "INSUF",
+        },
+        {
+          n: "Fed. Hearings & Appeals",
+          r: 70634,
+          e: 590,
+          h: 163,
+          x: 78,
+          rm: 28,
+          em: 26,
+          gap: 2,
+          flag: "FLAG",
+        },
+        {
+          n: "MCMC Services, LLC",
+          r: 51340,
+          e: 539,
+          h: 112,
+          x: 69,
+          rm: 25,
+          em: 23,
+          gap: 2,
+          flag: "FLAG",
+        },
+        {
+          n: "National Medical Reviews",
+          r: 13778,
+          e: 148,
+          h: 13,
+          x: 8,
+          rm: 43,
+          em: 42.5,
+          gap: 0.5,
+          flag: "INSUF",
+        },
+        {
+          n: "Provider Resources, Inc.",
+          r: 52885,
+          e: 273,
+          h: 75,
+          x: 65,
+          rm: 29,
+          em: 34,
+          gap: -5,
+          flag: "OK",
+        },
+        {
+          n: "Medical Evaluators of TX",
+          r: 13213,
+          e: 62,
+          h: 8,
+          x: 6,
+          rm: 130,
+          em: 185,
+          gap: -55,
+          flag: "INSUF",
+        },
+        {
+          n: "Livanta, LLC (Commence)",
+          r: 53,
+          e: 1,
+          h: 0,
+          x: 0,
+          rm: 424,
+          em: null,
+          gap: null,
+          flag: "OK",
+        },
+      ];
+
+      const provData = [
+        {
+          n: "Singleton Associates, P.A.",
+          dom: "saparm.com",
+          idre: "IPRO",
+          st: "TX",
+          c: 11605,
+          d: 143,
+          off: 9.22,
+          qpa: "2.0%",
+        },
+        {
+          n: "Singleton Associates, P.A.",
+          dom: "saparm.com",
+          idre: "EdiPhy Advisors",
+          st: "TX",
+          c: 8134,
+          d: 36,
+          off: 8.19,
+          qpa: "0.6%",
+        },
+        {
+          n: "NPPA SERVICES",
+          dom: "halomd.com",
+          idre: "EdiPhy Advisors",
+          st: "TX",
+          c: 4518,
+          d: 26,
+          off: 437083,
+          qpa: "0.35%",
+        },
+        {
+          n: "Remote Neuromonitoring PC",
+          dom: "specialtycare.net",
+          idre: "Fed. H&A",
+          st: "TX",
+          c: 3433,
+          d: 22,
+          off: 19.27,
+          qpa: "1.2%",
+        },
+        {
+          n: "PRECISION EMERGENCY PHYS",
+          dom: "halomd.com",
+          idre: "C2C Innovative",
+          st: "TX",
+          c: 3126,
+          d: 29,
+          off: 9.26,
+          qpa: "0.3%",
+        },
+        {
+          n: "N/R",
+          dom: "fam-llc.com",
+          idre: "Fed. H&A",
+          st: "TX",
+          c: 2757,
+          d: 28,
+          off: "N/R",
+          qpa: "0.21%",
+        },
+        {
+          n: "N/R",
+          dom: "halomd.com",
+          idre: "C2C Innovative",
+          st: "TX",
+          c: 2624,
+          d: 33,
+          off: 15.02,
+          qpa: "0.4%",
+        },
+        {
+          n: "Imaging Associates Indiana PC",
+          dom: "iairm.com",
+          idre: "IPRO",
+          st: "IN",
+          c: 2353,
+          d: 49,
+          off: 6.69,
+          qpa: "1.5%",
+        },
+        {
+          n: "OrthoMed Staffing, LLC",
+          dom: "orthomedstaffing.com",
+          idre: "EdiPhy Advisors",
+          st: "TX",
+          c: 2294,
+          d: 34,
+          off: 20.7,
+          qpa: "0.09%",
+        },
+        {
+          n: "SUMMIT ANESTHESIA PARTNERS",
+          dom: "summit-az.com",
+          idre: "C2C Innovative",
+          st: "AZ",
+          c: 1680,
+          d: 26,
+          off: 32.43,
+          qpa: "0.8%",
+        },
+        {
+          n: "EMERG MEDICINE SPECIALISTS",
+          dom: "halomd.com",
+          idre: "C2C Innovative",
+          st: "TX",
+          c: 1648,
+          d: 26,
+          off: 10.37,
+          qpa: "0.5%",
+        },
+        {
+          n: "N/R",
+          dom: "qmacsmso.com",
+          idre: "Fed. H&A",
+          st: "TX",
+          c: 1614,
+          d: 26,
+          off: 10.93,
+          qpa: "0.21%",
+        },
+        {
+          n: "OrthoMed Staffing, LLC",
+          dom: "orthomedstaffing.com",
+          idre: "C2C Innovative",
+          st: "TX",
+          c: 1464,
+          d: 26,
+          off: 17.7,
+          qpa: "0.09%",
+        },
+        {
+          n: "IES ARIZONA, PLLC",
+          dom: "halomd.com",
+          idre: "C2C Innovative",
+          st: "AZ",
+          c: 1409,
+          d: 28,
+          off: 13.78,
+          qpa: "0.5%",
+        },
+        {
+          n: "Sonoran Radiology, LTD",
+          dom: "sonoranrm.com",
+          idre: "IPRO",
+          st: "AZ",
+          c: 1396,
+          d: 137,
+          off: 7.16,
+          qpa: "1.8%",
+        },
+        {
+          n: "VILLA PARK NEUROLOGICAL",
+          dom: "halomd.com",
+          idre: "EdiPhy Advisors",
+          st: "TX",
+          c: 1328,
+          d: 26.5,
+          off: 1332.65,
+          qpa: "0.35%",
+        },
+        {
+          n: "PRM TEXAS GYNECOLOGY PC",
+          dom: "mdcapitaladvisors.com",
+          idre: "C2C Innovative",
+          st: "TX",
+          c: 1215,
+          d: 26,
+          off: 7565,
+          qpa: "0.01%",
+        },
+        {
+          n: "ARIZONA EP",
+          dom: "halomd.com",
+          idre: "C2C Innovative",
+          st: "AZ",
+          c: 1215,
+          d: 27,
+          off: 16.46,
+          qpa: "0.5%",
+        },
+        {
+          n: "Singleton Associates, P.A.",
+          dom: "saparm.com",
+          idre: "Network Med Rev",
+          st: "TX",
+          c: 1331,
+          d: 108,
+          off: 9.24,
+          qpa: "2.0%",
+        },
+        {
+          n: "Singleton Associates, P.A.",
+          dom: "saparm.com",
+          idre: "Fed. H&A",
+          st: "TX",
+          c: 1305,
+          d: 28,
+          off: 8.9,
+          qpa: "2.0%",
+        },
+      ];
+
+      const svcData = [
+        {
+          code: "95955",
+          desc: "EEG during surgery",
+          n: 26,
+          mo: 687960,
+          days: 59.9,
+          qpa: "0.03%",
+          prov: "314,711%",
+          pct: "100%",
+          interp: "BOTH",
+        },
+        {
+          code: "95937",
+          desc: "Neuromuscular junction test",
+          n: 27,
+          mo: 311270,
+          days: 83.6,
+          qpa: "0.04%",
+          prov: "452,664%",
+          pct: "100%",
+          interp: "BOTH",
+        },
+        {
+          code: "63052",
+          desc: "Lam facetc/frmt arthrd lum 1",
+          n: 50,
+          mo: 1445,
+          days: 37.6,
+          qpa: "0.16%",
+          prov: "578%",
+          pct: "100%",
+          interp: "BOTH",
+        },
+        {
+          code: "64999",
+          desc: "Other nervous sys procedure",
+          n: 40,
+          mo: 915,
+          days: 34.6,
+          qpa: "—",
+          prov: "—",
+          pct: "0%",
+          interp: "WITHIN EXPECTED",
+        },
+        {
+          code: "22853",
+          desc: "Insj biomechanical device",
+          n: 168,
+          mo: 757,
+          days: 53.6,
+          qpa: "0.13%",
+          prov: "322%",
+          pct: "100%",
+          interp: "BOTH",
+        },
+        {
+          code: "63047",
+          desc: "Lam facetec & foramot lumbar",
+          n: 30,
+          mo: 738,
+          days: 32.2,
+          qpa: "0.01%",
+          prov: "151%",
+          pct: "100%",
+          interp: "LOW QPA",
+        },
+        {
+          code: "29826",
+          desc: "Shoulder arthroscopy decom.",
+          n: 27,
+          mo: 733,
+          days: 62.7,
+          qpa: "0.31%",
+          prov: "445%",
+          pct: "100%",
+          interp: "BOTH",
+        },
+        {
+          code: "A4657",
+          desc: "Syringe, with/without needle",
+          n: 22,
+          mo: 725,
+          days: 34.4,
+          qpa: "—",
+          prov: "—",
+          pct: "0%",
+          interp: "WITHIN EXPECTED",
+        },
+        {
+          code: "63048",
+          desc: "Lam facetec & foramot addl",
+          n: 40,
+          mo: 685,
+          days: 31.3,
+          qpa: "0.20%",
+          prov: "352%",
+          pct: "100%",
+          interp: "BOTH",
+        },
+        {
+          code: "19318",
+          desc: "Breast reduction",
+          n: 61,
+          mo: 663,
+          days: 39.1,
+          qpa: "0.01%",
+          prov: "151%",
+          pct: "100%",
+          interp: "LOW QPA",
+        },
+        {
+          code: "58662",
+          desc: "Laparoscopy excise lesions",
+          n: 21,
+          mo: 637,
+          days: 35.8,
+          qpa: "0.03%",
+          prov: "99%",
+          pct: "100%",
+          interp: "LOW QPA",
+        },
+      ];
+
+      // ── HELPERS ──────────────────────────────────────────────────────────
+      const fmt = (n, d = 0) =>
+        n == null
+          ? "—"
+          : typeof n === "string"
+            ? n
+            : n.toLocaleString("en-US", {
+                minimumFractionDigits: d,
+                maximumFractionDigits: d,
+              });
+      const isHalo = (d) => d.dom === "halomd.com";
+
+      // ── CHART DEFAULTS ───────────────────────────────────────────────────
+      Chart.defaults.font.family = "Inter, -apple-system, sans-serif";
+      Chart.defaults.font.size = 11;
+      Chart.defaults.color = "#565c65";
+
+      const GRID = { color: "rgba(0,0,0,0.06)" };
+      const AX = {
+        ticks: { color: "#565c65", font: { size: 10.5 } },
+        grid: GRID,
+      };
+
+      // ── LINE CHART: median days by tier ──────────────────────────────────
+      new Chart(document.getElementById("c_line"), {
+        type: "line",
+        data: {
+          labels: [
+            "Routine\n<150% QPA",
+            "Elevated\n150–300%",
+            "High\n300–500%",
+            "Extreme\n>500% QPA",
+          ],
+          datasets: [
+            {
+              label: "Median Days",
+              data: [39, 32, 33, 32],
+              borderColor: "#c0392b",
+              backgroundColor: "rgba(192,57,43,0.07)",
+              pointBackgroundColor: [
+                "#1a7a4a",
+                "#ba7517",
+                "#d35400",
+                "#c0392b",
+              ],
+              pointBorderColor: "#fff",
+              pointRadius: 8,
+              pointHoverRadius: 10,
+              tension: 0.3,
+              fill: true,
+              borderWidth: 2.5,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: { callbacks: { label: (c) => `Median: ${c.raw} days` } },
+          },
+          scales: {
+            y: {
+              ...AX,
+              min: 28,
+              max: 46,
+              title: {
+                display: true,
+                text: "Median Days",
+                color: "#565c65",
+                font: { size: 10.5 },
+              },
+            },
+            x: { ...AX },
+          },
+        },
+      });
+
+      // ── IQR CHART ────────────────────────────────────────────────────────
+      new Chart(document.getElementById("c_iqr"), {
+        type: "bar",
+        data: {
+          labels: ["Routine", "Elevated", "High", "Extreme"],
+          datasets: [
+            {
+              label: "P75",
+              data: [91, 52, 50, 48],
+              backgroundColor: [
+                "rgba(26,122,74,.18)",
+                "rgba(186,117,23,.18)",
+                "rgba(211,84,0,.18)",
+                "rgba(192,57,43,.18)",
+              ],
+              borderRadius: 4,
+            },
+            {
+              label: "Median",
+              data: [39, 32, 33, 32],
+              backgroundColor: ["#1a7a4a", "#ba7517", "#d35400", "#c0392b"],
+              borderRadius: 0,
+            },
+            {
+              label: "P25",
+              data: [26, 23, 24, 24],
+              backgroundColor: [
+                "rgba(26,122,74,.35)",
+                "rgba(186,117,23,.35)",
+                "rgba(211,84,0,.35)",
+                "rgba(192,57,43,.35)",
+              ],
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: { padding: 12, font: { size: 10.5 } },
+            },
+            tooltip: {
+              callbacks: { label: (c) => `${c.dataset.label}: ${c.raw} days` },
+            },
+          },
+          scales: {
+            y: {
+              ...AX,
+              title: {
+                display: true,
+                text: "Days",
+                color: "#565c65",
+                font: { size: 10.5 },
+              },
+            },
+            x: { ...AX },
+          },
+        },
+      });
+
+      // ── IDRE CHART ───────────────────────────────────────────────────────
+      const idreSorted = [...idreData]
+        .filter((d) => d.gap != null)
+        .sort((a, b) => b.gap - a.gap);
+      const idreBg = idreSorted.map((d) =>
+        d.flag === "FLAG"
+          ? "rgba(192,57,43,0.82)"
+          : d.flag === "OK"
+            ? "rgba(26,122,74,0.82)"
+            : "rgba(140,152,163,0.55)",
+      );
+
+      new Chart(document.getElementById("c_idre"), {
+        type: "bar",
+        data: {
+          labels: idreSorted.map((d) => d.n),
+          datasets: [
+            {
+              label: "Day Gap",
+              data: idreSorted.map((d) => d.gap),
+              backgroundColor: idreBg,
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: "y",
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (c) => {
+                  const d = idreSorted[c.dataIndex];
+                  return [
+                    `Gap: ${c.raw} days`,
+                    `Routine median: ${d.rm} days`,
+                    `Extreme median: ${d.em ?? "—"} days`,
+                    `Extreme cases: ${d.x.toLocaleString()}`,
+                  ];
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              ...AX,
+              title: {
+                display: true,
+                text: "Day Gap (Routine median − Extreme median)",
+                color: "#565c65",
+                font: { size: 10.5 },
+              },
+            },
+            y: { ...AX },
+          },
+        },
+      });
+
+      // ── IDRE TABLE ───────────────────────────────────────────────────────
+      document.getElementById("tb_idre").innerHTML = [...idreData]
+        .sort((a, b) => (b.gap ?? -999) - (a.gap ?? -999))
+        .map((d, i) => {
+          const badge =
+            d.flag === "FLAG"
+              ? `<span class="bar-badge badge-flagged">Flagged</span>`
+              : d.flag === "OK"
+                ? `<span class="bar-badge badge-ok">No inversion</span>`
+                : `<span class="bar-badge badge-insuf">Insuf. data</span>`;
+          const gc = d.gap > 0 ? "pct-red" : d.gap < 0 ? "pct-green" : "pct-ok";
+          return `<tr>
+    <td style="color:var(--faint);font-family:'DM Mono',monospace;padding-right:6px;width:24px">${i + 1}</td>
+    <td class="name-cell" style="font-weight:500;" title="${d.n}">${d.n}</td>
+    <td class="r">${d.r.toLocaleString()}</td>
+    <td class="r">${d.e.toLocaleString()}</td>
+    <td class="r">${d.h.toLocaleString()}</td>
+    <td class="r" style="font-weight:600">${d.x.toLocaleString()}</td>
+    <td class="r">${d.rm ?? "—"}</td>
+    <td class="r">${d.em ?? "—"}</td>
+    <td class="r ${gc}" style="font-weight:700">${d.gap != null ? (d.gap > 0 ? "+" : "") + d.gap : "—"}</td>
+    <td>${badge}</td>
+  </tr>`;
+        })
+        .join("");
+
+      // ── PROVIDER CHART ───────────────────────────────────────────────────
+      const top15 = provData.slice(0, 15);
+      new Chart(document.getElementById("c_prov"), {
+        type: "bar",
+        data: {
+          labels: top15.map((d) =>
+            d.n.length > 28 ? d.n.slice(0, 27) + "…" : d.n,
+          ),
+          datasets: [
+            {
+              label: "Extreme Cases",
+              data: top15.map((d) => d.c),
+              backgroundColor: top15.map((d) =>
+                isHalo(d) ? "rgba(192,57,43,0.82)" : "rgba(24,95,165,0.72)",
+              ),
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: "y",
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                afterBody: (c) => {
+                  const d = top15[c[0].dataIndex];
+                  return [
+                    `Domain: ${d.dom}`,
+                    `IDRE: ${d.idre}`,
+                    `Median days: ${d.d}`,
+                    `Avg offer: ${typeof d.off === "number" ? fmt(d.off, 1) + "% QPA" : d.off}`,
+                  ];
+                },
+              },
+            },
+          },
+          scales: {
+            x: {
+              ...AX,
+              ticks: {
+                ...AX.ticks,
+                callback: (v) => (v >= 1000 ? (v / 1000).toFixed(0) + "K" : v),
+              },
+            },
+            y: { ...AX },
+          },
+        },
+      });
+
+      // ── PROVIDER TABLE ───────────────────────────────────────────────────
+      document.getElementById("tb_prov").innerHTML = provData
+        .map(
+          (d, i) => `<tr>
+  <td style="color:var(--faint);font-family:'DM Mono',monospace;font-size:10px;">${i + 1}</td>
+  <td class="name-cell" style="font-weight:500;${isHalo(d) ? "color:var(--red)" : ""}" title="${d.n}">${d.n}</td>
+  <td style="font-family:'DM Mono',monospace;font-size:10.5px;${isHalo(d) ? "color:var(--red);font-weight:600" : ""}">${d.dom}</td>
+  <td style="font-size:11px;white-space:nowrap">${d.idre}</td>
+  <td style="text-align:center;font-family:'DM Mono',monospace;font-size:10.5px">${d.st}</td>
+  <td class="r" style="font-weight:600">${d.c.toLocaleString()}</td>
+  <td class="r" style="font-weight:600;color:${d.d <= 30 ? "var(--red)" : d.d <= 50 ? "var(--orange)" : "inherit"}">${fmt(d.d, 1)}</td>
+  <td class="r">${typeof d.off === "number" ? fmt(d.off, 1) + "%" : d.off}</td>
+  <td class="r">${d.qpa}</td>
+</tr>`,
+        )
+        .join("");
+
+      // ── SERVICE CODE CHART ───────────────────────────────────────────────
+      const svcSorted = [...svcData].sort((a, b) => b.mo - a.mo);
+      new Chart(document.getElementById("c_svc"), {
+        type: "bar",
+        data: {
+          labels: svcSorted.map((d) => d.code),
+          datasets: [
+            {
+              label: "Median Offer % QPA",
+              data: svcSorted.map((d) => d.mo),
+              backgroundColor: svcSorted.map((d) =>
+                d.interp === "BOTH"
+                  ? "rgba(192,57,43,0.82)"
+                  : d.interp === "LOW QPA"
+                    ? "rgba(186,117,23,0.8)"
+                    : "rgba(26,122,74,0.75)",
+              ),
+              borderRadius: 4,
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                title: (c) =>
+                  `${svcSorted[c[0].dataIndex].code}: ${svcSorted[c[0].dataIndex].desc}`,
+                label: (c) => [
+                  `Median: ${fmt(c.raw, 0)}% of QPA`,
+                  `Avg days: ${svcSorted[c[0].dataIndex].days}`,
+                  `Interpretation: ${svcSorted[c[0].dataIndex].interp}`,
+                ],
+              },
+            },
+          },
+          scales: {
+            y: {
+              ...AX,
+              ticks: {
+                ...AX.ticks,
+                callback: (v) =>
+                  v >= 1000 ? (v / 1000).toFixed(0) + "K%" : v + "%",
+              },
+            },
+            x: { ...AX },
+          },
+        },
+      });
+
+      // ── SERVICE CODE TABLE ───────────────────────────────────────────────
+      document.getElementById("tb_svc").innerHTML = [...svcData]
+        .sort((a, b) => b.mo - a.mo)
+        .map((d, i) => {
+          const ibadge =
+            d.interp === "BOTH"
+              ? `<span class="bar-badge badge-flagged">BOTH</span>`
+              : d.interp === "LOW QPA"
+                ? `<span class="bar-badge" style="background:#fdf4e0;color:var(--amber)">LOW QPA</span>`
+                : `<span class="bar-badge badge-ok">OK</span>`;
+          return `<tr>
+    <td style="font-family:'DM Mono',monospace;font-weight:600;color:var(--blue)">${d.code}</td>
+    <td class="name-cell" style="font-size:11px;" title="${d.desc}">${d.desc}</td>
+    <td class="r">${d.n}</td>
+    <td class="r pct-red" style="font-weight:700">${fmt(d.mo, 0)}%</td>
+    <td class="r">${fmt(d.days, 1)}</td>
+    <td class="r" style="${d.qpa !== "—" ? "color:var(--red);font-weight:600" : ""}">${d.qpa}</td>
+    <td class="r" style="${d.prov !== "—" && d.prov.replace(/[,%K]/g, "").length > 3 ? "color:var(--red);font-weight:600" : ""}">${d.prov}</td>
+    <td class="r" style="font-weight:600">${d.pct}</td>
+    <td>${ibadge}</td>
+  </tr>`;
+        })
+        .join("");
+
+      // ── TABLE SORT ────────────────────────────────────────────────────────
+      function sortT(id, col) {
+        const tbl = document.getElementById(id);
+        const tbody = tbl.querySelector("tbody");
+        const rows = Array.from(tbody.querySelectorAll("tr"));
+        const dir = tbl.dataset.dir === "asc" ? -1 : 1;
+        tbl.dataset.dir = dir === 1 ? "asc" : "desc";
+        tbl.querySelectorAll("th").forEach((th, i) => {
+          th.classList.remove("sort-asc", "sort-desc");
+          if (i === col) th.classList.add(dir === 1 ? "sort-asc" : "sort-desc");
+        });
+        rows.sort((a, b) => {
+          const va =
+            a.cells[col]?.textContent
+              .replace(/[,% ↕▲▼+]/g, "")
+              .replace("—", "")
+              .trim() || "";
+          const vb =
+            b.cells[col]?.textContent
+              .replace(/[,% ↕▲▼+]/g, "")
+              .replace("—", "")
+              .trim() || "";
+          const na = parseFloat(va),
+            nb = parseFloat(vb);
+          if (!isNaN(na) && !isNaN(nb)) return dir * (na - nb);
+          return dir * va.localeCompare(vb);
+        });
+        rows.forEach((r) => tbody.appendChild(r));
+      }
+    </script>
+  </body>
+</html>
