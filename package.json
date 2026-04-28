@@ -1,0 +1,10 @@
+{
+  "name": "idre-dashboard",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/copy-analysis-outputs.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

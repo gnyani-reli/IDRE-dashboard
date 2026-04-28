@@ -1,0 +1,11 @@
+# Speed up CLI uploads — dashboard deploy uses analysis_outputs via build only
+node_modules
+.git
+.DS_Store
+.netlify
+.playwright-cli
+puf
+FEE 2025
+demo
+1_project_scope
+*.png
