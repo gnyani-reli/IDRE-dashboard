@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMS IDRE Audit — Requirement 7: Volume Filing & Merit Inflation (v3)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f8;color:#1f2937;font-size:13.5px;line-height:1.55}
+
+.header{background:#0071BC;color:#fff;padding:0 32px;height:58px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.22)}
+.header .brand{display:flex;align-items:center;gap:12px}
+.header .seal{width:36px;height:36px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;color:#0071BC;flex-shrink:0}
+.header h1{font-size:15.5px;font-weight:700;line-height:1.25}
+.header .sub{font-size:11px;opacity:.8;margin-top:1px}
+
+.page{padding:20px 20px 36px}
+
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.kpi{background:#fff;border-radius:10px;border-top:3px solid #0071BC;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.kpi.red{border-top-color:#dc2626}.kpi.amber{border-top-color:#f59e0b}.kpi.green{border-top-color:#16a34a}
+.kpi .v{font-size:30px;font-weight:800;color:#1a3a6b;line-height:1.05}
+.kpi .l{font-size:11px;font-weight:700;text-transform:uppercase;color:#6b7280;letter-spacing:.4px;margin-top:5px}
+.kpi .s{font-size:11px;color:#9ca3af;margin-top:3px}
+
+.section{background:#fff;border-radius:12px;padding:22px 24px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:22px}
+.section h2{font-size:16px;font-weight:800;color:#1a3a6b;line-height:1.3}
+.section .desc{font-size:12.5px;color:#6b7280;margin-top:5px;margin-bottom:18px;line-height:1.6}
+
+.section-label-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #f3f4f6}
+.section-num{width:30px;height:30px;background:#0071BC;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.section-label-row .step-tag{font-size:10.5px;background:#dbeafe;color:#1d4ed8;border-radius:10px;padding:2px 9px;font-weight:700;margin-left:4px}
+
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.three-col{display:grid;grid-template-columns:3fr 2fr;gap:18px}
+/* Let grid columns shrink so wide tables stay inside the section */
+.three-col>*{min-width:0}
+/* Stretch chart column to match taller table column (section 3 cadence) */
+.three-col.three-col--stretch{align-items:stretch}
+.three-col.three-col--stretch>.chart-box{display:flex;flex-direction:column;min-height:0;align-self:stretch}
+.three-col.three-col--stretch>.chart-box .ch-lg{flex:1 1 0;height:auto!important;min-height:260px}
+/* Cadence table (section 3): keep inside narrow grid column */
+.three-col.three-col--stretch .tbl-wrap{width:100%;max-width:100%;box-sizing:border-box}
+table.t#tbl_cadence{table-layout:fixed;width:100%}
+table.t#tbl_cadence th,table.t#tbl_cadence td{padding:6px 6px;font-size:10.5px}
+table.t#tbl_cadence th{white-space:normal;line-height:1.2;vertical-align:bottom}
+table.t#tbl_cadence td:first-child,table.t#tbl_cadence th:first-child{word-break:break-word;overflow-wrap:anywhere}
+.chart-box{position:relative}
+.chart-box h4{font-size:12px;font-weight:700;color:#374151;margin-bottom:3px}
+.chart-box .ch-sub{font-size:11px;color:#9ca3af;margin-bottom:10px;line-height:1.5}
+.ch{position:relative;height:260px}
+.ch-sm{position:relative;height:210px}
+.ch-lg{position:relative;height:310px}
+
+.insight{border-radius:8px;padding:13px 16px;font-size:12.5px;line-height:1.65;margin-top:16px}
+.insight.info{background:#eff6ff;border-left:4px solid #0071BC;color:#1e3a5f}
+.insight.warn{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.insight.danger{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
+.insight strong{font-weight:700}
+
+.tbl-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e5e7eb;margin-top:16px}
+table.t{width:100%;border-collapse:collapse;font-size:12px}
+table.t thead tr{background:#f8fafc}
+table.t th{padding:8px 12px;text-align:left;font-weight:700;color:#374151;border-bottom:2px solid #e5e7eb;white-space:nowrap;cursor:pointer;user-select:none;font-size:11.5px}
+table.t th:hover{color:#0071BC}
+table.t td{padding:7px 12px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+table.t tr:last-child td{border-bottom:none}
+table.t tr:hover td{background:#fafafa}
+.r{text-align:right!important;font-family:monospace;font-size:11.5px}
+
+.bc{background:#fef2f2;color:#b91c1c;border:1px solid #fca5a5;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+.bh{background:#fff7ed;color:#c2410c;border:1px solid #fdba74;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+.be{background:#fefce8;color:#a16207;border:1px solid #fde047;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+.bm{background:#f0fdf4;color:#15803d;border:1px solid #86efac;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+.bi{background:#f9fafb;color:#6b7280;border:1px solid #d1d5db;border-radius:10px;padding:2px 7px;font-size:10px;font-weight:700}
+
+[data-tip]{cursor:help;position:relative}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#111827;color:#f9fafb;font-size:11px;padding:6px 10px;border-radius:6px;white-space:normal;max-width:260px;text-align:center;z-index:9999;line-height:1.4}
+
+.footer{background:#fff;border-top:1px solid #e5e7eb;padding:14px 32px;font-size:11px;color:#9ca3af;text-align:center;line-height:1.8;margin-top:8px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="brand">
+    <div class="seal">CMS</div>
+    <div>
+      <h1>IDRE Volume Filing &amp; Merit Inflation Analysis</h1>
+      <div class="sub">Federal IDR Program &nbsp;·&nbsp; No Surprises Act &nbsp;·&nbsp; IDRE Audit Proof of Concept</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE BODY -->
+<div class="page">
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi red">
+      <div class="v">~1.06M</div>
+      <div class="l">National IDR Disputes</div>
+      <div class="s">Q1 + Q2 2025 · OON E&amp;NE + Air Ambulance</div>
+    </div>
+    <div class="kpi amber">
+      <div class="v">66%</div>
+      <div class="l">Share Held by Top 10 Domains</div>
+      <div class="s">halomd.com (17%) + teamhealth.com (16%) = 33% alone</div>
+    </div>
+    <div class="kpi red">
+      <div class="v">24</div>
+      <div class="l">Tier 1 Audit Referrals</div>
+      <div class="s">Highest risk score across 8 behavioral blocks</div>
+    </div>
+    <div class="kpi green">
+      <div class="v">45.9</div>
+      <div class="l">Highest Risk Score</div>
+      <div class="s">fam-llc.com · 7 of 8 flags active · 43% default rate</div>
+    </div>
+  </div>
+
+  <!-- OVERALL FINDING -->
+  <div style="background:#eff6ff;border:1px solid #bfdbfe;border-left:5px solid #0071BC;border-radius:10px;padding:16px 22px;margin-bottom:22px;font-size:13px;color:#1e3a5f;line-height:1.65">
+    <strong>Overall Finding:</strong> The IDR dispute market is highly concentrated — 10 corporate billing networks control 66% of all national filings. Among these, 24 domains exhibit multi-signal behavioral patterns: abnormally high default win rates, cross-plan targeting, quarter-over-quarter volume bursts, and dual-track winning strategies. These patterns are inconsistent with legitimate dispute activity and warrant structured audit referral.
+  </div>
+
+  <!-- ════ SECTION 1 — VOLUME LANDSCAPE ════ -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">1</div>
+      <div>
+        <h2>Market Dominance — 10 Networks Control 66% of National IDR Volume</h2>
+        <span class="step-tag">Volume Landscape</span>
+      </div>
+    </div>
+    <p class="desc">A handful of corporate billing networks dominate the IDR program. halomd.com and teamhealth.com together represent 33% of all national disputes — concentrations that make their win rates and default strategies systemically significant.</p>
+
+    <div class="two-col" style="align-items:start">
+      <div class="chart-box">
+        <h4>Total Disputes by Provider Domain <span style="color:#9ca3af;font-weight:400">(top 12 flagged networks)</span></h4>
+        <div class="ch-sub"><span style="color:#dc2626">■</span> Default win rate &gt;30% — high default &nbsp;<span style="color:#f59e0b">■</span> Default 15–30% — elevated &nbsp;<span style="color:#0071BC">■</span> Default &lt;15% — low</div>
+        <div class="ch-lg"><canvas id="c_vol"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <h4>Merit Win Rate vs. Default Win Rate by Domain</h4>
+        <div class="ch-sub">X = merit win rate · Y = default win rate · Size ∝ national dispute share · <span style="color:#dc2626">●</span> Default &gt;30% &nbsp;<span style="color:#f59e0b">●</span> Default 15–30% &nbsp;<span style="color:#0071BC">●</span> Default &lt;15%</div>
+        <div class="ch-lg"><canvas id="c_vol_scatter"></canvas></div>
+      </div>
+    </div>
+    <div class="insight warn" style="margin-top:14px">
+      The bar chart ranks the top 12 corporate billing networks by total disputes filed in 2025 Q1–Q2. Bar color reflects <strong>default win rate</strong> — how often the provider won purely because the insurer failed to respond. The scatter (right) maps each network's merit win rate against their default win rate; bubble size reflects national dispute share. <strong>Key observation:</strong> Two distinct archetypes emerge: high-merit operators (teamhealth.com 87%, saparm.com 82%) win through adjudication, while default-heavy operators (fam-llc.com 43%, qmacsmso.com 40%) win primarily through insurer non-response. With 10 networks controlling 66% of national IDR volume, these behavioral patterns have systemic financial consequences.
+    </div>
+  </div>
+
+  <!-- ════ SECTION 2 — DUAL-TRACK CLASSIFICATION ════ -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">2</div>
+      <div>
+        <h2>Dual-Track Operators — Winning on Merit and Exploiting Defaults Simultaneously</h2>
+        <span class="step-tag">Dual-Track Classification</span>
+      </div>
+    </div>
+    <p class="desc">A dual-track operator achieves above-average merit win rates <em>and</em> elevated default win rates — extracting value through both adjudicated wins and insurer non-response. The extraction index (merit wins × median award) captures total financial extraction capacity.</p>
+
+    <div class="three-col">
+      <div class="chart-box">
+        <h4>Merit Win Rate vs. Median Award (% of QPA)</h4>
+        <div class="ch-sub">X = merit win rate · Y = median award as % of QPA · Size ∝ dispute volume · Hover for detail. Providers top-right are highest-value extractors.</div>
+        <div class="ch-lg"><canvas id="c_dual"></canvas></div>
+      </div>
+      <div>
+        <h4 style="font-size:12px;font-weight:700;color:#374151;margin-bottom:6px">Top Dual-Track Operators by Extraction Index</h4>
+        <div class="ch-sub" style="font-size:11px;margin-bottom:8px">Extraction Index = merit wins × median award. High values indicate large systematic financial extraction.</div>
+        <div class="tbl-wrap" style="margin-top:0">
+          <table class="t" id="tbl_dual">
+            <thead><tr>
+              <th onclick="sortT('tbl_dual',0)">Domain ↕</th>
+              <th>Primary IDRE</th>
+              <th class="r" onclick="sortT('tbl_dual',2)">Merit % ↕</th>
+              <th class="r">Default %</th>
+              <th class="r" onclick="sortT('tbl_dual',4)">Award %QPA ↕</th>
+              <th class="r" onclick="sortT('tbl_dual',5)">Extr. Index ↕</th>
+            </tr></thead>
+            <tbody id="tb_dual"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="insight warn" style="margin-top:14px">
+      The scatter plots each operator's <strong>merit win rate</strong> (x-axis) against their <strong>median award as % of QPA</strong> (y-axis), with bubble size proportional to dispute volume. Providers in the upper-right quadrant are the highest-value extractors — winning frequently on merit and collecting high awards per win. The Extraction Index (merit wins × median award) in the table quantifies total financial extraction capacity. <strong>Key observation:</strong> Dual-track operators are not just winning more — they are winning more often and collecting more per win simultaneously. High dispute volumes mean even small advantages in merit win rate or award size translate into large financial transfers out of the IDR program.
+    </div>
+  </div>
+
+  <!-- ════ SECTION 3 — FILING CADENCE ════ -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">3</div>
+      <div>
+        <h2>Volume Burst Patterns — Sudden Q1→Q2 Escalations Signal Strategic Filing</h2>
+        <span class="step-tag">Filing Cadence</span>
+      </div>
+    </div>
+    <p class="desc">Providers that multiply dispute volume by 10x–100x in a single quarter — especially when paired with rising default rates — indicate coordinated filing campaigns, not organic dispute activity. Legitimate operational growth does not produce 1,000–11,000% quarter-over-quarter jumps.</p>
+
+    <div class="three-col three-col--stretch">
+      <div class="chart-box">
+        <h4>Q1 → Q2 Dispute Volume Growth Rate <span style="color:#9ca3af;font-weight:400">(top 10 burst providers, % change)</span></h4>
+        <div class="ch-sub"><span style="color:#dc2626">■</span> Growth ≥500% — extreme burst &nbsp;<span style="color:#f59e0b">■</span> Growth 200–500% — high burst &nbsp;<span style="color:#0071BC">■</span> Growth &lt;200% — elevated</div>
+        <div class="ch-lg"><canvas id="c_cadence"></canvas></div>
+      </div>
+      <div>
+        <h4 style="font-size:12px;font-weight:700;color:#374151;margin-bottom:6px">Top Burst Providers — Q1 to Q2 Detail</h4>
+        <div class="ch-sub" style="font-size:11px;margin-bottom:8px">Q1 and Q2 dispute counts, growth %, default rates in each quarter, and the change in default share (pp).</div>
+        <div class="tbl-wrap" style="margin-top:0">
+          <table class="t" style="width:100%" id="tbl_cadence">
+            <colgroup>
+              <col style="width:26%"><col style="width:11%"><col style="width:11%"><col style="width:14%">
+              <col style="width:12%"><col style="width:12%"><col style="width:14%">
+            </colgroup>
+            <thead><tr>
+              <th onclick="sortT('tbl_cadence',0)">Domain ↕</th>
+              <th class="r" onclick="sortT('tbl_cadence',1)">Q1 Disputes ↕</th>
+              <th class="r" onclick="sortT('tbl_cadence',2)">Q2 Disputes ↕</th>
+              <th class="r" onclick="sortT('tbl_cadence',3)">Growth % ↕</th>
+              <th class="r">Q1 Default %</th>
+              <th class="r">Q2 Default %</th>
+              <th class="r">Default Δ (pp)</th>
+            </tr></thead>
+            <tbody id="tb_cadence"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="insight warn" style="margin-top:14px">
+      This chart shows the <strong>percentage change in dispute volume from Q1 to Q2 2025</strong> for the ten fastest-growing providers. Legitimate business growth does not produce 1,000–11,000% quarter-over-quarter jumps — such spikes indicate coordinated filing campaigns timed to exploit insurer response patterns or system conditions. Bar colour reflects the severity of the burst. <strong>Key observation:</strong> chs.net grew 11,200% (1 → 113 disputes) while its default rate jumped to 97.3% in Q2 — virtually every Q2 dispute was won through non-response, not adjudication. When a volume burst is paired with a spike in default rate, it is the clearest signal of opportunistic default farming rather than genuine out-of-network billing activity.
+    </div>
+  </div>
+
+  <!-- ════ SECTION 4 — CROSS-QUARTER PERSISTENCE ════ -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">4</div>
+      <div>
+        <h2>Behavioral Persistence — Dual-Track Patterns Hold Across Both Quarters</h2>
+        <span class="step-tag">Cross-Quarter Persistence</span>
+      </div>
+    </div>
+    <p class="desc">Cross-quarter validation confirms these are sustained strategies, not one-time anomalies. 19 providers maintained dual-track behavior (high merit wins + high defaults) independently in both Q1 and Q2 — ruling out seasonal or administrative explanations.</p>
+
+    <div class="two-col" style="align-items:stretch">
+      <div class="chart-box" style="display:flex;flex-direction:column">
+        <h4>Q1 vs Q2 Merit Win Rate — Top Persistent Dual-Track Operators</h4>
+        <div class="ch-sub"><span style="color:#0071BC">■</span> Q1 merit win rate &nbsp;<span style="color:#22c55e">■</span> Q2 merit win rate · Sorted by total dispute volume</div>
+        <div style="flex:1;min-height:250px;position:relative"><canvas id="c_persist"></canvas></div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:0;align-self:stretch">
+        <table class="t" id="tbl_persist">
+          <thead><tr>
+            <th onclick="sortT('tbl_persist',0)">Domain ↕</th>
+            <th class="r">Q1 n</th>
+            <th class="r">Q2 n</th>
+            <th class="r" onclick="sortT('tbl_persist',3)">Growth % ↕</th>
+            <th class="r">Q1 Def %</th>
+            <th class="r">Q2 Def %</th>
+          </tr></thead>
+          <tbody id="tb_persist"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="insight warn" style="margin-top:14px">
+      The grouped bars show each dual-track operator's <strong>merit win rate in Q1</strong> (blue) and <strong>Q2</strong> (green). If these patterns were random or administrative, win rates would vary significantly across quarters. Consistent bar heights confirm the behavior is intentional and sustained. The table alongside shows dispute volume growth and default rates in both quarters. <strong>Key observation:</strong> 19 providers maintained dual-track behavior independently in both Q1 and Q2, ruling out seasonal or administrative explanations. fam-llc.com grew 191% in volume while holding a 42–46% default rate in both quarters. Persistence across two separate data periods is the strongest available indicator of a deliberate, stable extraction strategy.
+    </div>
+  </div>
+
+  <!-- ════ SECTION 5 — FINAL AUDIT RANKING ════ -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">5</div>
+      <div>
+        <h2>Priority Audit Targets — Final Cross-Reference Ranking</h2>
+        <span class="step-tag">Final Audit Ranking</span>
+      </div>
+    </div>
+    <p class="desc">Each domain is scored across 8 behavioral blocks (B1–B8). Risk score combines flag count with volume weighting. Tier 1 = highest priority for audit referral; Tier 2 = enhanced monitoring.</p>
+    <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:11px 18px;margin-bottom:8px;display:inline-block">
+      <span style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;margin-right:10px">Risk Score Formula</span>
+      <code style="font-size:13px;color:#1a3a6b;font-family:'Courier New',monospace;font-weight:600">risk_score = total_flags &times; log<sub>10</sub>(total_disputes) &times; (1 + default_rate / 100)</code>
+    </div>
+    <p style="font-size:12px;color:#6b7280;margin-bottom:16px">A higher score indicates a domain that is flagged across more behavioral signals, operates at large scale, and relies heavily on default wins — making it both more suspicious and more financially consequential.</p>
+
+    <div class="chart-box" style="margin-bottom:14px">
+      <h4>Risk Score by Domain — Tier 1 Audit Referrals</h4>
+      <div class="ch-sub"><span style="color:#dc2626">■</span> 7–8 flags active &nbsp;<span style="color:#f59e0b">■</span> 5–6 flags active &nbsp;<span style="color:#0071BC">■</span> 3–4 flags active · Hover for flag count and default rate.</div>
+      <div style="position:relative;height:560px"><canvas id="c_rank"></canvas></div>
+    </div>
+    <div class="chart-box" style="margin-top:0">
+      <h4>Default Rate vs. Risk Score — All Audit Candidates (Tier 1 &amp; Tier 2)</h4>
+      <div class="ch-sub">
+        X = Default win rate (%) · Y = Composite risk score · Size ∝ total disputes ·
+        <span style="color:#dc2626">●</span> Tier 1 — Audit Referral &nbsp;
+        <span style="color:#f59e0b">●</span> Tier 2 — Enhanced Review ·
+        Hover for full detail. Upper-right = highest priority.
+      </div>
+      <div style="position:relative;height:360px"><canvas id="c_rank_scatter"></canvas></div>
+    </div>
+    <div class="insight warn" style="margin-top:14px">
+      The bar chart ranks each domain by its <strong>composite risk score</strong> — combining the number of behavioral flags triggered (B1–B8), total dispute volume (log-scaled), and default rate. The scatter below maps every audit candidate by default rate (x-axis) against risk score (y-axis); bubble size reflects total disputes. Providers in the upper-right carry both high default exploitation and the highest composite risk — the clearest audit priorities. <strong>Key observation:</strong> Top-ranked domains carry 7–8 active flags simultaneously — volume dominance, dual-track behavior, filing bursts, plan targeting, and cross-quarter persistence all firing at once. These are not borderline cases. The risk score is calculated entirely from CMS public data, making it reproducible and audit-defensible.
+    </div>
+  </div>
+
+  <!-- ════ SECTION 6 — THRESHOLD DISTRIBUTIONS ════ -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">6</div>
+      <div>
+        <h2>Threshold Calibration — Where Natural Break Points Appear</h2>
+        <span class="step-tag">Methodology Transparency</span>
+      </div>
+    </div>
+    <p class="desc">Percentile distributions identify where the data naturally separates into anomalous vs. normal ranges. Providers above the 90th percentile in volume <em>and</em> above the 75th percentile in default rate form the core high-risk population.</p>
+
+    <div class="two-col" style="align-items:start">
+      <div>
+        <div class="chart-box">
+          <h4>Default Rate &amp; Merit Rate — Percentile Distribution</h4>
+          <div class="ch-sub"><span style="color:#dc2626">■</span> Default rate &nbsp;<span style="color:#0071BC">■</span> Merit rate · Values at p50, p75, p90, p95, p99 across all providers</div>
+          <div class="ch" style="height:240px"><canvas id="c_thresh"></canvas></div>
+        </div>
+        <div class="tbl-wrap">
+          <table class="t">
+            <thead><tr>
+              <th>Metric</th><th class="r">p50</th><th class="r">p75</th><th class="r">p90</th><th class="r">p95</th><th class="r">p99</th>
+            </tr></thead>
+            <tbody>
+              <tr><td style="font-weight:600">Volume (disputes)</td><td class="r">10</td><td class="r">166</td><td class="r">2,045</td><td class="r">7,133</td><td class="r">38,779</td></tr>
+              <tr><td style="font-weight:600">Default Rate (%)</td><td class="r">20.2</td><td class="r">31.0</td><td class="r">42.7</td><td class="r">48.4</td><td class="r">51.1</td></tr>
+              <tr><td style="font-weight:600">Merit Win Rate (%)</td><td class="r">62.5</td><td class="r">69.9</td><td class="r">80.9</td><td class="r">82.2</td><td class="r">87.1</td></tr>
+              <tr><td style="font-weight:600">Median Award (% QPA)</td><td class="r">6.5</td><td class="r">22.0</td><td class="r">44.1</td><td class="r">65.0</td><td class="r">125.6</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;padding-top:4px">
+        <h4 style="font-size:12px;font-weight:700;color:#374151">Dual-Track Operator Counts at Threshold Combinations</h4>
+        <p style="font-size:12px;color:#6b7280;line-height:1.6">Number of providers qualifying as dual-track operators under progressively stricter threshold combinations — showing how the audit population shrinks as thresholds tighten.</p>
+        <div style="background:#fef2f2;border-left:4px solid #dc2626;border-radius:8px;padding:16px">
+          <div style="font-size:26px;font-weight:800;color:#dc2626">2</div>
+          <div style="font-size:12px;font-weight:600;color:#374151;margin-top:4px">Strictest Dual-Track Operators</div>
+          <div style="font-size:11px;color:#9ca3af;margin-top:2px">Merit &gt;70% AND Default &gt;15% (≥1K disputes)</div>
+        </div>
+        <div style="background:#fffbeb;border-left:4px solid #f59e0b;border-radius:8px;padding:16px">
+          <div style="font-size:26px;font-weight:800;color:#d97706">13</div>
+          <div style="font-size:12px;font-weight:600;color:#374151;margin-top:4px">Recommended Audit Cohort</div>
+          <div style="font-size:11px;color:#9ca3af;margin-top:2px">Merit &gt;60% AND Default &gt;20% (≥1K disputes)</div>
+        </div>
+        <div style="background:#eff6ff;border-left:4px solid #0071BC;border-radius:8px;padding:16px">
+          <div style="font-size:26px;font-weight:800;color:#0071BC">2</div>
+          <div style="font-size:12px;font-weight:600;color:#374151;margin-top:4px">High-Volume Confirmed Dual-Track</div>
+          <div style="font-size:11px;color:#9ca3af;margin-top:2px">Merit &gt;60% AND Default &gt;25% (≥5K disputes)</div>
+        </div>
+        <div class="insight warn" style="margin-top:0;font-size:12px">
+          The chart and table show how <strong>key metrics distribute across percentiles</strong> in the full provider population — identifying natural break points that separate anomalous from normal behavior. The threshold matrix (right) shows how the audit population shrinks as dual-track criteria are progressively tightened, helping CMS calibrate a defensible scope. <strong>Key observation:</strong> Merit &gt;60% + Default &gt;20% (≥1K disputes) yields 13 providers — the recommended audit cohort. Only 2 survive the strictest filter, but the middle tier captures the full high-risk population while remaining manageable and evidence-backed.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<div class="footer">
+  <strong>CMS IDRE Audit POC — Requirement 7: Volume Filing &amp; Merit Inflation × Logic 5: Predictable Missed Deadlines</strong><br>
+  Data: Federal IDR PUF, 2025 Q1–Q2 (OON Emergency/Non-Emergency). Analysis based on provider email domain as corporate family proxy.<br>
+  These findings are behavioral signals for audit prioritization — not audit verdicts. Case-level review required before formal conclusions. &nbsp;·&nbsp; Notebook: <em>IDRE Req7 Logic5 Volume Extraction Analysis.ipynb</em>
+</div>
+
+<script>
+// ── DATA ─────────────────────────────────────────────────────────
+const volumeData = [
+  {dom:'halomd.com',          d:180706, merit:61.8, def:25.5, share:17.07},
+  {dom:'teamhealth.com',      d:168799, merit:87.0, def:7.7,  share:15.95},
+  {dom:'saparm.com',          d:83824,  merit:81.9, def:11.7, share:7.92},
+  {dom:'agshealth.com',       d:50422,  merit:65.1, def:21.3, share:4.76},
+  {dom:'scp-health.com',      d:47223,  merit:67.3, def:22.4, share:4.46},
+  {dom:'fam-llc.com',         d:38045,  merit:39.1, def:43.1, share:3.59},
+  {dom:'orthomedstaffing.com',d:30925,  merit:64.2, def:21.4, share:2.92},
+  {dom:'qmacsmso.com',        d:30581,  merit:41.0, def:39.5, share:2.89},
+  {dom:'radpmg.com',          d:25955,  merit:87.4, def:8.9,  share:2.45},
+  {dom:'sonoranrm.com',       d:25889,  merit:78.6, def:13.1, share:2.45},
+  {dom:'envisionhealth.com',  d:25008,  merit:70.8, def:14.7, share:2.36},
+  {dom:'usap.com',            d:23846,  merit:67.1, def:20.9, share:2.25},
+];
+
+const dualTrackData = [
+  {dom:'mdcapitaladvisors.com',    d:20180, merit:77.1, def:13.6, award:44.68, ei:7580,  idre:'Maximus Federal'},
+  {dom:'gottliebandgreenspan.com', d:15017, merit:69.7, def:18.8, award:41.99, ei:3209,  idre:'EdiPhy'},
+  {dom:'halkovichlaw.com',         d:5811,  merit:70.8, def:17.8, award:39.39, ei:2006,  idre:'C2C'},
+  {dom:'atlanticneurocare.com',    d:190,   merit:71.6, def:12.6, award:51.18, ei:91,    idre:'Capitol Bridge'},
+  {dom:'mmbcontact.com',           d:189,   merit:71.4, def:13.8, award:53.38, ei:74,    idre:'C2C'},
+  {dom:'ansmonitoring.com',        d:136,   merit:61.8, def:14.0, award:41.02, ei:78,    idre:'Capitol Bridge'},
+  {dom:'nextlevelcodingllc.com',   d:166,   merit:69.3, def:17.5, award:68.0,  ei:34,    idre:'EdiPhy'},
+  {dom:'oali.com',                 d:58,    merit:62.1, def:22.4, award:57.95, ei:61,    idre:'Maximus Federal'},
+  {dom:'md-management.net',        d:51,    merit:68.6, def:19.6, award:85.82, ei:33,    idre:'MCMC Services'},
+  {dom:'orthosurgteam.com',        d:41,    merit:80.5, def:14.6, award:58.16, ei:19,    idre:'C2C'},
+];
+
+const cadenceData = [
+  {dom:'chs.net',              q1:1,    q2:113,  chg:11200.0, q1d:0.0,  q2d:97.3},
+  {dom:'swiftstar.com',        q1:4,    q2:227,  chg:5575.0,  q1d:0.0,  q2d:51.1},
+  {dom:'clearchoiceer.com',    q1:26,   q2:505,  chg:1842.3,  q1d:15.4, q2d:46.9},
+  {dom:'gryphonhc.com',        q1:186,  q2:3264, chg:1654.8,  q1d:16.1, q2d:53.6},
+  {dom:'complete.care',        q1:346,  q2:3978, chg:1049.7,  q1d:23.1, q2d:51.8},
+  {dom:'callagyrecovery.com',  q1:702,  q2:4839, chg:589.3,   q1d:19.7, q2d:25.4},
+  {dom:'radixhealth.io',       q1:1018, q2:3987, chg:291.7,   q1d:37.9, q2d:15.1},
+  {dom:'fam-llc.com',          q1:9727, q2:28318,chg:191.1,   q1d:46.1, q2d:42.1},
+  {dom:'usap.com',             q1:7184, q2:16662,chg:131.9,   q1d:41.2, q2d:12.1},
+  {dom:'mdcapitaladvisors.com',q1:7969, q2:12211,chg:53.2,    q1d:18.1, q2d:10.7},
+];
+
+const persistenceData = [
+  {dom:'halomd.com',          q1:75060, q2:105646, q1m:65.7, q2m:59.1, q1d:22.1, q2d:27.9, grow:40.7},
+  {dom:'teamhealth.com',      q1:73657, q2:95142,  q1m:84.6, q2m:88.9, q1d:9.1,  q2d:6.6,  grow:29.2},
+  {dom:'agshealth.com',       q1:23085, q2:27337,  q1m:61.4, q2m:68.3, q1d:25.7, q2d:17.5, grow:18.4},
+  {dom:'scp-health.com',      q1:22804, q2:24419,  q1m:65.2, q2m:69.2, q1d:27.1, q2d:18.1, grow:7.1},
+  {dom:'fam-llc.com',         q1:9727,  q2:28318,  q1m:32.4, q2m:41.4, q1d:46.1, q2d:42.1, grow:191.1},
+  {dom:'orthomedstaffing.com',q1:17648, q2:13277,  q1m:66.2, q2m:61.5, q1d:20.3, q2d:22.9, grow:-24.8},
+  {dom:'qmacsmso.com',        q1:10984, q2:19597,  q1m:36.5, q2m:43.6, q1d:39.3, q2d:39.6, grow:78.4},
+  {dom:'usap.com',            q1:7184,  q2:16662,  q1m:49.8, q2m:74.6, q1d:41.2, q2d:12.1, grow:131.9},
+  {dom:'totalcare.us',        q1:5999,  q2:8007,   q1m:43.5, q2m:39.4, q1d:32.1, q2d:37.5, grow:33.5},
+  {dom:'altushealthsystem.com',q1:4369, q2:5010,   q1m:38.7, q2m:23.3, q1d:39.0, q2d:61.1, grow:14.7},
+];
+
+const auditData = [
+  {dom:'fam-llc.com',           d:38045,  def:43.1, fl:7, sc:45.9, tier:'Tier 1'},
+  {dom:'halomd.com',            d:180706, def:25.5, fl:6, sc:39.6, tier:'Tier 1'},
+  {dom:'totalcare.us',          d:14006,  def:35.2, fl:7, sc:39.2, tier:'Tier 1'},
+  {dom:'qmacsmso.com',          d:30581,  def:39.5, fl:6, sc:37.5, tier:'Tier 1'},
+  {dom:'usap.com',              d:23846,  def:20.9, fl:7, sc:37.0, tier:'Tier 1'},
+  {dom:'altushealthsystem.com', d:9379,   def:50.8, fl:6, sc:35.9, tier:'Tier 1'},
+  {dom:'gottliebandgreenspan.com',d:15017,def:18.8, fl:7, sc:34.7, tier:'Tier 1'},
+  {dom:'mdcapitaladvisors.com', d:20180,  def:13.6, fl:7, sc:34.2, tier:'Tier 1'},
+  {dom:'primehealthcare.com',   d:16470,  def:32.8, fl:6, sc:33.6, tier:'Tier 1'},
+  {dom:'aimbillingsolutions.com',d:6323,  def:46.1, fl:6, sc:33.3, tier:'Tier 1'},
+  {dom:'callagyrecovery.com',   d:5541,   def:24.7, fl:7, sc:32.7, tier:'Tier 1'},
+  {dom:'roundtmc.com',          d:8545,   def:37.2, fl:6, sc:32.4, tier:'Tier 1'},
+  {dom:'mbbrm.com',             d:12126,  def:30.9, fl:6, sc:32.1, tier:'Tier 1'},
+  {dom:'halkovichlaw.com',      d:5811,   def:17.8, fl:7, sc:31.0, tier:'Tier 1'},
+  {dom:'bmhcc.org',             d:7098,   def:23.9, fl:6, sc:28.6, tier:'Tier 1'},
+  {dom:'scp-health.com',        d:47223,  def:22.4, fl:5, sc:28.6, tier:'Tier 1'},
+  {dom:'agshealth.com',         d:50422,  def:21.3, fl:5, sc:28.5, tier:'Tier 1'},
+  {dom:'orthomedstaffing.com',  d:30925,  def:21.4, fl:5, sc:27.3, tier:'Tier 1'},
+  {dom:'specialtycare.net',     d:17906,  def:22.5, fl:5, sc:26.0, tier:'Tier 1'},
+  {dom:'nmaiom.com',            d:14206,  def:23.1, fl:5, sc:25.6, tier:'Tier 1'},
+  {dom:'sonoranrm.com',         d:25889,  def:13.1, fl:5, sc:25.0, tier:'Tier 1'},
+  {dom:'callagylaw.com',        d:5465,   def:22.6, fl:5, sc:22.9, tier:'Tier 1'},
+  {dom:'radixhealth.io',        d:5005,   def:19.8, fl:5, sc:22.2, tier:'Tier 1'},
+  {dom:'erevenuebilling.com',   d:6210,   def:16.5, fl:5, sc:22.1, tier:'Tier 1'},
+  {dom:'teamhealth.com',        d:168799, def:7.7,  fl:4, sc:22.5, tier:'Tier 2'},
+  {dom:'envisionhealth.com',    d:25008,  def:14.7, fl:4, sc:20.2, tier:'Tier 2'},
+  {dom:'hcahealthcare.com',     d:11956,  def:19.9, fl:4, sc:19.6, tier:'Tier 2'},
+  {dom:'iairm.com',             d:13631,  def:8.3,  fl:4, sc:17.9, tier:'Tier 2'},
+  {dom:'summit-az.com',         d:10511,  def:9.5,  fl:4, sc:17.6, tier:'Tier 2'},
+  {dom:'saparm.com',            d:83824,  def:11.7, fl:3, sc:16.5, tier:'Tier 2'},
+];
+
+// ── CHART HELPER ─────────────────────────────────────────────────
+const charts = {};
+function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
+
+// ── SECTION 1: VOLUME BAR ─────────────────────────────────────────
+dc('c_vol');
+const volSorted = [...volumeData].sort((a,b)=>a.d-b.d);
+charts['c_vol'] = new Chart(document.getElementById('c_vol'),{
+  type:'bar',
+  data:{labels:volSorted.map(d=>d.dom),
+    datasets:[{
+      label:'Total Disputes',
+      data:volSorted.map(d=>d.d),
+      backgroundColor:volSorted.map(d=>d.def>30?'#dc2626':d.def>15?'#f59e0b':'#0071BC'),
+      borderRadius:3,
+    }]},
+  options:{indexAxis:'y',
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>`${c.raw.toLocaleString()} disputes · Default: ${volSorted[c.dataIndex].def}% · Merit: ${volSorted[c.dataIndex].merit}% · Share: ${volSorted[c.dataIndex].share}%`}}},
+    scales:{x:{title:{display:true,text:'Total Disputes Filed',font:{size:11},color:'#6b7280'},grid:{color:'#f3f4f6'},ticks:{callback:v=>v>=1000?(v/1000).toFixed(0)+'K':v,font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+
+// ── SECTION 1: SCATTER ───────────────────────────────────────────
+dc('c_vol_scatter');
+charts['c_vol_scatter'] = new Chart(document.getElementById('c_vol_scatter'),{
+  type:'bubble',
+  data:{datasets:[{
+    label:'Provider Domain',
+    data:volumeData.map(d=>({x:d.merit,y:d.def,r:Math.max(6,Math.min(28,Math.sqrt(d.share)*8)),dom:d.dom,disp:d.d})),
+    backgroundColor:volumeData.map(d=>d.def>30?'rgba(220,38,38,.8)':d.def>15?'rgba(245,158,11,.8)':'rgba(0,113,188,.75)'),
+    borderColor:'rgba(255,255,255,.5)',borderWidth:1,
+  }]},
+  options:{plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:c=>`${c.raw.dom}\nMerit: ${c.raw.x}%  Default: ${c.raw.y}%\n${c.raw.disp.toLocaleString()} disputes`}}},
+    scales:{
+      x:{title:{display:true,text:'Merit Win Rate (%)',font:{size:11}},min:25,max:100,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}},
+      y:{title:{display:true,text:'Default Win Rate (%)',font:{size:11}},min:0,max:55,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}}
+    },responsive:true,maintainAspectRatio:false}
+});
+
+// ── SECTION 2: DUAL-TRACK SCATTER ────────────────────────────────
+dc('c_dual');
+charts['c_dual'] = new Chart(document.getElementById('c_dual'),{
+  type:'bubble',
+  data:{datasets:[{
+    label:'Dual-Track Operator',
+    data:dualTrackData.map(d=>({x:d.merit,y:d.award,r:Math.max(5,Math.min(22,Math.cbrt(d.d)*1.6)),dom:d.dom,ei:d.ei,idre:d.idre,d:d.d})),
+    backgroundColor:'rgba(220,38,38,.75)',
+    borderColor:'rgba(255,255,255,.5)',borderWidth:1,
+  }]},
+  options:{plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:c=>`${c.raw.dom}\nMerit: ${c.raw.x}%  Award: ${c.raw.y}% QPA\n${c.raw.d.toLocaleString()} disputes · Index: ${c.raw.ei.toLocaleString()}\nPrimary IDRE: ${c.raw.idre}`}}},
+    scales:{
+      x:{title:{display:true,text:'Merit Win Rate (%)',font:{size:11}},min:55,max:105,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}},
+      y:{title:{display:true,text:'Median Award (% of QPA)',font:{size:11}},min:25,max:130,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}}
+    },responsive:true,maintainAspectRatio:false}
+});
+
+// ── SECTION 2: DUAL-TRACK TABLE ───────────────────────────────────
+document.getElementById('tb_dual').innerHTML = [...dualTrackData].sort((a,b)=>b.ei-a.ei).map(d=>`<tr>
+  <td style="font-family:monospace;font-size:11px;font-weight:700">${d.dom}</td>
+  <td style="font-size:11px;white-space:nowrap">${d.idre}</td>
+  <td class="r" style="color:#0071BC;font-weight:700">${d.merit}%</td>
+  <td class="r" style="color:#f59e0b;font-weight:700">${d.def}%</td>
+  <td class="r" style="color:#dc2626;font-weight:700">${d.award}%</td>
+  <td class="r" style="font-weight:800;color:#374151">${d.ei.toLocaleString()}</td>
+</tr>`).join('');
+
+// ── SECTION 3: FILING CADENCE BAR ────────────────────────────────
+dc('c_cadence');
+const cadSorted = [...cadenceData].sort((a,b)=>a.chg-b.chg);
+charts['c_cadence'] = new Chart(document.getElementById('c_cadence'),{
+  type:'bar',
+  data:{labels:cadSorted.map(d=>d.dom),
+    datasets:[{
+      label:'Q1→Q2 Dispute Growth (%)',
+      data:cadSorted.map(d=>d.chg),
+      backgroundColor:cadSorted.map(d=>d.chg>=500?'#dc2626':d.chg>=200?'#f59e0b':'#0071BC'),
+      borderRadius:3,
+    }]},
+  options:{indexAxis:'y',
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>`+${c.raw.toLocaleString()}% growth · Q1: ${cadSorted[c.dataIndex].q1.toLocaleString()} → Q2: ${cadSorted[c.dataIndex].q2.toLocaleString()}`}}},
+    scales:{x:{title:{display:true,text:'Q1→Q2 Dispute Volume Growth (%)',font:{size:11},color:'#6b7280'},grid:{color:'#f3f4f6'},ticks:{callback:v=>v.toLocaleString()+'%',font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+
+// ── SECTION 3: CADENCE TABLE ─────────────────────────────────────
+document.getElementById('tb_cadence').innerHTML = [...cadenceData].sort((a,b)=>b.chg-a.chg).map(d=>`<tr>
+  <td style="font-family:monospace;font-size:11px;font-weight:700">${d.dom}</td>
+  <td class="r">${d.q1.toLocaleString()}</td>
+  <td class="r" style="color:#0071BC;font-weight:700">${d.q2.toLocaleString()}</td>
+  <td class="r" style="font-weight:800;color:${d.chg>=500?'#dc2626':d.chg>=200?'#d97706':'#374151'}">+${d.chg.toLocaleString()}%</td>
+  <td class="r">${d.q1d}%</td>
+  <td class="r" style="color:${d.q2d>40?'#dc2626':d.q2d>20?'#d97706':'#16a34a'};font-weight:700">${d.q2d}%</td>
+  <td class="r" style="font-weight:700;color:${(d.q2d-d.q1d)>10?'#dc2626':(d.q2d-d.q1d)<-10?'#16a34a':'#374151'}">${(d.q2d-d.q1d)>=0?'+':''}${(d.q2d-d.q1d).toFixed(1)} pp</td>
+</tr>`).join('');
+
+// ── SECTION 4: PERSISTENCE CHART ─────────────────────────────────
+dc('c_persist');
+const pTop = persistenceData.slice(0,8);
+charts['c_persist'] = new Chart(document.getElementById('c_persist'),{
+  type:'bar',
+  data:{
+    labels:pTop.map(d=>d.dom.length>22?d.dom.slice(0,20)+'…':d.dom),
+    datasets:[
+      {label:'Q1 Merit Win Rate', data:pTop.map(d=>d.q1m), backgroundColor:'#0071BC', borderRadius:2},
+      {label:'Q2 Merit Win Rate', data:pTop.map(d=>d.q2m), backgroundColor:'#22c55e', borderRadius:2},
+    ]},
+  options:{indexAxis:'y',
+    plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:12}},
+      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw}%`}}},
+    scales:{x:{title:{display:true,text:'Merit Win Rate (%)',font:{size:11},color:'#6b7280'},min:0,max:100,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+
+// ── SECTION 4: PERSISTENCE TABLE ─────────────────────────────────
+const tnp = n => n.length>22?n.slice(0,20)+'…':n;
+document.getElementById('tb_persist').innerHTML = persistenceData.map(d=>`<tr>
+  <td style="font-size:11px;font-weight:600;white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis" title="${d.dom}">${tnp(d.dom)}</td>
+  <td class="r">${d.q1.toLocaleString()}</td>
+  <td class="r" style="color:#0071BC;font-weight:700">${d.q2.toLocaleString()}</td>
+  <td class="r" style="font-weight:700;color:${d.grow>50?'#dc2626':d.grow>0?'#d97706':'#6b7280'}">${d.grow>=0?'+':''}${d.grow}%</td>
+  <td class="r">${d.q1d}%</td>
+  <td class="r" style="font-weight:700;color:${d.q2d>35?'#dc2626':d.q2d>20?'#d97706':'#16a34a'}">${d.q2d}%</td>
+</tr>`).join('');
+
+// ── SECTION 5: AUDIT RANKING BAR ─────────────────────────────────
+dc('c_rank');
+const tier1 = auditData.filter(d=>d.tier==='Tier 1').sort((a,b)=>a.sc-b.sc);
+charts['c_rank'] = new Chart(document.getElementById('c_rank'),{
+  type:'bar',
+  data:{labels:tier1.map(d=>d.dom.length>28?d.dom.slice(0,26)+'…':d.dom),
+    datasets:[{
+      label:'Risk Score',
+      data:tier1.map(d=>d.sc),
+      backgroundColor:tier1.map(d=>d.fl>=7?'#dc2626':d.fl>=5?'#f59e0b':'#0071BC'),
+      borderRadius:3,
+      barThickness:16,
+    }]},
+  options:{indexAxis:'y',
+    plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:c=>`Risk Score: ${c.raw} · Flags: ${tier1[c.dataIndex].fl}/8 · Default: ${tier1[c.dataIndex].def}% · ${tier1[c.dataIndex].d.toLocaleString()} disputes`}}},
+    scales:{x:{title:{display:true,text:'Risk Score (flags × log₁₀(disputes) × default weight)',font:{size:11},color:'#6b7280'},min:0,max:50,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5},autoSkip:false}}},
+    responsive:true,maintainAspectRatio:false}
+});
+
+// ── SECTION 5: AUDIT SCATTER (replaces table) ─────────────────────
+dc('c_rank_scatter');
+charts['c_rank_scatter'] = new Chart(document.getElementById('c_rank_scatter'),{
+  type:'bubble',
+  data:{datasets:[
+    {
+      label:'Tier 1 — Audit Referral',
+      data:auditData.filter(d=>d.tier==='Tier 1').map(d=>({
+        x:d.def, y:d.sc,
+        r:Math.max(5,Math.min(24,Math.cbrt(d.d)*1.9)),
+        dom:d.dom, fl:d.fl, d:d.d, tier:d.tier
+      })),
+      backgroundColor:'rgba(220,38,38,.75)',
+      borderColor:'rgba(255,255,255,.6)',borderWidth:1.5,
+    },
+    {
+      label:'Tier 2 — Enhanced Review',
+      data:auditData.filter(d=>d.tier==='Tier 2').map(d=>({
+        x:d.def, y:d.sc,
+        r:Math.max(5,Math.min(24,Math.cbrt(d.d)*1.9)),
+        dom:d.dom, fl:d.fl, d:d.d, tier:d.tier
+      })),
+      backgroundColor:'rgba(245,158,11,.75)',
+      borderColor:'rgba(255,255,255,.6)',borderWidth:1.5,
+    }
+  ]},
+  options:{
+    plugins:{
+      legend:{position:'top',labels:{font:{size:11.5},padding:14}},
+      tooltip:{callbacks:{label:c=>`${c.raw.dom}\nDefault: ${c.raw.x}%  ·  Risk Score: ${c.raw.y}\nFlags: ${c.raw.fl}/8  ·  ${c.raw.d.toLocaleString()} disputes\n${c.raw.tier}`}}
+    },
+    scales:{
+      x:{title:{display:true,text:'Default Win Rate (%)',font:{size:11},color:'#6b7280'},
+         min:0,max:60,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},
+      y:{title:{display:true,text:'Composite Risk Score',font:{size:11},color:'#6b7280'},
+         min:0,max:50,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}}
+    },
+    responsive:true,maintainAspectRatio:false
+  }
+});
+
+// ── SECTION 6: THRESHOLD CHART ────────────────────────────────────
+dc('c_thresh');
+charts['c_thresh'] = new Chart(document.getElementById('c_thresh'),{
+  type:'bar',
+  data:{
+    labels:['p50','p75','p90','p95','p99'],
+    datasets:[
+      {label:'Default Rate (%)', data:[20.2,31.0,42.7,48.4,51.1], backgroundColor:'rgba(220,38,38,.75)', borderRadius:3},
+      {label:'Merit Win Rate (%)', data:[62.5,69.9,80.9,82.2,87.1], backgroundColor:'rgba(0,113,188,.75)', borderRadius:3},
+    ]},
+  options:{
+    plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:12}},
+      tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw}%`}}},
+    scales:{x:{title:{display:true,text:'Percentile',font:{size:11},color:'#6b7280'},grid:{color:'#f3f4f6'},ticks:{font:{size:11}}},
+      y:{title:{display:true,text:'Rate (%)',font:{size:11},color:'#6b7280'},min:0,max:100,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+
+// ── TABLE SORT ─────────────────────────────────────────────────────
+function sortT(id, col){
+  const tbl=document.getElementById(id);
+  const rows=Array.from(tbl.querySelectorAll('tbody tr'));
+  const dir=tbl.dataset.dir==='asc'?-1:1;
+  tbl.dataset.dir=dir===1?'asc':'desc';
+  rows.sort((a,b)=>{
+    const va=a.cells[col].textContent.replace(/[,%+K pⓘ↕]/g,'').trim();
+    const vb=b.cells[col].textContent.replace(/[,%+K pⓘ↕]/g,'').trim();
+    const na=parseFloat(va),nb=parseFloat(vb);
+    if(!isNaN(na)&&!isNaN(nb))return dir*(na-nb);
+    return dir*va.localeCompare(vb);
+  });
+  rows.forEach(r=>tbl.querySelector('tbody').appendChild(r));
+}
+</script>
+</body>
+</html>

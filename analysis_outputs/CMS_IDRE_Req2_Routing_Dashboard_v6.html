@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CMS IDRE Audit — Requirement 2: Routing Concentration + Medicare Benchmarking (v6)</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f4f6f8;color:#000;font-size:13.5px;line-height:1.55}
+.header{background:#0071BC;color:#fff;padding:0 32px;height:58px;display:flex;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.22)}
+.header .brand{display:flex;align-items:center;gap:12px}
+.header .seal{width:36px;height:36px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;color:#0071BC;flex-shrink:0}
+.header h1{font-size:15.5px;font-weight:700;line-height:1.25}
+.header .sub{font-size:11px;opacity:.8;margin-top:1px}
+.page{padding:20px 20px 36px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.kpi{background:#fff;border-radius:10px;border-top:3px solid #0071BC;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.kpi.red{border-top-color:#dc2626}.kpi.amber{border-top-color:#f59e0b}.kpi.green{border-top-color:#16a34a}
+.kpi .v{font-size:30px;font-weight:800;color:#1a3a6b;line-height:1.05}
+.kpi .l{font-size:11px;font-weight:700;text-transform:uppercase;color:#000;letter-spacing:.4px;margin-top:5px}
+.kpi .s{font-size:11px;color:#000;margin-top:3px}
+.section{background:#fff;border-radius:12px;padding:22px 24px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:22px}
+.section .desc{font-size:12.5px;color:#000;margin-top:5px;margin-bottom:18px;line-height:1.6}
+.section-label-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #f3f4f6}
+.section-num{width:32px;height:32px;border-radius:50%;background:#0071BC;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-label-row h2{font-size:16px;font-weight:800;color:#1a3a6b}
+.section-label-row .step-tag{font-size:10.5px;background:#dbeafe;color:#1d4ed8;border-radius:10px;padding:2px 9px;font-weight:700;margin-left:4px}
+.divider-label{display:flex;align-items:center;gap:14px;margin:8px 0 22px;color:#000;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.divider-label::before,.divider-label::after{content:'';flex:1;height:1px;background:#e5e7eb}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.three-col{display:grid;grid-template-columns:3fr 2fr;gap:18px}
+.chart-box{position:relative}
+.chart-box h4{font-size:12px;font-weight:700;color:#000;margin-bottom:3px}
+.chart-box .ch-sub{font-size:11px;color:#000;margin-bottom:10px;line-height:1.5}
+.ch{position:relative;height:260px}
+.ch-lg{position:relative;height:310px}
+.ch-xl{position:relative;height:360px}
+.insight{border-radius:8px;padding:13px 16px;font-size:12.5px;line-height:1.65;margin-top:16px}
+.insight.info{background:#eff6ff;border-left:4px solid #0071BC;color:#1e3a5f}
+.insight.warn{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+.insight.danger{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
+.insight.success{background:#f0fdf4;border-left:4px solid #16a34a;color:#14532d}
+.insight strong{font-weight:700}
+.tbl-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e5e7eb;margin-top:16px}
+table.t{width:100%;border-collapse:collapse;font-size:12px}
+table.t thead tr{background:#f8fafc}
+table.t th{padding:8px 12px;text-align:left;font-weight:700;color:#000;border-bottom:2px solid #e5e7eb;white-space:nowrap;cursor:pointer;user-select:none;font-size:11.5px}
+table.t th:hover{color:#0071BC}
+table.t td{padding:7px 12px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+table.t tr:last-child td{border-bottom:none}
+table.t tr:hover td{background:#fafafa}
+.r{text-align:right!important;font-family:monospace;font-size:11.5px}
+.bc{background:#fef2f2;color:#b91c1c;border:1px solid #fca5a5;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+.bh{background:#fff7ed;color:#c2410c;border:1px solid #fdba74;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+.be{background:#fefce8;color:#a16207;border:1px solid #fde047;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+.bg{background:#f0fdf4;color:#15803d;border:1px solid #86efac;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+.br{background:#fef2f2;color:#991b1b;border:1px solid #fecaca;border-radius:10px;padding:2px 7px;font-size:10px;font-weight:700}
+.bs{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;border-radius:10px;padding:2px 7px;font-size:10px;font-weight:700}
+.bi{background:#f9fafb;color:#000;border:1px solid #d1d5db;border-radius:10px;padding:2px 7px;font-size:10px;font-weight:700}
+[data-tip]{cursor:help;position:relative}
+[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#111827;color:#f9fafb;font-size:11px;padding:6px 10px;border-radius:6px;white-space:normal;max-width:260px;text-align:center;z-index:9999;line-height:1.4}
+.footer{background:#fff;border-top:1px solid #e5e7eb;padding:14px 32px;font-size:11px;color:#000;text-align:center;line-height:1.8;margin-top:8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand">
+    <div class="seal">CMS</div>
+    <div>
+      <h1>IDRE Routing Concentration &amp; Medicare Benchmarking Analysis</h1>
+      <div class="sub">Federal IDR Program &nbsp;·&nbsp; No Surprises Act &nbsp;·&nbsp; IDRE Audit Proof of Concept</div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi red"><div class="v">40.7 pp</div><div class="l">IDRE Win Rate Spread</div><div class="s">98.4% (IPRO) → 57.7% (Keystone) · same program</div></div>
+    <div class="kpi amber"><div class="v">18.6×</div><div class="l">Peak Offer Inflation Ratio</div><div class="s">Same complexity case — 19× higher offer at preferred IDRE</div></div>
+    <div class="kpi red"><div class="v">12 / 13</div><div class="l">Case-Mix Defense Fails</div><div class="s">Complexity cannot explain the win rate gap</div></div>
+    <div class="kpi green"><div class="v">4</div><div class="l">CRITICAL Tier Referrals</div><div class="s">All signals active — regulatory referral recommended</div></div>
+  </div>
+
+  <!-- OVERALL FINDING -->
+  <div style="background:#eff6ff;border:1px solid #bfdbfe;border-left:5px solid #0071BC;border-radius:10px;padding:16px 22px;margin-bottom:22px;font-size:13px;color:#1e3a5f;line-height:1.65">
+    <strong>Overall Finding:</strong> Selective IDRE routing is confirmed, statistically significant, and persistent across two quarters. Medicare benchmarking adds a further layer of evidence: flagged providers submit offers up to <strong>18.6× higher</strong> at their preferred IDRE despite identical case complexity — and 12 of 13 providers cannot use case-mix as a defense. The final scorecard (Step 18) identifies <strong>4 CRITICAL-tier providers</strong> for immediate CMS regulatory referral.
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       PART A — ROUTING CONCENTRATION ANALYSIS (Steps 1b, 8, 12, 6d)
+       ══════════════════════════════════════════════════════════ -->
+  <div class="divider-label">Part A — Routing Concentration Analysis</div>
+
+  <!-- SECTION 1 — IDRE BASELINE -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">1</div>
+      <div><h2>IDRE Merit Win Rate — All 14 Certified IDREs</h2><span class="step-tag">IDRE Baseline Combined</span></div>
+    </div>
+    <p class="desc">Under the same federal QPA standard, IDRE win rates range from 98.4% (IPRO) to 57.7% (Keystone) — a 40.7 pp spread that makes routing to a preferred IDRE financially significant. Some IDREs also carry high default rates (26–28%), giving providers two pathways to win.</p>
+    <div class="chart-box">
+      <h4>Merit Win Rate by IDRE <span style="color:#000;font-weight:400">(defaults excluded)</span></h4>
+      <div class="ch-sub">Dashed line = program average 86.8%. &nbsp;<span style="color:#dc2626">■</span> &gt;95% &nbsp;<span style="color:#0071BC">■</span> above avg &nbsp;<span style="color:#7c3aed">■</span> below avg &nbsp;·&nbsp; Default rate shown in tooltip.</div>
+      <div class="ch-lg"><canvas id="c_wr"></canvas></div>
+    </div>
+    <div class="insight warn" style="margin-top:18px">
+      This chart ranks all 14 certified IDREs by their <strong>merit win rate</strong> — the share of disputed cases decided in the provider's favour when the insurer actually shows up to arbitrate. It excludes default wins, so it measures how well each IDRE rules on the merits alone. <strong>Key observation:</strong> Under the same federal program, IDRE win rates span from 98.4% to 57.7% — a 40.7 pp gap that makes IDRE selection enormously valuable. Some IDREs also carry 26–28% default rates, giving providers a second pathway to win without ever needing a merit ruling. This spread is the structural enabler of the entire routing strategy.
+    </div>
+  </div>
+
+  <!-- SECTION 2 — STATISTICAL EVIDENCE -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">2</div>
+      <div><h2>Statistical Confirmation — Win Rate Gaps Are Not Random</h2><span class="step-tag">Two-Proportion Z-Test</span></div>
+    </div>
+    <p class="desc">A z-score measures how statistically unlikely a win rate gap is by chance. Z &gt; 3.0 means p &lt; 0.003; every flagged provider exceeds this threshold. z = 31.76 (NPPA SERVICES) would occur by random chance less than 1 in 1,000,000 times.</p>
+    <div class="two-col" style="align-items:start">
+      <div class="chart-box">
+        <h4>Win Rate Gap vs. Statistical Confidence (Z-Score) &nbsp;<span style="color:#000;font-weight:400;font-size:11px">Each bubble = one provider · X = win rate gap (pp) · Y = z-score · Size ∝ dispute volume</span></h4>
+        <div class="ch-lg"><canvas id="c_scatter"></canvas></div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:0;max-height:310px;overflow-y:auto">
+        <table class="t" style="width:100%" id="tbl_top10">
+          <thead style="position:sticky;top:0;background:#f8fafc;z-index:1"><tr>
+            <th>Provider</th><th>IDRE</th>
+            <th class="r" data-tip="Win rate gap (pp)">Gap ⓘ</th>
+            <th class="r" data-tip="Z-score. Z > 3.0 = p < 0.003">Z ⓘ</th>
+            <th>Action</th>
+          </tr></thead>
+          <tbody id="tb_top10"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="insight warn" style="margin-top:14px">
+      Each bubble represents one provider. The further right, the larger the win rate gap between their preferred IDRE and all others. The further up, the more statistically certain that gap is — a <strong>z-score above 3.0</strong> means there is less than a 0.3% probability the gap is random. Bubble size reflects total dispute volume filed. <strong>Key observation:</strong> Every flagged provider exceeds z = 3.0. NPPA SERVICES at z = 31.76 would occur by random chance fewer than 1 in 1,000,000 times. This is not a data anomaly — it is a behavioral pattern confirmed by statistical law.
+    </div>
+  </div>
+
+  <!-- SECTION 3 — PRIORITY AUDIT TARGETS -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">3</div>
+      <div><h2>Priority Audit Targets — Q1 &amp; Q2 Validated Providers</h2><span class="step-tag">Q1 + Q2 Validated Providers</span></div>
+    </div>
+    <p class="desc">12 providers passed all three filters — ≥80% routing concentration, ≥25 pp win rate gap, and the pattern confirmed independently in both Q1 and Q2. <strong>All 12 share halomd.com as their billing domain; 11 of 12 route exclusively to Capitol Bridge.</strong></p>
+    <div class="two-col" style="align-items:start">
+      <div class="chart-box">
+        <h4>Win Rate at Primary IDRE vs. Win Rate at All Other IDREs</h4>
+        <div class="ch-sub">Sorted by gap (largest first). <span style="color:#0071BC">■</span> Blue = win rate at preferred IDRE &nbsp;<span style="color:#22c55e">■</span> Green = win rate everywhere else.</div>
+        <div class="ch-lg"><canvas id="c_validated"></canvas></div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:0;max-height:310px;overflow-y:auto">
+        <table class="t" id="tbl_v">
+          <thead style="position:sticky;top:0;background:#f8fafc;z-index:1"><tr>
+            <th onclick="sortT('tbl_v',0)">Provider ↕</th><th>Primary IDRE</th>
+            <th class="r" onclick="sortT('tbl_v',2)">Routing % ↕</th>
+            <th class="r" onclick="sortT('tbl_v',3)">Disputes ↕</th>
+            <th class="r">Win @ Primary</th><th class="r">Win @ Others</th>
+            <th class="r" onclick="sortT('tbl_v',6)" data-tip="Win rate gap (pp)">Gap ↕ ⓘ</th>
+            <th class="r" data-tip="IDRE system-wide avg win rate">IDRE Avg ⓘ</th>
+            <th>Tier</th>
+          </tr></thead>
+          <tbody id="tb_v"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="insight warn" style="margin-top:16px">
+      Each bar pair shows one validated provider's <strong>win rate at their preferred IDRE</strong> (blue) alongside their <strong>win rate at all other IDREs</strong> (green), using disputes filed across Q1 and Q2 2025. The gap between the two bars is the performance advantage they gain purely by routing to their chosen IDRE — not by having stronger cases. <strong>Key observation:</strong> 12 providers win 92–100% at their preferred IDRE but only 33–72% everywhere else, under the exact same federal rules. All 12 share one billing domain (halomd.com) and 11 of 12 route exclusively to Capitol Bridge. The pattern was confirmed independently in Q1 and Q2 — ruling out coincidence.
+    </div>
+  </div>
+
+  <!-- SECTION 4 — CORPORATE NETWORKS -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">4</div>
+      <div><h2>Corporate Networks Route Thousands of Cases in Lockstep</h2><span class="step-tag">Corporate Network Concentration</span></div>
+    </div>
+    <p class="desc">Networks of 10–140+ practices sharing one billing domain and routing uniformly to the same IDRE signal corporate-level coordination. Two strategies appear: <strong>merit routing</strong> and <strong>default routing</strong>.</p>
+    <div class="two-col" style="align-items:start">
+      <div class="chart-box">
+        <h4>Routing Concentration vs. Win Rate by Domain</h4>
+        <div class="ch-sub"><span style="color:#dc2626">●</span> Win ≥80% &nbsp;<span style="color:#f59e0b">●</span> Win 40–80% &nbsp;<span style="color:#000">●</span> Win &lt;40% · Size ∝ dispute volume</div>
+        <div class="ch-lg"><canvas id="c_s6d_scatter"></canvas></div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:0;max-height:310px;overflow-y:auto">
+        <table class="t" id="tbl_s6d">
+          <thead style="position:sticky;top:0;background:#f8fafc;z-index:1"><tr>
+            <th onclick="sortT('tbl_s6d',0)">Domain ↕</th><th>Primary IDRE</th>
+            <th class="r" onclick="sortT('tbl_s6d',2)">Practices ↕</th>
+            <th class="r" onclick="sortT('tbl_s6d',3)">Routing % ↕</th>
+            <th class="r" onclick="sortT('tbl_s6d',4)">Disputes ↕</th>
+            <th class="r" onclick="sortT('tbl_s6d',5)">Win Rate ↕</th>
+            <th>Type</th>
+          </tr></thead>
+          <tbody id="tb_s6d"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="insight warn" style="margin-top:14px">
+      Each bubble represents a <strong>corporate provider network</strong> — a group of practices sharing one billing domain. The x-axis shows how exclusively they route to a single IDRE; the y-axis shows their win rate there. Bubble size reflects total dispute volume. Red bubbles win ≥80% (merit routing); amber win 40–80% (mixed); grey win &lt;40% (default routing). <strong>Key observation:</strong> Networks of up to 140 practices route uniformly to a single IDRE — a pattern only possible through deliberate corporate coordination. Two strategies are visible: merit routing and default routing (winning through insurer non-response). fam-llc.com alone accounts for 30,438 disputes across 133 practices, all directed to the same IDRE.
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════
+       PART B — MEDICARE BENCHMARKING & CASE-MIX ANALYSIS
+       ══════════════════════════════════════════════════════════ -->
+  <div class="divider-label">Part B — Medicare Benchmarking &amp; Case-Mix Analysis</div>
+
+  <!-- SECTION 5 — OFFER INFLATION (Step 15b) -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">5</div>
+      <div><h2>Offer Inflation — Providers Submit Disproportionately Higher Offers at Preferred IDREs</h2><span class="step-tag">Offer Inflation vs Medicare Benchmark</span></div>
+    </div>
+    <p class="desc">Flagged providers submit offers that are 2–19× higher at their preferred IDRE compared to other IDREs — even when their Medicare-benchmarked case complexity (RVU ratio) is equal or lower. This eliminates the "higher-complexity cases" defense for offer inflation.</p>
+    <div class="two-col" style="align-items:start">
+      <div class="chart-box">
+        <h4>Median Offer at Primary IDRE vs. All Others — Top 10 by Inflation Ratio <span style="color:#000;font-weight:400">(% of QPA)</span></h4>
+        <div class="ch-sub"><span style="color:#dc2626">■</span> Offer at preferred IDRE &nbsp;<span style="color:#22c55e">■</span> Offer at all other IDREs &nbsp;·&nbsp; Ratio label = inflation multiplier · Hover for RVU complexity ratio.</div>
+        <div class="ch-lg"><canvas id="c_15b"></canvas></div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:0;max-height:310px;overflow-y:auto">
+        <table class="t" style="width:100%" id="tbl_15b">
+          <thead style="position:sticky;top:0;background:#f8fafc;z-index:1"><tr>
+            <th onclick="sortT('tbl_15b',0)">Provider ↕</th>
+            <th>Domain</th><th>Primary IDRE</th>
+            <th class="r" onclick="sortT('tbl_15b',3)">Line Items ↕</th>
+            <th class="r">Offer @ Primary</th>
+            <th class="r">Offer @ Others</th>
+            <th class="r" onclick="sortT('tbl_15b',6)">Inflation × ↕</th>
+            <th class="r" data-tip="Median RVU at primary vs other IDREs. <1 means simpler cases at primary.">RVU Ratio ⓘ</th>
+            <th>Flag</th>
+          </tr></thead>
+          <tbody id="tb_15b"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="insight warn" style="margin-top:14px">
+      This chart compares the <strong>median offer each provider submits at their preferred IDRE</strong> (red) against their median offer at all other IDREs (green), expressed as a percentage of QPA. The inflation ratio is how many times higher the primary-IDRE offer is. If offers were merit-based, the two bars should be similar regardless of which IDRE is handling the case. <strong>Key observation:</strong> South Main Surgery Alliance submits offers 18.6× higher at Capitol Bridge versus all other IDREs — while their cases there are actually simpler (RVU ratio 0.81). The inflation follows the IDRE, not the patient. Medicare RVU data eliminates the "harder cases" defense for every provider flagged with OFFER_EXCEEDS_COMPLEXITY.
+    </div>
+  </div>
+
+  <!-- SECTION 6 — IDRE AWARD BENCHMARK (Step 15d) -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">6</div>
+      <div><h2>IDRE Award-to-Medicare Ratio — System-Level Benchmark</h2><span class="step-tag">IDRE Award vs Medicare Benchmark</span></div>
+    </div>
+    <p class="desc">Across all 13 IDREs, median awards are a fraction of Medicare rates (0.02–0.06×). Despite this, providers fight intensely over which IDRE handles their disputes — because even small differences in award rates at these dispute volumes translate to significant financial outcomes.</p>
+    <div class="two-col" style="align-items:start">
+      <div class="chart-box">
+        <h4>Median Award-to-Medicare Ratio by IDRE</h4>
+        <div class="ch-sub">Values represent median approved award as a multiple of the Medicare fee schedule rate. All IDREs are at or below Medicare. Higher bars = larger awards relative to Medicare benchmark. Hover for percentile detail.</div>
+        <div class="ch" style="height:280px"><canvas id="c_15d_med"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <h4>% of Line Items Awarded Above Medicare Rate by IDRE</h4>
+        <div class="ch-sub"><span style="color:#f59e0b">■</span> % above Medicare &nbsp;<span style="color:#dc2626">■</span> % at 2× Medicare &nbsp;·&nbsp; Even 4–5% of line items above Medicare signals selective high-value dispute filing.</div>
+        <div class="ch" style="height:280px"><canvas id="c_15d_pct"></canvas></div>
+      </div>
+    </div>
+    <div class="insight warn" style="margin-top:14px">
+      The left chart shows the <strong>median award each IDRE approves relative to the Medicare fee schedule rate</strong> — a value of 0.05 means the median approved award is 5% of Medicare. The right chart shows what share of line items were awarded above Medicare. Together these reveal the financial landscape providers are navigating when selecting an IDRE. <strong>Key observation:</strong> All 13 IDREs award at or below Medicare on the median case — yet providers fight intensely over IDRE selection. Maximus Federal awards the most relative to Medicare (0.06× median, 4.9% above Medicare), making it a strategic target for high-value service codes. Small award differences, multiplied across thousands of disputes, represent significant and measurable financial exposure.
+    </div>
+  </div>
+
+  <!-- SECTION 7 — CASE-MIX DEFENSE TEST (Step 16) -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">7</div>
+      <div><h2>Case-Mix Complexity Control — Routing Advantage Survives the Strongest Defense</h2><span class="step-tag">RVU-Matched Case-Mix Analysis</span></div>
+    </div>
+    <p class="desc">The most plausible innocent explanation for a win rate gap is that providers route harder cases to a favorable IDRE because they are genuinely harder. This step tests that claim using Medicare RVU weights as a complexity proxy. If providers have similar or easier cases at their preferred IDRE, the defense fails.</p>
+    <div class="two-col" style="align-items:start">
+      <div class="chart-box">
+        <h4>Case Complexity Ratio vs. Win Rate Gap — RVU-Matched</h4>
+        <div class="ch-sub">X = RVU ratio (primary / others). X &lt; 1 = simpler cases at primary; X &gt; 1 = harder cases. Y = win rate gap (pp). Size ∝ line items at primary IDRE.<br><span style="color:#dc2626">●</span> Defense FAILS (similar complexity) &nbsp;<span style="color:#f59e0b">●</span> Defense BACKFIRES (simpler cases) &nbsp;<span style="color:#16a34a">●</span> Partial defense (harder cases)</div>
+        <div class="ch" style="height:300px"><canvas id="c_16_scatter"></canvas></div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:0;max-height:300px;overflow-y:auto">
+        <table class="t" id="tbl_16">
+          <thead style="position:sticky;top:0;background:#f8fafc;z-index:1"><tr>
+            <th onclick="sortT('tbl_16',0)">Provider ↕</th>
+            <th class="r" onclick="sortT('tbl_16',1)">Gap (pp) ↕</th>
+            <th class="r" data-tip="Median RVU primary / median RVU others">RVU Ratio ⓘ</th>
+            <th>Verdict</th>
+          </tr></thead>
+          <tbody id="tb_16"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="insight warn" style="margin-top:14px">
+      The <strong>RVU ratio</strong> (x-axis) measures case complexity at a provider's preferred IDRE relative to all other IDREs, using Medicare Relative Value Units as the proxy. A ratio below 1.0 means cases at the preferred IDRE are simpler; above 1.0 means harder. If the "harder cases" defense were valid, flagged providers should cluster to the right. The y-axis shows how large their win rate gap is. <strong>Key observation:</strong> 12 of 13 flagged providers cannot use "harder cases" as a defense — their case complexity at the preferred IDRE is the same or lower than at other IDREs. Two providers (EMCC STEPHENVILLE, ER24 DENTON) route their simplest cases to Capitol Bridge and still win 47–51 pp more there. The routing advantage cannot be explained by clinical complexity — it is structural.
+    </div>
+  </div>
+
+  <!-- SECTION 8 — FINAL SCORECARD (Step 18) -->
+  <div class="section">
+    <div class="section-label-row">
+      <div class="section-num">8</div>
+      <div><h2>Medicare-Anchored Regulatory Referral Scorecard — Final Consolidated Output</h2><span class="step-tag">Regulatory Referral Scorecard</span></div>
+    </div>
+    <p class="desc">Every flagged provider scored across all signals: routing concentration, win rate gap (raw and Wilson-adjusted), z-score, IDRE outperformance vs system average, RVU complexity verdict, and offer inflation. CRITICAL tier = all signals active. HIGH tier = most signals active with statistically confirmed gaps.</p>
+    <div class="chart-box" style="margin-bottom:14px">
+      <h4>Win Rate Gap vs. Z-Score — Final Audit Candidates</h4>
+      <div class="ch-sub">X = raw win rate gap (pp) · Y = z-score · Size ∝ total disputes · <span style="color:#dc2626">●</span> CRITICAL — immediate referral &nbsp;<span style="color:#f59e0b">●</span> HIGH — enhanced review · Upper-right = highest priority.</div>
+      <div class="ch" style="height:280px"><canvas id="c_18_scatter"></canvas></div>
+    </div>
+    <div class="tbl-wrap" style="margin-top:0">
+      <table class="t" style="width:100%" id="tbl_18">
+        <thead><tr>
+          <th onclick="sortT('tbl_18',0)">Provider ↕</th>
+          <th>Domain</th><th>Primary IDRE</th>
+          <th class="r" onclick="sortT('tbl_18',3)">Disputes ↕</th>
+          <th class="r">Routing %</th>
+          <th class="r">Win Pri</th><th class="r">Win Oth</th>
+          <th class="r" onclick="sortT('tbl_18',7)" data-tip="Raw win rate gap (pp)">Gap ↕ ⓘ</th>
+          <th class="r" onclick="sortT('tbl_18',8)" data-tip="Wilson-adjusted gap — more conservative estimate">Adj Gap ⓘ</th>
+          <th class="r" onclick="sortT('tbl_18',9)">Z ↕</th>
+          <th class="r" data-tip="RVU ratio primary/others">RVU ⓘ</th>
+          <th>Complexity</th>
+          <th class="r" data-tip="Offer inflation multiplier at primary IDRE">Offer× ⓘ</th>
+          <th>Tier</th>
+        </tr></thead>
+        <tbody id="tb_18"></tbody>
+      </table>
+    </div>
+    <div class="insight warn" style="margin-top:16px">
+      This is the <strong>final consolidated output</strong>, scoring each validated provider across every signal — routing concentration, win rate gap, z-score, IDRE outperformance, case-mix verdict, and offer inflation. The x-axis is the raw win rate gap; the y-axis is the statistical z-score. Bubble size reflects total dispute volume. Red bubbles are <strong>CRITICAL tier</strong> (all signals active); amber are <strong>HIGH tier</strong> (most signals active). Providers in the upper-right combine the largest gaps with the strongest statistical certainty. <strong>Key observation:</strong> 4 providers are CRITICAL tier — every signal fires simultaneously. All 4 route to Capitol Bridge through the halomd.com network. These are the first-priority audit referrals derivable directly from CMS public data — no additional data collection required.
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <strong>CMS IDRE Audit POC — Requirement 2: Routing Concentration + Medicare Benchmarking Analysis</strong><br>
+  Data: Federal IDR PUF, 2025 Q1–Q2 (OON Emergency/Non-Emergency + Air Ambulance). Medicare benchmarks from CMS Physician Fee Schedule (PFS). RVU weights used as case complexity proxy.<br>
+  These findings are behavioral signals for audit prioritization — not audit verdicts. Case-level documentation review required before formal conclusions. &nbsp;·&nbsp; Notebook: <em>IDRE Fraud Detection Req2 – Routing Concentration (2).ipynb</em>
+</div>
+
+<script>
+Chart.defaults.color='#000';
+// ════════════════════════════════════════════════════════
+// PART A DATA (from v2)
+// ════════════════════════════════════════════════════════
+const baseline = [
+  {n:'Island Peer Review (IPRO)',   wr:98.4, dr:7.9},
+  {n:'Provider Resources, Inc.',    wr:98.1, dr:0.1},
+  {n:'EdiPhy Advisors, LLC',        wr:96.7, dr:11.9},
+  {n:'MCMC Services, LLC',          wr:95.7, dr:14.5},
+  {n:'Capitol Bridge, LLC',         wr:93.4, dr:26.9},
+  {n:'C2C Innovative Solutions',    wr:90.4, dr:12.7},
+  {n:'Maximus Federal Services',    wr:88.5, dr:4.3},
+  {n:'iMPROve Health',              wr:85.7, dr:5.1},
+  {n:'Federal H&A Services',        wr:82.4, dr:28.3},
+  {n:'Livanta (Commence)',          wr:77.6, dr:8.4},
+  {n:'National Medical Reviews',    wr:69.4, dr:5.2},
+  {n:'MET Healthcare Solutions',    wr:68.3, dr:15.2},
+  {n:'Network Medical Review',      wr:66.0, dr:5.4},
+  {n:'Keystone Peer Review Org.',   wr:57.7, dr:4.8},
+];
+
+const step8Top = [
+  {n:'NPPA SERVICES',                  idre:'EdiPhy',        gap:21.5, z:31.76, a:'HIGH_SUSPICION'},
+  {n:'VILLA PARK NEUROLOGICAL',        idre:'EdiPhy',        gap:20.2, z:15.95, a:'REFER_FOR_INVESTIGATION'},
+  {n:'AMERICAN INTRAOP MONITORING',    idre:'EdiPhy',        gap:21.8, z:12.90, a:'REFER_FOR_INVESTIGATION'},
+  {n:'Roper Radiologists, P.A.',       idre:'Maximus',       gap:48.1, z:11.10, a:'REFER_FOR_INVESTIGATION'},
+  {n:'N/R (Altus Health System)',      idre:'Fed H&A',       gap:16.4, z:9.97,  a:'HIGH_SUSPICION'},
+  {n:'Spine & Brain Institute WI',     idre:'Maximus',       gap:19.2, z:7.84,  a:'HIGH_SUSPICION'},
+  {n:'EMER NORTH FTW BEACH LLC',       idre:'Capitol Bridge',gap:51.6, z:7.14,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'GUARDIAN NEUROLOGY',             idre:'EdiPhy',        gap:16.1, z:6.91,  a:'HIGH_SUSPICION'},
+  {n:'EMCC STEPHENVILLE PHYSICIANS',   idre:'Capitol Bridge',gap:51.3, z:6.61,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'EMER ADDISON PHYSICIANS',        idre:'Capitol Bridge',gap:41.9, z:6.60,  a:'REFER_FOR_INVESTIGATION'},
+];
+
+const scatterAll = [
+  {n:'NPPA SERVICES',             idre:'EdiPhy',         gap:21.5,z:31.76,d:7631, a:'HIGH_SUSPICION'},
+  {n:'VILLA PARK NEUROLOGICAL',   idre:'EdiPhy',         gap:20.2,z:15.95,d:1908, a:'REFER_FOR_INVESTIGATION'},
+  {n:'AMERICAN INTRAOP MON.',     idre:'EdiPhy',         gap:21.8,z:12.90,d:1076, a:'REFER_FOR_INVESTIGATION'},
+  {n:'Roper Radiologists',        idre:'Maximus Federal',gap:48.1,z:11.10,d:338,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'Altus Health (N/R)',        idre:'Fed H&A',        gap:16.4,z:9.97, d:6643, a:'HIGH_SUSPICION'},
+  {n:'Spine & Brain WI',          idre:'Maximus Federal',gap:19.2,z:7.84, d:564,  a:'HIGH_SUSPICION'},
+  {n:'EMER N FTW BEACH LLC',      idre:'Capitol Bridge', gap:51.6,z:7.14, d:195,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'GUARDIAN NEUROLOGY',        idre:'EdiPhy',         gap:16.1,z:6.91, d:506,  a:'HIGH_SUSPICION'},
+  {n:'EMCC STEPHENVILLE',         idre:'Capitol Bridge', gap:51.3,z:6.61, d:226,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'EMER ADDISON',              idre:'Capitol Bridge', gap:41.9,z:6.60, d:191,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'EMER RICHARDSON (alt)',     idre:'Capitol Bridge', gap:66.7,z:6.47, d:106,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'EMER GRAND PRAIRIE',        idre:'Capitol Bridge', gap:47.1,z:6.22, d:205,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'NAP DIAGNOSTICS',           idre:'EdiPhy',         gap:20.0,z:6.20, d:292,  a:'HIGH_SUSPICION'},
+  {n:'ECHO THERAPEUTICS',         idre:'EdiPhy',         gap:33.3,z:6.08, d:143,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'EMCC PADRE ISLAND',         idre:'Capitol Bridge', gap:47.6,z:5.78, d:194,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'EMER N FTW BEACH PLLC',     idre:'Capitol Bridge', gap:32.9,z:5.75, d:229,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'EMCC PI ER PROFESSIONAL',   idre:'Capitol Bridge', gap:32.4,z:5.70, d:203,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'ER24 DENTON, LLC',          idre:'Capitol Bridge', gap:47.1,z:5.57, d:119,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'EMER RICHARDSON PLLC',      idre:'Capitol Bridge', gap:44.0,z:5.47, d:165,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'NEURO SAFETY',              idre:'EdiPhy',         gap:35.4,z:5.42, d:144,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'NERA IOM, PLLC',            idre:'EdiPhy',         gap:27.6,z:5.32, d:151,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'IEMS Physician Services',   idre:'Fed H&A',        gap:25.1,z:5.07, d:318,  a:'HIGH_SUSPICION'},
+  {n:'NORTHSTAR ANESTHESIA WV',   idre:'C2C',            gap:20.4,z:4.82, d:465,  a:'HIGH_SUSPICION'},
+  {n:'EMER ARLINGTON',            idre:'Capitol Bridge', gap:29.1,z:4.76, d:242,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'EMCC WEATHERFORD',          idre:'Capitol Bridge', gap:34.4,z:4.71, d:134,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'complete.care (N/R)',       idre:'MCMC',           gap:8.4, z:5.71, d:3634, a:'INCONCLUSIVE'},
+  {n:'Christus Health (N/R)',     idre:'Fed H&A',        gap:44.3,z:4.46, d:273,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'EMER HULEN, LLC',           idre:'Capitol Bridge', gap:39.8,z:4.38, d:113,  a:'REFER_FOR_INVESTIGATION'},
+  {n:'WEST PLANO EP',             idre:'C2C',            gap:21.0,z:4.25, d:322,  a:'HIGH_SUSPICION'},
+  {n:'EMER MESQUITE GUS',         idre:'Capitol Bridge', gap:28.2,z:4.21, d:244,  a:'REFER_FOR_INVESTIGATION'},
+];
+
+const step12 = [
+  {n:'EMER RICHARDSON (alt)',      idre:'Capitol Bridge',routing:94.3,d:106,wP:100.0,wO:33.3,gap:66.7,avg:93.4,tier:'CRITICAL'},
+  {n:'EMCC NORTE FTW BEACH LLC',   idre:'Capitol Bridge',routing:84.6,d:195,wP:98.0, wO:46.4,gap:51.6,avg:93.4,tier:'HIGH'},
+  {n:'EMCC STEPHENVILLE PHYS.',    idre:'Capitol Bridge',routing:88.9,d:226,wP:94.2, wO:42.9,gap:51.3,avg:93.4,tier:'CRITICAL'},
+  {n:'EMCC PADRE ISLAND ER LLC',   idre:'Capitol Bridge',routing:91.8,d:194,wP:97.6, wO:50.0,gap:47.6,avg:93.4,tier:'CRITICAL'},
+  {n:'EMER GRAND PRAIRIE PHYS.',   idre:'Capitol Bridge',routing:84.4,d:205,wP:95.2, wO:48.1,gap:47.1,avg:93.4,tier:'HIGH'},
+  {n:'ER24 DENTON, LLC',           idre:'Capitol Bridge',routing:84.9,d:119,wP:100.0,wO:52.9,gap:47.1,avg:93.4,tier:'HIGH'},
+  {n:'EMER ADDISON PHYSICIANS',    idre:'Capitol Bridge',routing:88.5,d:191,wP:99.1, wO:57.1,gap:42.0,avg:93.4,tier:'CRITICAL'},
+  {n:'EMER RICHARDSON PHYS PLLC',  idre:'Capitol Bridge',routing:87.3,d:165,wP:96.6, wO:52.6,gap:44.0,avg:93.4,tier:'HIGH'},
+  {n:'EMER N FTW BEACH PHYS PLLC', idre:'Capitol Bridge',routing:88.2,d:229,wP:98.3, wO:65.4,gap:32.9,avg:93.4,tier:'HIGH'},
+  {n:'EMER ARLINGTON PHYS PLLC',   idre:'Capitol Bridge',routing:90.9,d:242,wP:97.5, wO:68.4,gap:29.1,avg:93.4,tier:'HIGH'},
+  {n:'EMER MESQUITE GUS THOMASSON',idre:'Capitol Bridge',routing:83.2,d:244,wP:92.9, wO:64.7,gap:28.2,avg:93.4,tier:'HIGH'},
+  {n:'NERA IOM, PLLC',             idre:'EdiPhy',        routing:80.1,d:151,wP:100.0,wO:72.4,gap:27.6,avg:96.7,tier:'HIGH'},
+];
+
+const step6dAll = [
+  {dom:'paragonanesthesia.com', idre:'Provider Resources', p:11,  rt:98.8, d:240,   wr:100.0},
+  {dom:'metrohealthbill.net',   idre:'Provider Resources', p:2,   rt:98.7, d:79,    wr:98.7},
+  {dom:'usneuro.net',           idre:'Capitol Bridge',     p:6,   rt:97.2, d:72,    wr:65.7},
+  {dom:'clearchoiceer.com',     idre:'MCMC Services',      p:2,   rt:97.0, d:461,   wr:48.3},
+  {dom:'legacyhealthllc.com',   idre:'Fed H&A',            p:1,   rt:96.9, d:1158,  wr:24.4},
+  {dom:'bellaireer.com',        idre:'Fed H&A',            p:9,   rt:96.2, d:638,   wr:42.8},
+  {dom:'neuroendomke.com',      idre:'Maximus Federal',    p:19,  rt:81.8, d:975,   wr:93.4},
+  {dom:'scphealth.com',         idre:'Natl Med. Reviews',  p:142, rt:88.7, d:860,   wr:82.0},
+  {dom:'complete.care',         idre:'MCMC Services',      p:9,   rt:86.6, d:3658,  wr:44.1},
+  {dom:'qmacsmso.com',          idre:'Fed H&A',            p:73,  rt:79.4, d:22799, wr:42.0},
+  {dom:'fam-llc.com',           idre:'Fed H&A',            p:133, rt:78.4, d:30438, wr:38.1},
+  {dom:'civie.com',             idre:'Maximus Federal',    p:1,   rt:80.5, d:338,   wr:93.0},
+  {dom:'gen2med.com',           idre:'EdiPhy',             p:3,   rt:72.4, d:76,    wr:65.5},
+  {dom:'christushealth.org',    idre:'Fed H&A',            p:1,   rt:84.6, d:273,   wr:22.5},
+  {dom:'altushealthsystem.com', idre:'Fed H&A',            p:1,   rt:77.6, d:6643,  wr:30.2},
+];
+
+// ════════════════════════════════════════════════════════
+// PART B DATA
+// ════════════════════════════════════════════════════════
+
+// Step 15b — top 10 by inflation ratio
+const step15b = [
+  {n:'South Main Surgery Alliance',  dom:'halomd.com',              idre:'Capitol Bridge',   dli:122,  ofP:34.8, ofO:1.9,  ratio:18.6, rvu:0.81, flag:true},
+  {n:'N/R (rightmedicalbilling)',    dom:'rightmedicalbilling.com', idre:'Fed H&A',          dli:5010, ofP:65.5, ofO:6.0,  ratio:10.9, rvu:1.00, flag:true},
+  {n:'NPPA Services',                dom:'halomd.com',              idre:'Capitol Bridge',   dli:386,  ofP:54.1, ofO:6.8,  ratio:8.0,  rvu:0.85, flag:true},
+  {n:'Surgical Support Alliance',    dom:'halomd.com',              idre:'Capitol Bridge',   dli:63,   ofP:13.2, ofO:2.8,  ratio:4.8,  rvu:0.89, flag:true},
+  {n:'PRM GYNECOLOGY OF MD PC',      dom:'mdcapitaladvisors.com',   idre:'EdiPhy',           dli:26,   ofP:86.5, ofO:22.3, ratio:3.9,  rvu:0.28, flag:true},
+  {n:'Granite Anesthesia',           dom:'halomd.com',              idre:'Capitol Bridge',   dli:87,   ofP:22.3, ofO:5.9,  ratio:3.8,  rvu:0.99, flag:true},
+  {n:'Integrative Emergency Svcs',   dom:'halomd.com',              idre:'Capitol Bridge',   dli:47,   ofP:4.9,  ofO:1.4,  ratio:3.5,  rvu:0.93, flag:true},
+  {n:'Monitoring Concepts Neuro',    dom:'usrcm.net',               idre:'Network Med Rev',  dli:618,  ofP:42.9, ofO:15.2, ratio:2.8,  rvu:1.00, flag:true},
+  {n:'DRF MONITORING, PLLC',         dom:'halomd.com',              idre:'EdiPhy',           dli:111,  ofP:90.7, ofO:33.4, ratio:2.7,  rvu:0.66, flag:true},
+  {n:'Alexandre Rasouli MD Inc',     dom:'mdcapitaladvisors.com',   idre:'Maximus Federal',  dli:26,   ofP:85.5, ofO:36.2, ratio:2.4,  rvu:0.89, flag:true},
+  {n:'EMCC AZLE PHYSICIANS PLLC',    dom:'halomd.com',              idre:'Capitol Bridge',   dli:364,  ofP:23.3, ofO:9.7,  ratio:2.4,  rvu:0.58, flag:true},
+  {n:'EMER HULEN PHYSICIANS PLLC',   dom:'halomd.com',              idre:'Capitol Bridge',   dli:252,  ofP:21.5, ofO:9.6,  ratio:2.2,  rvu:0.58, flag:true},
+  {n:'North Jersey Spine Group',     dom:'cnsomd.com',              idre:'Fed H&A',          dli:80,   ofP:35.6, ofO:17.1, ratio:2.1,  rvu:0.65, flag:true},
+];
+
+// Step 15d — IDRE award-to-medicare benchmark
+const step15d = [
+  {n:'Maximus Federal Services', li:34607,  med:0.06, p25:0.02, p75:0.17, pctAbove:4.9, pct2x:2.4, pct5x:0.6},
+  {n:'Capitol Bridge, LLC',      li:110834, med:0.05, p25:0.02, p75:0.14, pctAbove:3.4, pct2x:1.4, pct5x:0.3},
+  {n:'Federal H&A Services',     li:160970, med:0.04, p25:0.02, p75:0.14, pctAbove:3.3, pct2x:1.2, pct5x:0.3},
+  {n:'C2C Innovative Solutions', li:133946, med:0.04, p25:0.02, p75:0.12, pctAbove:3.0, pct2x:1.1, pct5x:0.3},
+  {n:'IPRO',                     li:136893, med:0.04, p25:0.02, p75:0.08, pctAbove:0.7, pct2x:0.3, pct5x:0.1},
+  {n:'Provider Resources, Inc.', li:100422, med:0.03, p25:0.02, p75:0.06, pctAbove:0.7, pct2x:0.2, pct5x:0.1},
+  {n:'MCMC Services, LLC',       li:121989, med:0.03, p25:0.02, p75:0.06, pctAbove:0.7, pct2x:0.3, pct5x:0.1},
+  {n:'EdiPhy Advisors, LLC',     li:180988, med:0.03, p25:0.02, p75:0.09, pctAbove:2.7, pct2x:1.0, pct5x:0.3},
+  {n:'iMPROve Health',           li:99402,  med:0.03, p25:0.02, p75:0.05, pctAbove:0.6, pct2x:0.3, pct5x:0.1},
+  {n:'Network Medical Review',   li:46782,  med:0.03, p25:0.01, p75:0.08, pctAbove:1.8, pct2x:0.9, pct5x:0.2},
+  {n:'Keystone Peer Review Org.',li:25789,  med:0.02, p25:0.01, p75:0.06, pctAbove:1.6, pct2x:0.7, pct5x:0.2},
+  {n:'MET Healthcare Solutions', li:22105,  med:0.03, p25:0.01, p75:0.06, pctAbove:0.5, pct2x:0.3, pct5x:0.0},
+  {n:'National Medical Reviews', li:24409,  med:0.02, p25:0.01, p75:0.05, pctAbove:0.9, pct2x:0.4, pct5x:0.1},
+];
+
+// Step 16 — case-mix complexity
+const step16 = [
+  {n:'EMER N FTW BEACH LLC',      gap:51.6, dliP:338, rvuP:1.41, rvuO:1.60, ratio:0.88, v:'SIMILAR'},
+  {n:'EMCC STEPHENVILLE PHYS',    gap:51.3, dliP:265, rvuP:1.60, rvuO:2.17, ratio:0.74, v:'EASIER'},
+  {n:'Roper Radiologists',        gap:48.0, dliP:453, rvuP:0.75, rvuO:0.60, ratio:1.25, v:'HARDER'},
+  {n:'EMCC PADRE ISLAND',         gap:47.6, dliP:373, rvuP:1.60, rvuO:1.74, ratio:0.92, v:'SIMILAR'},
+  {n:'EMER GRAND PRAIRIE',        gap:47.1, dliP:278, rvuP:1.60, rvuO:1.75, ratio:0.91, v:'SIMILAR'},
+  {n:'ER24 DENTON, LLC',          gap:47.1, dliP:219, rvuP:0.99, rvuO:2.17, ratio:0.46, v:'EASIER'},
+  {n:'EMER RICHARDSON PHYS',      gap:44.0, dliP:229, rvuP:1.60, rvuO:1.74, ratio:0.92, v:'SIMILAR'},
+  {n:'EMER ADDISON PHYS',         gap:42.0, dliP:247, rvuP:1.82, rvuO:1.60, ratio:1.14, v:'SIMILAR'},
+  {n:'EMER N FTW BEACH PLLC',     gap:32.9, dliP:342, rvuP:1.60, rvuO:1.60, ratio:1.00, v:'SIMILAR'},
+  {n:'EMCC PI ER PROFESSIONAL',   gap:32.4, dliP:303, rvuP:1.60, rvuO:1.60, ratio:1.00, v:'SIMILAR'},
+  {n:'EMER ARLINGTON PHYS',       gap:29.1, dliP:337, rvuP:1.60, rvuO:1.60, ratio:1.00, v:'SIMILAR'},
+  {n:'EMER MESQUITE GUS',         gap:28.2, dliP:326, rvuP:1.60, rvuO:1.60, ratio:1.00, v:'SIMILAR'},
+  {n:'NERA IOM, PLLC',            gap:27.6, dliP:102, rvuP:1.01, rvuO:1.18, ratio:0.86, v:'SIMILAR'},
+];
+
+// Step 18 — final scorecard
+const step18 = [
+  {n:'Roper Radiologists, P.A.',    dom:'civie.com',    idre:'Maximus Federal', disp:338, dispP:272, rt:80.5, wrP:98.8, wrO:50.8, gap:48.0, adjGap:34.1, z:11.1,  rvuR:1.25, cx:'HARDER',  ofI:0.4, tier:'HIGH'},
+  {n:'EMER MESQUITE GUS THOMASSON', dom:'halomd.com',   idre:'Capitol Bridge',  disp:244, dispP:203, rt:83.2, wrP:92.9, wrO:64.7, gap:28.2, adjGap:8.1,  z:4.21,  rvuR:1.00, cx:'SIMILAR', ofI:1.7, tier:'HIGH'},
+  {n:'EMER ARLINGTON PHYS PLLC',    dom:'halomd.com',   idre:'Capitol Bridge',  disp:242, dispP:220, rt:90.9, wrP:97.5, wrO:68.4, gap:29.1, adjGap:8.2,  z:4.76,  rvuR:1.00, cx:'SIMILAR', ofI:1.2, tier:'HIGH'},
+  {n:'EMER N FTW BEACH PHYS PLLC',  dom:'halomd.com',   idre:'Capitol Bridge',  disp:229, dispP:202, rt:88.2, wrP:98.3, wrO:65.4, gap:32.9, adjGap:13.5, z:5.75,  rvuR:1.00, cx:'SIMILAR', ofI:1.3, tier:'HIGH'},
+  {n:'EMCC STEPHENVILLE PHYS PLLC', dom:'halomd.com',   idre:'Capitol Bridge',  disp:226, dispP:201, rt:88.9, wrP:94.2, wrO:42.9, gap:51.3, adjGap:25.5, z:6.61,  rvuR:0.74, cx:'EASIER',  ofI:1.1, tier:'CRITICAL'},
+  {n:'EMER GRAND PRAIRIE PHYS',     dom:'halomd.com',   idre:'Capitol Bridge',  disp:205, dispP:173, rt:84.4, wrP:95.2, wrO:48.1, gap:47.1, adjGap:23.3, z:6.22,  rvuR:0.91, cx:'SIMILAR', ofI:1.5, tier:'HIGH'},
+  {n:'EMCC PI ER PROFESSIONAL PLLC',dom:'halomd.com',   idre:'Capitol Bridge',  disp:203, dispP:176, rt:86.7, wrP:99.1, wrO:66.7, gap:32.4, adjGap:12.9, z:5.70,  rvuR:1.00, cx:'SIMILAR', ofI:1.1, tier:'HIGH'},
+  {n:'EMER N FTW BEACH LLC',        dom:'halomd.com',   idre:'Capitol Bridge',  disp:195, dispP:165, rt:84.6, wrP:98.0, wrO:46.4, gap:51.6, adjGap:28.9, z:7.14,  rvuR:0.88, cx:'SIMILAR', ofI:0.6, tier:'HIGH'},
+  {n:'EMCC PADRE ISLAND ER LLC',    dom:'halomd.com',   idre:'Capitol Bridge',  disp:194, dispP:178, rt:91.8, wrP:97.6, wrO:50.0, gap:47.6, adjGap:19.6, z:5.78,  rvuR:0.92, cx:'SIMILAR', ofI:0.7, tier:'CRITICAL'},
+  {n:'EMER ADDISON PHYSICIANS PLLC',dom:'halomd.com',   idre:'Capitol Bridge',  disp:191, dispP:169, rt:88.5, wrP:99.1, wrO:57.1, gap:42.0, adjGap:19.5, z:6.60,  rvuR:1.14, cx:'SIMILAR', ofI:1.4, tier:'CRITICAL'},
+  {n:'EMER RICHARDSON PHYS PLLC',   dom:'halomd.com',   idre:'Capitol Bridge',  disp:165, dispP:144, rt:87.3, wrP:96.6, wrO:52.6, gap:44.0, adjGap:17.7, z:5.47,  rvuR:0.92, cx:'SIMILAR', ofI:1.2, tier:'CRITICAL'},
+  {n:'NERA IOM, PLLC',              dom:'halomd.com',   idre:'EdiPhy',          disp:151, dispP:121, rt:80.1, wrP:100.0,wrO:72.4, gap:27.6, adjGap:10.9, z:5.32,  rvuR:0.86, cx:'SIMILAR', ofI:1.4, tier:'HIGH'},
+  {n:'ER24 DENTON, LLC',            dom:'halomd.com',   idre:'Capitol Bridge',  disp:119, dispP:101, rt:84.9, wrP:100.0,wrO:52.9, gap:47.1, adjGap:20.1, z:5.57,  rvuR:0.46, cx:'EASIER',  ofI:0.8, tier:'HIGH'},
+];
+
+// ════════════════════════════════════════════════════════
+// CHART RENDERING
+// ════════════════════════════════════════════════════════
+const charts = {};
+function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
+const AVG = 86.8;
+
+// ── Section 1: IDRE Baseline ──────────────────────────
+const sorted = [...baseline].sort((a,b)=>b.wr-a.wr);
+dc('c_wr');
+charts['c_wr'] = new Chart(document.getElementById('c_wr'),{
+  type:'bar',
+  data:{labels:sorted.map(d=>d.n),
+    datasets:[{data:sorted.map(d=>d.wr),
+      backgroundColor:sorted.map(d=>d.wr>95?'#dc2626':d.wr>=AVG?'#0071BC':'#7c3aed'),borderRadius:3}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:c=>`Merit: ${c.raw}%  (${(c.raw-AVG).toFixed(1)} pp vs avg)  ·  Default: ${sorted[c.dataIndex].dr}%`}}},
+    scales:{
+      x:{title:{display:true,text:'Merit Win Rate (%)',font:{size:11},color:'#000'},min:40,max:100,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+
+// ── Section 2: Scatter ────────────────────────────────
+dc('c_scatter');
+const actColor={'REFER_FOR_INVESTIGATION':'rgba(220,38,38,.8)','HIGH_SUSPICION':'rgba(234,88,12,.75)','INCONCLUSIVE':'rgba(75,85,99,.75)'};
+const actLabel={'REFER_FOR_INVESTIGATION':'REFER FOR INVESTIGATION','HIGH_SUSPICION':'HIGH SUSPICION','INCONCLUSIVE':'INCONCLUSIVE'};
+charts['c_scatter'] = new Chart(document.getElementById('c_scatter'),{
+  type:'bubble',
+  data:{datasets:Object.keys(actColor).map(act=>({
+    label:actLabel[act],
+    data:scatterAll.filter(d=>d.a===act).map(d=>({x:d.gap,y:d.z,r:Math.max(5,Math.min(22,Math.sqrt(d.d/15))),n:d.n,idre:d.idre,d:d.d})),
+    backgroundColor:actColor[act]
+  }))},
+  options:{plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:14}},
+    tooltip:{callbacks:{label:c=>`${c.raw.n}\nIDRE: ${c.raw.idre}\nGap: ${c.raw.x} pp | Z: ${c.raw.y}\nDisputes: ${c.raw.d.toLocaleString()}`}}},
+    scales:{
+      x:{title:{display:true,text:'Win Rate Gap (pp) — Primary IDRE vs All Others',font:{size:11.5}},min:0,max:75,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+' pp',font:{size:10.5}}},
+      y:{title:{display:true,text:'Z-Score',font:{size:11.5}},min:0,max:35,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+document.getElementById('tb_top10').innerHTML = step8Top.map(d=>{
+  const b=d.a==='REFER_FOR_INVESTIGATION'?`<span class="br">REFER</span>`:d.a==='HIGH_SUSPICION'?`<span class="bs">HIGH SUSP</span>`:`<span class="bi">INCONCL.</span>`;
+  const zc=d.z>=10?'#dc2626':d.z>=6?'#d97706':'#000';
+  return `<tr><td style="font-size:11.5px;font-weight:600;max-width:180px;word-break:break-word">${d.n}</td>
+    <td style="font-size:11px;color:#000;white-space:nowrap">${d.idre}</td>
+    <td class="r" style="color:#d97706;font-weight:700">${d.gap}</td>
+    <td class="r" style="font-weight:800;color:${zc}">${d.z}</td><td>${b}</td></tr>`;
+}).join('');
+
+// ── Section 3: Validated ──────────────────────────────
+const s12=[...step12].sort((a,b)=>b.gap-a.gap);
+dc('c_validated');
+charts['c_validated'] = new Chart(document.getElementById('c_validated'),{
+  type:'bar',
+  data:{labels:s12.map(d=>d.n.length>30?d.n.slice(0,28)+'…':d.n),
+    datasets:[
+      {label:'Win Rate @ Primary IDRE',    data:s12.map(d=>d.wP),backgroundColor:'#0071BC',borderRadius:2},
+      {label:'Win Rate @ All Other IDREs', data:s12.map(d=>d.wO),backgroundColor:'#22c55e',borderRadius:2},
+    ]},
+  options:{indexAxis:'y',plugins:{legend:{position:'top',labels:{font:{size:12},padding:14}},
+    tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw}%`}}},
+    scales:{
+      x:{title:{display:true,text:'Win Rate (%)',font:{size:11},color:'#000'},min:0,max:105,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+document.getElementById('tb_v').innerHTML=s12.map(d=>{
+  const b=d.tier==='CRITICAL'?`<span class="bc">CRITICAL</span>`:`<span class="bh">HIGH</span>`;
+  return `<tr><td style="font-weight:600;font-size:11.5px;max-width:200px;word-break:break-word">${d.n}</td>
+    <td style="font-size:11.5px;white-space:nowrap">${d.idre}</td>
+    <td class="r">${d.routing}%</td><td class="r">${d.d}</td>
+    <td class="r" style="color:#0071BC;font-weight:700">${d.wP}%</td>
+    <td class="r" style="color:#000">${d.wO}%</td>
+    <td class="r" style="font-weight:800;color:#dc2626">${d.gap} pp</td>
+    <td class="r" style="color:#000">${d.avg}%</td><td>${b}</td></tr>`;
+}).join('');
+
+// ── Section 4: Corporate Networks ────────────────────
+dc('c_s6d_scatter');
+charts['c_s6d_scatter'] = new Chart(document.getElementById('c_s6d_scatter'),{
+  type:'bubble',
+  data:{datasets:[{label:'Corporate Domain',
+    data:step6dAll.map(d=>({x:d.rt,y:d.wr,r:Math.max(5,Math.min(26,Math.cbrt(d.d)*1.8)),dom:d.dom,idre:d.idre,p:d.p,d:d.d})),
+    backgroundColor:step6dAll.map(d=>d.wr>=80?'rgba(220,38,38,.8)':d.wr>=40?'rgba(245,158,11,.8)':'rgba(107,114,128,.75)'),
+    borderColor:'rgba(255,255,255,.5)',borderWidth:1}]},
+  options:{plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:c=>`${c.raw.dom}  →  ${c.raw.idre}\n${c.raw.p} practices · ${c.raw.d.toLocaleString()} disputes\nRouting: ${c.raw.x}%  ·  Win Rate: ${c.raw.y}%`}}},
+    scales:{
+      x:{title:{display:true,text:'Routing Concentration — % to Single IDRE',font:{size:11}},min:70,max:102,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}},
+      y:{title:{display:true,text:'Win Rate at Primary IDRE (%)',font:{size:11}},min:15,max:105,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+const pb=d=>d.wr>=80?`<span class="bc">Merit Routing</span>`:d.wr>=40?`<span class="be">Mixed</span>`:`<span class="bi">Default Routing</span>`;
+document.getElementById('tb_s6d').innerHTML=[...step6dAll].sort((a,b)=>b.p-a.p).map(d=>`<tr>
+  <td style="font-family:monospace;font-size:11px;font-weight:700">${d.dom}</td>
+  <td style="font-size:11px;white-space:nowrap">${d.idre}</td>
+  <td class="r" style="font-weight:700">${d.p}</td>
+  <td class="r">${d.rt}%</td><td class="r">${d.d.toLocaleString()}</td>
+  <td class="r" style="font-weight:700;color:${d.wr>=80?'#dc2626':d.wr>=40?'#d97706':'#000'}">${d.wr}%</td>
+  <td>${pb(d)}</td></tr>`).join('');
+
+// ══════════════════════════════════════════════════════
+// ── Section 5: Offer Inflation (Step 15b) ────────────
+const s15b_chart=[...step15b].sort((a,b)=>a.ratio-b.ratio);
+dc('c_15b');
+charts['c_15b']=new Chart(document.getElementById('c_15b'),{
+  type:'bar',
+  data:{
+    labels:s15b_chart.map(d=>d.n.length>28?d.n.slice(0,26)+'…':d.n),
+    datasets:[
+      {label:'Offer at Primary IDRE (% QPA)', data:s15b_chart.map(d=>d.ofP), backgroundColor:'#dc2626', borderRadius:2},
+      {label:'Offer at Other IDREs (% QPA)',  data:s15b_chart.map(d=>d.ofO), backgroundColor:'#22c55e', borderRadius:2},
+    ]},
+  options:{indexAxis:'y',plugins:{
+    legend:{position:'top',labels:{font:{size:11.5},padding:12}},
+    tooltip:{callbacks:{label:c=>{
+      const d=s15b_chart[c.dataIndex];
+      return `${c.dataset.label}: ${c.raw}% QPA  ·  Ratio: ${d.ratio}×  ·  RVU ratio: ${d.rvu}`;
+    }}}},
+    scales:{
+      x:{title:{display:true,text:'Median Provider Offer (% of QPA)',font:{size:11},color:'#000'},min:0,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+document.getElementById('tb_15b').innerHTML=step15b.map(d=>{
+  const fb=d.flag?`<span class="br">EXCEEDS COMPLEXITY</span>`:`<span class="bi">—</span>`;
+  const rc=d.rvu<0.9?'#dc2626':d.rvu>1.1?'#16a34a':'#000';
+  return `<tr>
+    <td style="font-size:11.5px;font-weight:600;max-width:170px;word-break:break-word">${d.n}</td>
+    <td style="font-family:monospace;font-size:10.5px">${d.dom}</td>
+    <td style="font-size:11px;white-space:nowrap">${d.idre}</td>
+    <td class="r">${d.dli.toLocaleString()}</td>
+    <td class="r" style="color:#dc2626;font-weight:700">${d.ofP}%</td>
+    <td class="r" style="color:#16a34a">${d.ofO}%</td>
+    <td class="r" style="font-weight:800;color:#0071BC">${d.ratio}×</td>
+    <td class="r" style="font-weight:700;color:${rc}">${d.rvu}</td>
+    <td>${fb}</td></tr>`;
+}).join('');
+
+// ── Section 6: IDRE Award Benchmark (Step 15d) ───────
+const s15dSorted=[...step15d].sort((a,b)=>b.med-a.med);
+dc('c_15d_med');
+charts['c_15d_med']=new Chart(document.getElementById('c_15d_med'),{
+  type:'bar',
+  data:{labels:s15dSorted.map(d=>d.n),
+    datasets:[{
+      label:'Median Award / Medicare Rate',
+      data:s15dSorted.map(d=>d.med),
+      backgroundColor:s15dSorted.map(d=>d.pctAbove>3?'#f59e0b':d.pctAbove>1?'#0071BC':'#22c55e'),
+      borderRadius:3}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:c=>{
+      const d=s15dSorted[c.dataIndex];
+      return `Median: ${c.raw}× Medicare  ·  p25: ${d.p25}×  p75: ${d.p75}×  ·  Above Medicare: ${d.pctAbove}%`;
+    }}}},
+    scales:{
+      x:{title:{display:true,text:'Award-to-Medicare Ratio (×)',font:{size:11},color:'#000'},min:0,max:0.1,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+dc('c_15d_pct');
+charts['c_15d_pct']=new Chart(document.getElementById('c_15d_pct'),{
+  type:'bar',
+  data:{labels:s15dSorted.map(d=>d.n),
+    datasets:[
+      {label:'% Cases Above Medicare',   data:s15dSorted.map(d=>d.pctAbove), backgroundColor:'#f59e0b', borderRadius:2},
+      {label:'% Cases at 2× Medicare',   data:s15dSorted.map(d=>d.pct2x),   backgroundColor:'#dc2626', borderRadius:2},
+    ]},
+  options:{indexAxis:'y',plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:12}},
+    tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw}%`}}},
+    scales:{
+      x:{title:{display:true,text:'% of Line Items',font:{size:11},color:'#000'},min:0,max:6,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+
+// ── Section 7: Case-Mix (Step 16) ────────────────────
+const vColor={SIMILAR:'rgba(220,38,38,.8)',EASIER:'rgba(245,158,11,.8)',HARDER:'rgba(22,163,74,.8)'};
+const vLabel={SIMILAR:'Defense FAILS (similar complexity)',EASIER:'Defense BACKFIRES (simpler cases)',HARDER:'Partial defense (harder cases)'};
+dc('c_16_scatter');
+charts['c_16_scatter']=new Chart(document.getElementById('c_16_scatter'),{
+  type:'bubble',
+  data:{datasets:Object.keys(vColor).map(v=>({
+    label:vLabel[v],
+    data:step16.filter(d=>d.v===v).map(d=>({
+      x:d.ratio,y:d.gap,
+      r:Math.max(6,Math.min(22,Math.sqrt(d.dliP/8))),
+      n:d.n,gap:d.gap,rvuP:d.rvuP,rvuO:d.rvuO
+    })),
+    backgroundColor:vColor[v]
+  }))},
+  options:{plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:14}},
+    tooltip:{callbacks:{label:c=>`${c.raw.n}\nWin Gap: ${c.raw.gap} pp\nRVU Primary: ${c.raw.rvuP}  ·  RVU Others: ${c.raw.rvuO}\nRatio: ${c.raw.x}`}}},
+    scales:{
+      x:{title:{display:true,text:'RVU Ratio (Primary / Others) — Complexity Proxy',font:{size:11}},min:0.3,max:1.4,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}},
+      y:{title:{display:true,text:'Win Rate Gap (pp)',font:{size:11}},min:20,max:58,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+document.getElementById('tb_16').innerHTML=step16.map(d=>{
+  const vb=d.v==='SIMILAR'?`<span class="br">Defense FAILS</span>`:d.v==='EASIER'?`<span class="bs">BACKFIRES</span>`:`<span class="bg">Partial</span>`;
+  return `<tr>
+    <td style="font-size:11px;font-weight:600;max-width:160px;word-break:break-word">${d.n}</td>
+    <td class="r" style="font-weight:700;color:#dc2626">${d.gap} pp</td>
+    <td class="r" style="font-weight:700;color:${d.ratio<0.9?'#dc2626':d.ratio>1.1?'#16a34a':'#000'}">${d.ratio}</td>
+    <td>${vb}</td></tr>`;
+}).join('');
+
+// ── Section 8: Final Scorecard (Step 18) ─────────────
+dc('c_18_scatter');
+charts['c_18_scatter']=new Chart(document.getElementById('c_18_scatter'),{
+  type:'bubble',
+  data:{datasets:[
+    {label:'CRITICAL — Immediate Referral',
+      data:step18.filter(d=>d.tier==='CRITICAL').map(d=>({x:d.gap,y:d.z,r:Math.max(6,Math.min(22,Math.sqrt(d.disp/8))),n:d.n,d:d.disp,cx:d.cx})),
+      backgroundColor:'rgba(220,38,38,.85)'},
+    {label:'HIGH — Enhanced Review',
+      data:step18.filter(d=>d.tier==='HIGH').map(d=>({x:d.gap,y:d.z,r:Math.max(6,Math.min(22,Math.sqrt(d.disp/8))),n:d.n,d:d.disp,cx:d.cx})),
+      backgroundColor:'rgba(245,158,11,.8)'},
+  ]},
+  options:{plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:14}},
+    tooltip:{callbacks:{label:c=>`${c.raw.n}\nDisputes: ${c.raw.d}  ·  Gap: ${c.raw.x} pp  ·  Z: ${c.raw.y}\nComplexity: ${c.raw.cx}`}}},
+    scales:{
+      x:{title:{display:true,text:'Win Rate Gap — Primary vs All Others (pp)',font:{size:11}},min:20,max:58,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+' pp',font:{size:10.5}}},
+      y:{title:{display:true,text:'Z-Score',font:{size:11}},min:3,max:13,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+document.getElementById('tb_18').innerHTML=step18.map(d=>{
+  const tb=d.tier==='CRITICAL'?`<span class="bc">CRITICAL</span>`:`<span class="bh">HIGH</span>`;
+  const cxb=d.cx==='EASIER'?`<span class="bs">EASIER</span>`:d.cx==='HARDER'?`<span class="bg">HARDER</span>`:`<span class="bi">SIMILAR</span>`;
+  return `<tr>
+    <td style="font-size:11px;font-weight:600;max-width:160px;word-break:break-word">${d.n}</td>
+    <td style="font-family:monospace;font-size:10px">${d.dom}</td>
+    <td style="font-size:10.5px;white-space:nowrap">${d.idre}</td>
+    <td class="r">${d.disp}</td>
+    <td class="r">${d.rt}%</td>
+    <td class="r" style="color:#0071BC;font-weight:700">${d.wrP}%</td>
+    <td class="r" style="color:#000">${d.wrO}%</td>
+    <td class="r" style="font-weight:800;color:#dc2626">${d.gap}</td>
+    <td class="r" style="color:#000">${d.adjGap}</td>
+    <td class="r" style="font-weight:700;color:${d.z>=7?'#dc2626':d.z>=5?'#d97706':'#000'}">${d.z}</td>
+    <td class="r" style="color:${d.rvuR<0.9?'#dc2626':d.rvuR>1.1?'#16a34a':'#000'}">${d.rvuR}</td>
+    <td>${cxb}</td>
+    <td class="r" style="color:${d.ofI>1.5?'#dc2626':d.ofI<0.9?'#000':'#000'}">${d.ofI}×</td>
+    <td>${tb}</td></tr>`;
+}).join('');
+
+// ── TABLE SORT ────────────────────────────────────────
+function sortT(id,col){
+  const tbl=document.getElementById(id);
+  const rows=Array.from(tbl.querySelectorAll('tbody tr'));
+  const dir=tbl.dataset.dir==='asc'?-1:1;
+  tbl.dataset.dir=dir===1?'asc':'desc';
+  rows.sort((a,b)=>{
+    const va=a.cells[col].textContent.replace(/[,% ↕pⓘ★×]/g,'').trim();
+    const vb=b.cells[col].textContent.replace(/[,% ↕pⓘ★×]/g,'').trim();
+    const na=parseFloat(va),nb=parseFloat(vb);
+    if(!isNaN(na)&&!isNaN(nb))return dir*(na-nb);
+    return dir*va.localeCompare(vb);
+  });
+  rows.forEach(r=>tbl.querySelector('tbody').appendChild(r));
+}
+</script>
+</body>
+</html>
