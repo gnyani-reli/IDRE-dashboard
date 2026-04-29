@@ -44,6 +44,18 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 .tab-btn.active { color: #185fa5; border-bottom-color: #185fa5; font-weight: 600; }
 .tab-pane { display: none; }
 .tab-pane.active { display: block; }
+#tab-r7 > .page,
+#tab-r2 > .page,
+#tab-l1 > .page { display: none; }
+#tab-r7 .req7-embed,
+#tab-r2 .req2-embed,
+#tab-l1 .logic1-embed {
+  display: block;
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  border: 0;
+  background: #f4f6f8;
+}
 
 /* ===== DESIGN TOKENS ===== */
 :root {
@@ -147,6 +159,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l3 .full-card { margin-bottom: 24px; }
 /* -- FILTERS (Logic3) -- */
 #tab-l3 .filters { display: flex; gap: 10px; flex-wrap: wrap; }
+#tab-l3 .filters { display: none; }
 #tab-l3 .filter-group { display: flex; flex-direction: column; gap: 4px; min-width: 118px; }
 #tab-l3 .filter-group label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: var(--faint); }
 #tab-l3 .filter-group select { background: var(--surface); border: 1px solid #cfd3d8; border-radius: 4px; padding: 0 8px; font-size: 12px; font-family: inherit; color: var(--text); cursor: pointer; outline: none; min-width: 118px; height: 30px; }
@@ -187,16 +200,19 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-r7 .page, #tab-r2 .page { overflow-x: hidden; }
 
 /* L4 scoped CSS variables */
-#tab-l4 { --l4-navy:#00304e; --l4-blue:#1f6fb2; --l4-blue-lt:#e6f0fb; --l4-red:#b42318; --l4-orange:#c0560a; --l4-amber:#a36e0e; --l4-green:#1a7a4a; --l4-surface:#ffffff; --l4-surface2:#f5f7fa; --l4-border:#dde1e8; --l4-text:#0f1923; --l4-muted:#5a6475; --l4-faint:#8a939f; --l4-shadow:0 1px 3px rgba(0,0,0,0.07); }
+#tab-l4 { --l4-navy:#00304e; --l4-blue:#1f6fb2; --l4-blue-lt:#e6f0fb; --l4-red:#b42318; --l4-orange:#c0560a; --l4-amber:#a36e0e; --l4-green:#1a7a4a; --l4-surface:#ffffff; --l4-surface2:#f5f7fa; --l4-border:#dde1e8; --l4-text:#0f1923; --l4-muted:#5a6475; --l4-faint:#8a939f; --l4-shadow:0 1px 3px rgba(0,0,0,0.07); --l4-tab-offset:52px; overflow-x: clip; }
+/* dvh tracks the visible window when the MacBook browser / dock eats height; avoids “flat” layout vs external monitor */
+#tab-l4.tab-pane.active { min-height: calc(100vh - var(--l4-tab-offset)); min-height: calc(100dvh - var(--l4-tab-offset)); box-sizing: border-box; }
 
 /* dash wrapper */
-#tab-l4 .dash { max-width:1460px; margin:0 auto; padding:14px 18px 40px; }
+#tab-l4 .dash { max-width: min(1460px, 100%); margin:0 auto; padding:14px 18px 40px; box-sizing: border-box; width: 100%; }
 
 /* header */
 #tab-l4 .l4-header { margin-bottom:14px; }
 #tab-l4 .l4-header-top { display:flex; justify-content:space-between; align-items:center; gap:14px; background:var(--l4-surface2); border:1px solid #d5d7da; border-radius:10px; padding:12px 14px; margin-bottom:8px; flex-wrap:wrap; }
 #tab-l4 .l4-h1 { font-size:18px; font-weight:600; line-height:1.2; color:var(--l4-text); }
 #tab-l4 .l4-filters { display:flex; gap:10px; flex-wrap:wrap; }
+#tab-l4 .l4-filters { display:none; }
 #tab-l4 .l4-filter-group { display:flex; flex-direction:column; gap:4px; min-width:118px; }
 #tab-l4 .l4-filter-group label { font-size:9px; font-weight:600; text-transform:uppercase; letter-spacing:0.7px; color:var(--l4-faint); }
 #tab-l4 .l4-filter-group select { background:var(--l4-surface); border:1px solid #cfd3d8; border-radius:4px; padding:0 8px; font-size:12px; font-family:inherit; color:var(--l4-text); cursor:pointer; outline:none; min-width:118px; height:30px; }
@@ -220,8 +236,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l4 .l4-act-title { font-size:14px; font-weight:600; color:var(--l4-text); margin-bottom:10px; padding-bottom:9px; border-bottom:2px solid var(--l4-border); }
 
 /* chart grids */
-#tab-l4 .l4-chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
-#tab-l4 .l4-chart-grid-full { display:grid; grid-template-columns:1fr; gap:12px; margin-bottom:12px; }
+#tab-l4 .l4-chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+#tab-l4 .l4-chart-grid-full { display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:16px; }
 #tab-l4 .l4-chart-grid-stretch { align-items:stretch; }
 
 /* cards */
@@ -230,15 +246,26 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l4 .l4-card-title { font-size:13px; font-weight:600; margin-bottom:3px; color:var(--l4-text); }
 #tab-l4 .l4-card-sub { font-size:11px; color:var(--l4-muted); line-height:1.4; }
 #tab-l4 .l4-card-flex { display:flex; flex-direction:column; }
-#tab-l4 .l4-card-body-flex { flex:1; display:flex; flex-direction:column; padding:16px 18px; }
+#tab-l4 .l4-card-body-flex { flex:1; display:flex; flex-direction:column; padding:16px 18px; min-height:0; }
+/* Paired rows: let canvas heights drive card height; no artificial vh floor so laptop windows aren't cramped */
+#tab-l4 .l4-chart-grid > .l4-card.l4-card-flex { min-height: 0; }
+#tab-l4 .l4-chart-grid > .l4-card.l4-card-flex .l4-card-body-flex { flex:1 1 auto; }
+#tab-l4 .l4-chart-grid > .l4-card.l4-card-flex .l4-card-body-flex .l4-chart-note { flex-shrink: 0; }
 
-/* canvas */
-#tab-l4 .l4-canvas-wrap { position:relative; height:310px; }
-#tab-l4 .l4-canvas-wrap-tall { position:relative; height:220px; }
-#tab-l4 .l4-canvas-flex { flex:1; min-height:260px; }
+/* dvh tracks addressable viewport (dock + menu-bar + browser chrome shrink dvh but not vh on macOS).
+   Two identical declarations: vh first as fallback, dvh second so modern browsers override with the
+   more accurate value. clamp(floor, Xdvh, cap) scales gently — floor on compact laptop windows,
+   capped so charts don't become cavernous on a 4K display. */
+#tab-l4 .l4-canvas-wrap { position:relative; height: clamp(300px, 44vh, 520px); height: clamp(300px, 44dvh, 520px); }
+#tab-l4 .l4-canvas-wrap.l4-canvas-risk { height: auto; flex: 1 1 auto; min-height: clamp(380px, 52vh, 620px); min-height: clamp(380px, 52dvh, 620px); }
+#tab-l4 .l4-canvas-wrap-tall { position:relative; height: clamp(200px, 28vh, 380px); height: clamp(200px, 28dvh, 380px); }
+#tab-l4 .l4-canvas-flex { flex: 1 1 auto; min-height: clamp(300px, 44vh, 520px); min-height: clamp(300px, 44dvh, 520px); }
 
 /* scrollable table */
-#tab-l4 .l4-scroll-wrap { overflow-y:auto; max-height:332px; }
+#tab-l4 .l4-scroll-wrap { overflow-y: auto; max-height: clamp(340px, 52vh, 560px); }
+/* In paired grid: fill available height (set by canvas card via align-items:stretch), scroll excess rows */
+#tab-l4 .l4-chart-grid > .l4-card.l4-card-flex > .l4-scroll-wrap { flex: 1 1 auto; min-height: 0; max-height: none; }
+#tab-l4 .l4-chart-grid-full .l4-scroll-wrap { max-height: clamp(380px, 54vh, 640px); max-height: clamp(380px, 54dvh, 640px); }
 #tab-l4 .l4-scroll-wrap::-webkit-scrollbar { width:5px; }
 #tab-l4 .l4-scroll-wrap::-webkit-scrollbar-track { background:var(--l4-surface2); }
 #tab-l4 .l4-scroll-wrap::-webkit-scrollbar-thumb { background:#ced3dc; border-radius:4px; }
@@ -269,6 +296,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 @media(max-width:800px) {
   #tab-l4 .l4-kpi-strip { grid-template-columns: repeat(2,1fr); }
   #tab-l4 .l4-chart-grid { grid-template-columns: 1fr; }
+  #tab-l4 .l4-chart-grid > .l4-card.l4-card-flex { min-height: 0; }
+  #tab-l4 .l4-chart-grid > .l4-card.l4-card-flex > .l4-scroll-wrap { max-height: 420px; }
   #tab-l4 .l4-header-top { flex-direction: column; align-items: stretch; }
   #tab-l3 .kpi-strip, #tab-r7 .kpi-strip, #tab-r2 .kpi-strip { grid-template-columns: repeat(2,1fr); }
   #tab-l3 .two-col { grid-template-columns: 1fr; }
@@ -322,8 +351,85 @@ table.t tr:hover td{background:#fafafa}
 /* Req 7 & 2 — section layout (hero uses L3/L4 .header + .kpi-strip above) */
 #tab-r7 .two-col,#tab-r2 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 #tab-r7 .three-col,#tab-r2 .three-col{display:grid;grid-template-columns:3fr 2fr;gap:18px}
+/* ===== REQ7 v3 (scoped #tab-r7) ===== */
+#tab-r7 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+#tab-r7 .kpi{background:#fff;border-radius:10px;border-top:3px solid #0071BC;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+#tab-r7 .kpi.red{border-top-color:#dc2626}
+#tab-r7 .kpi.amber{border-top-color:#f59e0b}
+#tab-r7 .kpi.green{border-top-color:#16a34a}
+#tab-r7 .kpi .v{font-size:30px;font-weight:800;color:#1a3a6b;line-height:1.05}
+#tab-r7 .kpi .l{font-size:11px;font-weight:700;text-transform:uppercase;color:#6b7280;letter-spacing:.4px;margin-top:5px}
+#tab-r7 .kpi .s{font-size:11px;color:#9ca3af;margin-top:3px}
+#tab-r7 .section-label-row .section-num{width:30px;height:30px;background:#0071BC;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+#tab-r7 .three-col>*{min-width:0}
+#tab-r7 .three-col.three-col--stretch{align-items:stretch}
+#tab-r7 .three-col.three-col--stretch>.chart-box{display:flex;flex-direction:column;min-height:0;align-self:stretch}
+#tab-r7 .three-col.three-col--stretch>.chart-box .ch-lg{flex:1 1 0;height:auto!important;min-height:260px}
+#tab-r7 .three-col.three-col--stretch .tbl-wrap{width:100%;max-width:100%;box-sizing:border-box}
+#tab-r7 table.t#tbl_cadence{table-layout:fixed;width:100%}
+#tab-r7 table.t#tbl_cadence th,#tab-r7 table.t#tbl_cadence td{padding:6px 6px;font-size:10.5px}
+#tab-r7 table.t#tbl_cadence th{white-space:normal;line-height:1.2;vertical-align:bottom}
+#tab-r7 table.t#tbl_cadence td:first-child,#tab-r7 table.t#tbl_cadence th:first-child{word-break:break-word;overflow-wrap:anywhere}
+@media(max-width:980px){#tab-r7 .kpi-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){#tab-r7 .kpi-grid{grid-template-columns:1fr}}
+
 
 /* ===== LOGIC 1 — HIGH-PAYMENT TIMING TAB ===== */
+
+/* ===== REQ2 v6 (scoped #tab-r2) ===== */
+#tab-r2 .page{padding:20px 20px 36px}
+#tab-r2 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+#tab-r2 .kpi{background:#fff;border-radius:10px;border-top:3px solid #0071BC;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+#tab-r2 .kpi.red{border-top-color:#dc2626}
+#tab-r2 .kpi.amber{border-top-color:#f59e0b}
+#tab-r2 .kpi.green{border-top-color:#16a34a}
+#tab-r2 .kpi .v{font-size:30px;font-weight:800;color:#1a3a6b;line-height:1.05}
+#tab-r2 .kpi .l{font-size:11px;font-weight:700;text-transform:uppercase;color:#000;letter-spacing:.4px;margin-top:5px}
+#tab-r2 .kpi .s{font-size:11px;color:#000;margin-top:3px}
+#tab-r2 .section{background:#fff;border-radius:12px;padding:22px 24px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:22px}
+#tab-r2 .section .desc{font-size:12.5px;color:#000;margin-top:5px;margin-bottom:18px;line-height:1.6}
+#tab-r2 .section-label-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #f3f4f6}
+#tab-r2 .section-num{width:32px;height:32px;border-radius:50%;background:#0071BC;color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+#tab-r2 .section-label-row h2{font-size:16px;font-weight:800;color:#1a3a6b}
+#tab-r2 .section-label-row .step-tag{font-size:10.5px;background:#dbeafe;color:#1d4ed8;border-radius:10px;padding:2px 9px;font-weight:700;margin-left:4px}
+#tab-r2 .divider-label{display:flex;align-items:center;gap:14px;margin:8px 0 22px;color:#000;font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+#tab-r2 .divider-label::before,#tab-r2 .divider-label::after{content:'';flex:1;height:1px;background:#e5e7eb}
+#tab-r2 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+#tab-r2 .three-col{display:grid;grid-template-columns:3fr 2fr;gap:18px}
+#tab-r2 .chart-box{position:relative}
+#tab-r2 .chart-box h4{font-size:12px;font-weight:700;color:#000;margin-bottom:3px}
+#tab-r2 .chart-box .ch-sub{font-size:11px;color:#000;margin-bottom:10px;line-height:1.5}
+#tab-r2 .ch{position:relative;height:260px}
+#tab-r2 .ch-lg{position:relative;height:310px}
+#tab-r2 .ch-xl{position:relative;height:360px}
+#tab-r2 .insight{border-radius:8px;padding:13px 16px;font-size:12.5px;line-height:1.65;margin-top:16px}
+#tab-r2 .insight.info{background:#eff6ff;border-left:4px solid #0071BC;color:#1e3a5f}
+#tab-r2 .insight.warn{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+#tab-r2 .insight.danger{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
+#tab-r2 .insight.success{background:#f0fdf4;border-left:4px solid #16a34a;color:#14532d}
+#tab-r2 .insight strong{font-weight:700}
+#tab-r2 .tbl-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e5e7eb;margin-top:16px}
+#tab-r2 table.t{width:100%;border-collapse:collapse;font-size:12px}
+#tab-r2 table.t thead tr{background:#f8fafc}
+#tab-r2 table.t th{padding:8px 12px;text-align:left;font-weight:700;color:#000;border-bottom:2px solid #e5e7eb;white-space:nowrap;cursor:pointer;user-select:none;font-size:11.5px}
+#tab-r2 table.t th:hover{color:#0071BC}
+#tab-r2 table.t td{padding:7px 12px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+#tab-r2 table.t tr:last-child td{border-bottom:none}
+#tab-r2 table.t tr:hover td{background:#fafafa}
+#tab-r2 table.t .r{text-align:right!important;font-family:monospace;font-size:11.5px}
+#tab-r2 .r{text-align:right!important;font-family:monospace;font-size:11.5px}
+#tab-r2 .bc{background:#fef2f2;color:#b91c1c;border:1px solid #fca5a5;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+#tab-r2 .bh{background:#fff7ed;color:#c2410c;border:1px solid #fdba74;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+#tab-r2 .be{background:#fefce8;color:#a16207;border:1px solid #fde047;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+#tab-r2 .bg{background:#f0fdf4;color:#15803d;border:1px solid #86efac;border-radius:10px;padding:2px 8px;font-size:10.5px;font-weight:700}
+#tab-r2 .br{background:#fef2f2;color:#991b1b;border:1px solid #fecaca;border-radius:10px;padding:2px 7px;font-size:10px;font-weight:700}
+#tab-r2 .bs{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa;border-radius:10px;padding:2px 7px;font-size:10px;font-weight:700}
+#tab-r2 .bi{background:#f9fafb;color:#000;border:1px solid #d1d5db;border-radius:10px;padding:2px 7px;font-size:10px;font-weight:700}
+#tab-r2 [data-tip]{cursor:help;position:relative}
+#tab-r2 [data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#111827;color:#f9fafb;font-size:11px;padding:6px 10px;border-radius:6px;white-space:normal;max-width:260px;text-align:center;z-index:9999;line-height:1.4}
+@media(max-width:980px){#tab-r2 .kpi-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){#tab-r2 .kpi-grid{grid-template-columns:1fr}}
+
 #tab-l1 .page{width:100%;padding:12px clamp(8px,1.4vw,16px) 22px}
 #tab-l1 .header{margin-bottom:14px}
 #tab-l1 .header-top{display:flex;justify-content:space-between;align-items:center;gap:14px;background:var(--surface2);border:1px solid #d5d7da;border-radius:10px;padding:12px 14px;margin-bottom:8px;flex-wrap:wrap}
@@ -433,7 +539,7 @@ table.t tr:hover td{background:#fafafa}
   </div>
 
   <div class="insight">
-    In more than 1 out of every 4 disputes, health plans don&#39;t respond, and when that happens, the provider automatically wins. In this dataset, 253 providers won more than 60% of their disputes through plan non-response. Plans that fail to respond also pay providers significantly more on average.
+  In <strong>more than 1 out of every 4 disputes</strong>, health plans don&#39;t respond, and when that happens, the provider automatically wins. In this dataset, <strong>253 providers</strong> won more than <strong>60%</strong> of their disputes through plan non-response. <strong>Key observation:</strong> plans that fail to respond also pay providers significantly more on average.
   </div>
 
   <!-- KPIs -->
@@ -657,7 +763,7 @@ table.t tr:hover td{background:#fafafa}
 </div>
 
 <div class="l4-insight">
-  In Q1–Q2 2025, <strong>10,453 providers</strong> charged 6 times or more the federally set benchmark rate for out-of-network emergency care — and won most of their disputes. Cross-checking against the Medicare fee schedule confirmed that <strong>619 of these providers</strong> remain extreme by both standards simultaneously, eliminating the most common provider defense that the QPA is set too low. The single most extreme claim on record was billed at <strong>3,857,500 times</strong> the expected rate.
+  In Q1-Q2 2025, <strong>10,453 providers</strong> charged <strong>6 times or more</strong> the federally set benchmark rate for out-of-network emergency care and won most of their disputes. Cross-checking against the Medicare fee schedule confirmed that <strong>619 providers</strong> remain extreme by both standards simultaneously, eliminating the most common provider defense that the QPA is set too low. <strong>Key observation:</strong> the single most extreme claim on record was billed at <strong>3,857,500 times</strong> the expected rate.
 </div>
 
 <div class="l4-kpi-strip">
@@ -685,17 +791,18 @@ table.t tr:hover td{background:#fafafa}
   <div class="l4-card l4-card-flex">
     <div class="l4-card-header">
       <div class="l4-card-title">Most extreme providers — ranked by average overcharge multiple</div>
-      <div class="l4-card-sub">Each bar is a provider, sorted from most to least extreme. Bar length = how many times above the federal benchmark on average. Label = win rate. Hover a bar to see the provider name.</div>
+      <div class="l4-card-sub"><strong>Sort order</strong> = highest typical <strong>×QPA</strong> ask first (bar length = severity of pricing). <strong>% on the bar</strong> = share of that provider&rsquo;s disputes they <strong>won</strong>—a separate measure, so a longer bar is <em>not</em> “more winning,” just a bigger typical multiple. Hover for full name and claim counts.</div>
       <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;">
         <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#5a6475;"><span style="width:12px;height:12px;border-radius:3px;background:rgba(108,40,198,0.78);flex-shrink:0;"></span>Intraoperative Monitoring</span>
         <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#5a6475;"><span style="width:12px;height:12px;border-radius:3px;background:rgba(7,130,180,0.78);flex-shrink:0;"></span>Radiology</span>
         <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#5a6475;"><span style="width:12px;height:12px;border-radius:3px;background:rgba(210,74,14,0.78);flex-shrink:0;"></span>Emergency Medicine</span>
         <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#5a6475;"><span style="width:12px;height:12px;border-radius:3px;background:rgba(95,112,132,0.78);flex-shrink:0;"></span>Other</span>
+        <span style="font-size:11px;color:#5a6475;flex-basis:100%;margin-top:4px;line-height:1.45;"><strong>Executive read:</strong> Top rows = biggest average gap vs the federal QPA benchmark. The <strong>% label</strong> = dispute win rate for that provider—<strong>independent</strong> of rank, so you may see 99% on a shorter bar and 83% on the longest.</span>
       </div>
     </div>
     <div class="l4-card-body-flex">
-      <div class="l4-canvas-wrap l4-canvas-flex"><canvas id="riskBubble"></canvas></div>
-      <p class="l4-chart-note">When a provider bills for out-of-network emergency care, the government sets a reference price called the QPA. This chart ranks providers by how far above that price their typical bill was — the longer the bar, the more extreme the ask. The number on each bar is how often they won their dispute.<br><br>We flag them because winning at 10,000× the expected rate is not a billing technicality — it means an arbitrator approved a payment that far exceeds what federal policy intended. Providers with long bars and high win rates are the clearest candidates for audit.</p>
+      <div class="l4-canvas-wrap l4-canvas-flex l4-canvas-risk"><canvas id="riskBubble"></canvas></div>
+      <p class="l4-chart-note"><strong>What this chart shows.</strong> The list is ranked by one thing only: <strong>how extreme the provider&rsquo;s typical bill is versus the QPA</strong> (the federal out-of-network benchmark). <strong>Longer bar = higher average multiple</strong>—a more aggressive typical ask, not a “score” that mixes in win rate.<br><br><strong>The % on each bar is a second metric.</strong> It is the share of that provider&rsquo;s <strong>disputes they won</strong> in the filtered period. Row order does <em>not</em> follow that percentage, so a top-row provider can legitimately show a lower % than someone below them.<br><br><strong>Oversight takeaway.</strong> <strong>Very high multiples plus high win rates</strong> are the strongest pattern for deeper review: outsized asks are routine for that provider and are often upheld in IDR. <strong>Very high multiples with lower win rates</strong> still flag severe pricing behavior; the case for escalation is strongest when high extremity and high success rates appear together.</p>
     </div>
   </div>
 
@@ -794,47 +901,43 @@ table.t tr:hover td{background:#fafafa}
      TAB: Req 7 — Volume & Merit Inflation
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r7" class="tab-pane">
+<iframe class="req7-embed" title="Requirement 7 Volume and Merit Inflation Dashboard" src="cms_idre_req7_volume_dashboard_v3.html" loading="eager"></iframe>
 
 <div class="page">
 
-  <div class="header">
-    <div class="header-top">
-      <div>
-        <h1>IDRE Volume Filing &amp; Merit Inflation Analysis</h1>
-      </div>
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi red">
+      <div class="v">~1.06M</div>
+      <div class="l">National IDR Disputes</div>
+      <div class="s">Q1 + Q2 2025 · OON E&amp;NE + Air Ambulance</div>
+    </div>
+    <div class="kpi amber">
+      <div class="v">66%</div>
+      <div class="l">Share Held by Top 10 Domains</div>
+      <div class="s">halomd.com (17%) + teamhealth.com (16%) = 33% alone</div>
+    </div>
+    <div class="kpi red">
+      <div class="v">24</div>
+      <div class="l">Tier 1 Audit Referrals</div>
+      <div class="s">Highest risk score across 8 behavioral blocks</div>
+    </div>
+    <div class="kpi green">
+      <div class="v">45.9</div>
+      <div class="l">Highest Risk Score</div>
+      <div class="s">fam-llc.com · 7 of 8 flags active · 43% default rate</div>
     </div>
   </div>
 
-  <div class="insight">
-    The IDR dispute market is highly concentrated — 10 corporate billing networks control 66% of all national filings. Among these, 24 domains exhibit multi-signal behavioral patterns: abnormally high default win rates, cross-plan targeting, quarter-over-quarter volume bursts, and dual-track winning strategies. These patterns are inconsistent with legitimate dispute activity and warrant structured audit referral.
-  </div>
-
-  <div class="kpi-strip">
-    <div class="kpi k-red">
-      <div class="kpi-lbl">National IDR Disputes</div>
-      <div class="kpi-val">~1.06M</div>
-      <div class="kpi-desc">Q1 + Q2 2025 · OON E&amp;NE + Air Ambulance</div>
-    </div>
-    <div class="kpi k-amber">
-      <div class="kpi-lbl">Share Held by Top 10 Domains</div>
-      <div class="kpi-val">66%</div>
-      <div class="kpi-desc">halomd.com (17%) + teamhealth.com (16%) = 33% alone</div>
-    </div>
-    <div class="kpi k-red">
-      <div class="kpi-lbl">Tier 1 Audit Referrals</div>
-      <div class="kpi-val">24</div>
-      <div class="kpi-desc">Highest risk score across 8 behavioral blocks</div>
-    </div>
-    <div class="kpi k-green">
-      <div class="kpi-lbl">Highest Risk Score</div>
-      <div class="kpi-val">45.9</div>
-      <div class="kpi-desc">fam-llc.com · 7 of 8 flags active · 43% default rate</div>
-    </div>
+  <!-- OVERALL FINDING -->
+  <div style="background:#eff6ff;border:1px solid #bfdbfe;border-left:5px solid #0071BC;border-radius:10px;padding:16px 22px;margin-bottom:22px;font-size:13px;color:#1e3a5f;line-height:1.65">
+    <strong>Overall Finding:</strong> The IDR dispute market is highly concentrated — 10 corporate billing networks control 66% of all national filings. Among these, 24 domains exhibit multi-signal behavioral patterns: abnormally high default win rates, cross-plan targeting, quarter-over-quarter volume bursts, and dual-track winning strategies. These patterns are inconsistent with legitimate dispute activity and warrant structured audit referral.
   </div>
 
   <!-- ════ SECTION 1 — VOLUME LANDSCAPE ════ -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">1</div>
       <div>
         <h2>Market Dominance — 10 Networks Control 66% of National IDR Volume</h2>
         <span class="step-tag">Volume Landscape</span>
@@ -855,13 +958,14 @@ table.t tr:hover td{background:#fafafa}
       </div>
     </div>
     <div class="insight warn" style="margin-top:14px">
-      <strong>Two distinct archetypes:</strong> High-merit operators (teamhealth.com 87%, saparm.com 82%, radpmg.com 87%) win through adjudication. Default-heavy operators (fam-llc.com 43%, qmacsmso.com 40%, altushealthsystem.com 51%) win primarily through insurer non-response — a fundamentally different and more exploitable strategy.
+      The bar chart ranks the top 12 corporate billing networks by total disputes filed in 2025 Q1–Q2. Bar color reflects <strong>default win rate</strong> — how often the provider won purely because the insurer failed to respond. The scatter (right) maps each network's merit win rate against their default win rate; bubble size reflects national dispute share. <strong>Key observation:</strong> Two distinct archetypes emerge: high-merit operators (teamhealth.com 87%, saparm.com 82%) win through adjudication, while default-heavy operators (fam-llc.com 43%, qmacsmso.com 40%) win primarily through insurer non-response. With 10 networks controlling 66% of national IDR volume, these behavioral patterns have systemic financial consequences.
     </div>
   </div>
 
   <!-- ════ SECTION 2 — DUAL-TRACK CLASSIFICATION ════ -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">2</div>
       <div>
         <h2>Dual-Track Operators — Winning on Merit and Exploiting Defaults Simultaneously</h2>
         <span class="step-tag">Dual-Track Classification</span>
@@ -893,11 +997,15 @@ table.t tr:hover td{background:#fafafa}
         </div>
       </div>
     </div>
+    <div class="insight warn" style="margin-top:14px">
+      The scatter plots each operator's <strong>merit win rate</strong> (x-axis) against their <strong>median award as % of QPA</strong> (y-axis), with bubble size proportional to dispute volume. Providers in the upper-right quadrant are the highest-value extractors — winning frequently on merit and collecting high awards per win. The Extraction Index (merit wins × median award) in the table quantifies total financial extraction capacity. <strong>Key observation:</strong> Dual-track operators are not just winning more — they are winning more often and collecting more per win simultaneously. High dispute volumes mean even small advantages in merit win rate or award size translate into large financial transfers out of the IDR program.
+    </div>
   </div>
 
   <!-- ════ SECTION 3 — FILING CADENCE ════ -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">3</div>
       <div>
         <h2>Volume Burst Patterns — Sudden Q1→Q2 Escalations Signal Strategic Filing</h2>
         <span class="step-tag">Filing Cadence</span>
@@ -905,31 +1013,44 @@ table.t tr:hover td{background:#fafafa}
     </div>
     <p class="desc">Providers that multiply dispute volume by 10x–100x in a single quarter — especially when paired with rising default rates — indicate coordinated filing campaigns, not organic dispute activity. Legitimate operational growth does not produce 1,000–11,000% quarter-over-quarter jumps.</p>
 
-    <div class="chart-box" style="margin-bottom:14px">
-      <h4>Q1 → Q2 Dispute Volume Growth Rate <span style="color:#9ca3af;font-weight:400">(top 10 burst providers, % change)</span></h4>
-      <div class="ch-sub"><span style="color:#dc2626">■</span> Growth ≥500% — extreme burst &nbsp;<span style="color:#f59e0b">■</span> Growth 200–500% — high burst &nbsp;<span style="color:#0071BC">■</span> Growth &lt;200% — elevated</div>
-      <div class="ch" style="height:260px"><canvas id="c_cadence"></canvas></div>
+    <div class="three-col three-col--stretch">
+      <div class="chart-box">
+        <h4>Q1 → Q2 Dispute Volume Growth Rate <span style="color:#9ca3af;font-weight:400">(top 10 burst providers, % change)</span></h4>
+        <div class="ch-sub"><span style="color:#dc2626">■</span> Growth ≥500% — extreme burst &nbsp;<span style="color:#f59e0b">■</span> Growth 200–500% — high burst &nbsp;<span style="color:#0071BC">■</span> Growth &lt;200% — elevated</div>
+        <div class="ch-lg"><canvas id="c_cadence"></canvas></div>
+      </div>
+      <div>
+        <h4 style="font-size:12px;font-weight:700;color:#374151;margin-bottom:6px">Top Burst Providers — Q1 to Q2 Detail</h4>
+        <div class="ch-sub" style="font-size:11px;margin-bottom:8px">Q1 and Q2 dispute counts, growth %, default rates in each quarter, and the change in default share (pp).</div>
+        <div class="tbl-wrap" style="margin-top:0">
+          <table class="t" style="width:100%" id="tbl_cadence">
+            <colgroup>
+              <col style="width:26%"><col style="width:11%"><col style="width:11%"><col style="width:14%">
+              <col style="width:12%"><col style="width:12%"><col style="width:14%">
+            </colgroup>
+            <thead><tr>
+              <th onclick="sortT('tbl_cadence',0)">Domain ↕</th>
+              <th class="r" onclick="sortT('tbl_cadence',1)">Q1 Disputes ↕</th>
+              <th class="r" onclick="sortT('tbl_cadence',2)">Q2 Disputes ↕</th>
+              <th class="r" onclick="sortT('tbl_cadence',3)">Growth % ↕</th>
+              <th class="r">Q1 Default %</th>
+              <th class="r">Q2 Default %</th>
+              <th class="r">Default Δ (pp)</th>
+            </tr></thead>
+            <tbody id="tb_cadence"></tbody>
+          </table>
+        </div>
+      </div>
     </div>
-    <div class="tbl-wrap" style="margin-top:0">
-      <table class="t" style="width:100%" id="tbl_cadence">
-        <thead><tr>
-          <th onclick="sortT('tbl_cadence',0)">Domain ↕</th>
-          <th class="r" onclick="sortT('tbl_cadence',1)">Q1 Disputes ↕</th>
-          <th class="r" onclick="sortT('tbl_cadence',2)">Q2 Disputes ↕</th>
-          <th class="r" onclick="sortT('tbl_cadence',3)">Growth % ↕</th>
-          <th class="r">Q1 Default %</th>
-          <th class="r">Q2 Default %</th>
-          <th class="r">Default Δ (pp)</th>
-        </tr></thead>
-        <tbody id="tb_cadence"></tbody>
-      </table>
+    <div class="insight warn" style="margin-top:14px">
+      This chart shows the <strong>percentage change in dispute volume from Q1 to Q2 2025</strong> for the ten fastest-growing providers. Legitimate business growth does not produce 1,000–11,000% quarter-over-quarter jumps — such spikes indicate coordinated filing campaigns timed to exploit insurer response patterns or system conditions. Bar colour reflects the severity of the burst. <strong>Key observation:</strong> chs.net grew 11,200% (1 → 113 disputes) while its default rate jumped to 97.3% in Q2 — virtually every Q2 dispute was won through non-response, not adjudication. When a volume burst is paired with a spike in default rate, it is the clearest signal of opportunistic default farming rather than genuine out-of-network billing activity.
     </div>
-    <p style="font-size:11.5px;color:#374151;margin-top:10px"><strong>chs.net</strong> grew 11,200% (1 → 113 disputes) while its default rate jumped to 97.3% — virtually all Q2 disputes were won through insurer non-response, not adjudication. This is the clearest signal of an opportunistic default farming strategy.</p>
   </div>
 
   <!-- ════ SECTION 4 — CROSS-QUARTER PERSISTENCE ════ -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">4</div>
       <div>
         <h2>Behavioral Persistence — Dual-Track Patterns Hold Across Both Quarters</h2>
         <span class="step-tag">Cross-Quarter Persistence</span>
@@ -957,14 +1078,15 @@ table.t tr:hover td{background:#fafafa}
         </table>
       </div>
     </div>
-    <div class="insight info" style="margin-top:14px">
-      <strong>Persistence confirms strategy:</strong> Providers like fam-llc.com (191% volume growth, 42–46% default rate both quarters) and qmacsmso.com (78% growth, ~40% default rate both quarters) show that high default rates are a deliberate and stable extraction strategy — not a data artifact.
+    <div class="insight warn" style="margin-top:14px">
+      The grouped bars show each dual-track operator's <strong>merit win rate in Q1</strong> (blue) and <strong>Q2</strong> (green). If these patterns were random or administrative, win rates would vary significantly across quarters. Consistent bar heights confirm the behavior is intentional and sustained. The table alongside shows dispute volume growth and default rates in both quarters. <strong>Key observation:</strong> 19 providers maintained dual-track behavior independently in both Q1 and Q2, ruling out seasonal or administrative explanations. fam-llc.com grew 191% in volume while holding a 42–46% default rate in both quarters. Persistence across two separate data periods is the strongest available indicator of a deliberate, stable extraction strategy.
     </div>
   </div>
 
   <!-- ════ SECTION 5 — FINAL AUDIT RANKING ════ -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">5</div>
       <div>
         <h2>Priority Audit Targets — Final Cross-Reference Ranking</h2>
         <span class="step-tag">Final Audit Ranking</span>
@@ -992,12 +1114,15 @@ table.t tr:hover td{background:#fafafa}
       </div>
       <div style="position:relative;height:360px"><canvas id="c_rank_scatter"></canvas></div>
     </div>
-    <p style="font-size:11.5px;color:#374151;margin-top:10px"><strong>B1</strong> = High volume &nbsp;·&nbsp; <strong>B2</strong> = High median award &nbsp;·&nbsp; <strong>B3</strong> = Plan targeting &nbsp;·&nbsp; <strong>B4</strong> = Filing burst &nbsp;·&nbsp; <strong>B5</strong> = Batch amplification &nbsp;·&nbsp; <strong>B6</strong> = Plan victimization &nbsp;·&nbsp; <strong>B7</strong> = Dual-track &nbsp;·&nbsp; <strong>B8</strong> = Cross-quarter persistence</p>
+    <div class="insight warn" style="margin-top:14px">
+      The bar chart ranks each domain by its <strong>composite risk score</strong> — combining the number of behavioral flags triggered (B1–B8), total dispute volume (log-scaled), and default rate. The scatter below maps every audit candidate by default rate (x-axis) against risk score (y-axis); bubble size reflects total disputes. Providers in the upper-right carry both high default exploitation and the highest composite risk — the clearest audit priorities. <strong>Key observation:</strong> Top-ranked domains carry 7–8 active flags simultaneously — volume dominance, dual-track behavior, filing bursts, plan targeting, and cross-quarter persistence all firing at once. These are not borderline cases. The risk score is calculated entirely from CMS public data, making it reproducible and audit-defensible.
+    </div>
   </div>
 
   <!-- ════ SECTION 6 — THRESHOLD DISTRIBUTIONS ════ -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">6</div>
       <div>
         <h2>Threshold Calibration — Where Natural Break Points Appear</h2>
         <span class="step-tag">Methodology Transparency</span>
@@ -1044,8 +1169,8 @@ table.t tr:hover td{background:#fafafa}
           <div style="font-size:12px;font-weight:600;color:#374151;margin-top:4px">High-Volume Confirmed Dual-Track</div>
           <div style="font-size:11px;color:#9ca3af;margin-top:2px">Merit &gt;60% AND Default &gt;25% (≥5K disputes)</div>
         </div>
-        <div class="insight info" style="margin-top:0;font-size:12px">
-          <strong>Recommended threshold:</strong> Merit &gt;60% + Default &gt;20% (≥1K disputes) yields 13 providers — a defensible, evidence-backed cohort for CMS audit prioritization without over-broadening the scope.
+        <div class="insight warn" style="margin-top:0;font-size:12px">
+          The chart and table show how <strong>key metrics distribute across percentiles</strong> in the full provider population — identifying natural break points that separate anomalous from normal behavior. The threshold matrix (right) shows how the audit population shrinks as dual-track criteria are progressively tightened, helping CMS calibrate a defensible scope. <strong>Key observation:</strong> Merit &gt;60% + Default &gt;20% (≥1K disputes) yields 13 providers — the recommended audit cohort. Only 2 survive the strictest filter, but the middle tier captures the full high-risk population while remaining manageable and evidence-backed.
         </div>
       </div>
     </div>
@@ -1059,126 +1184,116 @@ table.t tr:hover td{background:#fafafa}
      TAB: Req 2 — Routing Concentration
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r2" class="tab-pane">
-
+<iframe class="req2-embed" title="Requirement 2 Routing Concentration Dashboard" src="cms_idre_req2_routing_dashboard_v6.html" loading="eager"></iframe>
 <div class="page">
-
-  <div class="header">
-    <div class="header-top">
-      <div>
-        <h1>IDRE Routing Concentration &amp; Medicare Benchmarking Analysis</h1>
-      </div>
-    </div>
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi red"><div class="v">40.7 pp</div><div class="l">IDRE Win Rate Spread</div><div class="s">98.4% (IPRO) → 57.7% (Keystone) · same program</div></div>
+    <div class="kpi amber"><div class="v">18.6×</div><div class="l">Peak Offer Inflation Ratio</div><div class="s">Same complexity case — 19× higher offer at preferred IDRE</div></div>
+    <div class="kpi red"><div class="v">12 / 13</div><div class="l">Case-Mix Defense Fails</div><div class="s">Complexity cannot explain the win rate gap</div></div>
+    <div class="kpi green"><div class="v">4</div><div class="l">CRITICAL Tier Referrals</div><div class="s">All signals active — regulatory referral recommended</div></div>
   </div>
 
-  <div class="insight">
-    Selective IDRE routing is confirmed, statistically significant, and persistent across two quarters. Medicare benchmarking adds a further layer of evidence: flagged providers submit offers up to <strong>18.6× higher</strong> at their preferred IDRE despite identical case complexity — and 12 of 13 providers cannot use case-mix as a defense. The final scorecard (Step 18) identifies <strong>4 CRITICAL-tier providers</strong> for immediate CMS regulatory referral.
+  <!-- OVERALL FINDING -->
+  <div style="background:#eff6ff;border:1px solid #bfdbfe;border-left:5px solid #0071BC;border-radius:10px;padding:16px 22px;margin-bottom:22px;font-size:13px;color:#1e3a5f;line-height:1.65">
+    <strong>Overall Finding:</strong> Selective IDRE routing is confirmed, statistically significant, and persistent across two quarters. Medicare benchmarking adds a further layer of evidence: flagged providers submit offers up to <strong>18.6× higher</strong> at their preferred IDRE despite identical case complexity — and 12 of 13 providers cannot use case-mix as a defense. The final scorecard (Step 18) identifies <strong>4 CRITICAL-tier providers</strong> for immediate CMS regulatory referral.
   </div>
 
-  <div class="kpi-strip">
-    <div class="kpi k-red">
-      <div class="kpi-lbl">IDRE Win Rate Spread</div>
-      <div class="kpi-val">40.7 pp</div>
-      <div class="kpi-desc">98.4% (IPRO) → 57.7% (Keystone) · same program</div>
-    </div>
-    <div class="kpi k-amber">
-      <div class="kpi-lbl">Peak Offer Inflation Ratio</div>
-      <div class="kpi-val">18.6×</div>
-      <div class="kpi-desc">Same complexity case — 19× higher offer at preferred IDRE</div>
-    </div>
-    <div class="kpi k-red">
-      <div class="kpi-lbl">Case-Mix Defense Fails</div>
-      <div class="kpi-val">12 / 13</div>
-      <div class="kpi-desc">Complexity cannot explain the win rate gap</div>
-    </div>
-    <div class="kpi k-green">
-      <div class="kpi-lbl">CRITICAL Tier Referrals</div>
-      <div class="kpi-val">4</div>
-      <div class="kpi-desc">All signals active — regulatory referral recommended</div>
-    </div>
-  </div>
-
+  <!-- ══════════════════════════════════════════════════════════
+       PART A — ROUTING CONCENTRATION ANALYSIS (Steps 1b, 8, 12, 6d)
+       ══════════════════════════════════════════════════════════ -->
   <div class="divider-label">Part A — Routing Concentration Analysis</div>
 
   <!-- SECTION 1 — IDRE BASELINE -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">1</div>
       <div><h2>IDRE Merit Win Rate — All 14 Certified IDREs</h2><span class="step-tag">IDRE Baseline Combined</span></div>
     </div>
     <p class="desc">Under the same federal QPA standard, IDRE win rates range from 98.4% (IPRO) to 57.7% (Keystone) — a 40.7 pp spread that makes routing to a preferred IDRE financially significant. Some IDREs also carry high default rates (26–28%), giving providers two pathways to win.</p>
     <div class="chart-box">
-      <h4>Merit Win Rate by IDRE <span style="color:#9ca3af;font-weight:400">(defaults excluded)</span></h4>
+      <h4>Merit Win Rate by IDRE <span style="color:#000;font-weight:400">(defaults excluded)</span></h4>
       <div class="ch-sub">Dashed line = program average 86.8%. &nbsp;<span style="color:#dc2626">■</span> &gt;95% &nbsp;<span style="color:#0071BC">■</span> above avg &nbsp;<span style="color:#7c3aed">■</span> below avg &nbsp;·&nbsp; Default rate shown in tooltip.</div>
       <div class="ch-lg"><canvas id="c_wr"></canvas></div>
     </div>
     <div class="insight warn" style="margin-top:18px">
-      <strong>Key observation:</strong> Provider Resources wins 98.1% of contested cases with just 0.1% defaults — nearly every win is on merit. Capitol Bridge and Federal H&amp;A pair high win rates with high default rates (26–28%), giving providers two ways to win: a favorable ruling or an insurer that simply doesn't respond.
+      This chart ranks all 14 certified IDREs by their <strong>merit win rate</strong> — the share of disputed cases decided in the provider's favour when the insurer actually shows up to arbitrate. It excludes default wins, so it measures how well each IDRE rules on the merits alone. <strong>Key observation:</strong> Under the same federal program, IDRE win rates span from 98.4% to 57.7% — a 40.7 pp gap that makes IDRE selection enormously valuable. Some IDREs also carry 26–28% default rates, giving providers a second pathway to win without ever needing a merit ruling. This spread is the structural enabler of the entire routing strategy.
     </div>
   </div>
 
   <!-- SECTION 2 — STATISTICAL EVIDENCE -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">2</div>
       <div><h2>Statistical Confirmation — Win Rate Gaps Are Not Random</h2><span class="step-tag">Two-Proportion Z-Test</span></div>
     </div>
     <p class="desc">A z-score measures how statistically unlikely a win rate gap is by chance. Z &gt; 3.0 means p &lt; 0.003; every flagged provider exceeds this threshold. z = 31.76 (NPPA SERVICES) would occur by random chance less than 1 in 1,000,000 times.</p>
-    <div class="chart-box" style="margin-bottom:14px">
-      <h4>Win Rate Gap vs. Statistical Confidence (Z-Score) &nbsp;<span style="color:#9ca3af;font-weight:400;font-size:11px">Each bubble = one provider · X = win rate gap (pp) · Y = z-score · Size ∝ dispute volume</span></h4>
-      <div class="ch-lg"><canvas id="c_scatter"></canvas></div>
+    <div class="two-col" style="align-items:start">
+      <div class="chart-box">
+        <h4>Win Rate Gap vs. Statistical Confidence (Z-Score) &nbsp;<span style="color:#000;font-weight:400;font-size:11px">Each bubble = one provider · X = win rate gap (pp) · Y = z-score · Size ∝ dispute volume</span></h4>
+        <div class="ch-lg"><canvas id="c_scatter"></canvas></div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:0;max-height:310px;overflow-y:auto">
+        <table class="t" style="width:100%" id="tbl_top10">
+          <thead style="position:sticky;top:0;background:#f8fafc;z-index:1"><tr>
+            <th>Provider</th><th>IDRE</th>
+            <th class="r" data-tip="Win rate gap (pp)">Gap ⓘ</th>
+            <th class="r" data-tip="Z-score. Z > 3.0 = p < 0.003">Z ⓘ</th>
+            <th>Action</th>
+          </tr></thead>
+          <tbody id="tb_top10"></tbody>
+        </table>
+      </div>
     </div>
-    <div class="tbl-wrap" style="margin-top:0">
-      <table class="t" style="width:100%" id="tbl_top10">
-        <thead><tr>
-          <th>Provider</th><th>IDRE</th>
-          <th class="r" data-tip="Win rate gap (pp)">Gap ⓘ</th>
-          <th class="r" data-tip="Z-score. Z > 3.0 = p < 0.003">Z ⓘ</th>
-          <th>Action</th>
-        </tr></thead>
-        <tbody id="tb_top10"></tbody>
-      </table>
+    <div class="insight warn" style="margin-top:14px">
+      Each bubble represents one provider. The further right, the larger the win rate gap between their preferred IDRE and all others. The further up, the more statistically certain that gap is — a <strong>z-score above 3.0</strong> means there is less than a 0.3% probability the gap is random. Bubble size reflects total dispute volume filed. <strong>Key observation:</strong> Every flagged provider exceeds z = 3.0. NPPA SERVICES at z = 31.76 would occur by random chance fewer than 1 in 1,000,000 times. This is not a data anomaly — it is a behavioral pattern confirmed by statistical law.
     </div>
-    <p style="font-size:11.5px;color:#374151;margin-top:10px">All entries: p &lt; 0.001 · halomd.com accounts for 8 of the top 10 · <strong>z = 31.76</strong> (NPPA SERVICES at EdiPhy) is statistically implausible by chance.</p>
   </div>
 
   <!-- SECTION 3 — PRIORITY AUDIT TARGETS -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">3</div>
       <div><h2>Priority Audit Targets — Q1 &amp; Q2 Validated Providers</h2><span class="step-tag">Q1 + Q2 Validated Providers</span></div>
     </div>
     <p class="desc">12 providers passed all three filters — ≥80% routing concentration, ≥25 pp win rate gap, and the pattern confirmed independently in both Q1 and Q2. <strong>All 12 share halomd.com as their billing domain; 11 of 12 route exclusively to Capitol Bridge.</strong></p>
-    <div class="chart-box">
-      <h4>Win Rate at Primary IDRE vs. Win Rate at All Other IDREs</h4>
-      <div class="ch-sub">Sorted by gap (largest first). <span style="color:#0071BC">■</span> Blue = win rate at preferred IDRE &nbsp;<span style="color:#22c55e">■</span> Green = win rate everywhere else.</div>
-      <div class="ch-lg"><canvas id="c_validated"></canvas></div>
+    <div class="two-col" style="align-items:start">
+      <div class="chart-box">
+        <h4>Win Rate at Primary IDRE vs. Win Rate at All Other IDREs</h4>
+        <div class="ch-sub">Sorted by gap (largest first). <span style="color:#0071BC">■</span> Blue = win rate at preferred IDRE &nbsp;<span style="color:#22c55e">■</span> Green = win rate everywhere else.</div>
+        <div class="ch-lg"><canvas id="c_validated"></canvas></div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:0;max-height:310px;overflow-y:auto">
+        <table class="t" id="tbl_v">
+          <thead style="position:sticky;top:0;background:#f8fafc;z-index:1"><tr>
+            <th onclick="sortT('tbl_v',0)">Provider ↕</th><th>Primary IDRE</th>
+            <th class="r" onclick="sortT('tbl_v',2)">Routing % ↕</th>
+            <th class="r" onclick="sortT('tbl_v',3)">Disputes ↕</th>
+            <th class="r">Win @ Primary</th><th class="r">Win @ Others</th>
+            <th class="r" onclick="sortT('tbl_v',6)" data-tip="Win rate gap (pp)">Gap ↕ ⓘ</th>
+            <th class="r" data-tip="IDRE system-wide avg win rate">IDRE Avg ⓘ</th>
+            <th>Tier</th>
+          </tr></thead>
+          <tbody id="tb_v"></tbody>
+        </table>
+      </div>
     </div>
-    <div class="tbl-wrap">
-      <table class="t" id="tbl_v">
-        <thead><tr>
-          <th onclick="sortT('tbl_v',0)">Provider ↕</th><th>Primary IDRE</th>
-          <th class="r" onclick="sortT('tbl_v',2)">Routing % ↕</th>
-          <th class="r" onclick="sortT('tbl_v',3)">Disputes ↕</th>
-          <th class="r">Win @ Primary</th><th class="r">Win @ Others</th>
-          <th class="r" onclick="sortT('tbl_v',6)" data-tip="Win rate gap (pp)">Gap ↕ ⓘ</th>
-          <th class="r" data-tip="IDRE system-wide avg win rate">IDRE Avg ⓘ</th>
-          <th>Tier</th>
-        </tr></thead>
-        <tbody id="tb_v"></tbody>
-      </table>
-    </div>
-    <div class="insight danger" style="margin-top:16px">
-      <strong>Recommended first-priority cohort for CMS case-file review.</strong> Concentrated routing + statistically confirmed win rate advantage + persistence across two quarters. Financial ties between providers and IDREs require IDRE certification records and PE ownership filings.
+    <div class="insight warn" style="margin-top:16px">
+      Each bar pair shows one validated provider's <strong>win rate at their preferred IDRE</strong> (blue) alongside their <strong>win rate at all other IDREs</strong> (green), using disputes filed across Q1 and Q2 2025. The gap between the two bars is the performance advantage they gain purely by routing to their chosen IDRE — not by having stronger cases. <strong>Key observation:</strong> 12 providers win 92–100% at their preferred IDRE but only 33–72% everywhere else, under the exact same federal rules. All 12 share one billing domain (halomd.com) and 11 of 12 route exclusively to Capitol Bridge. The pattern was confirmed independently in Q1 and Q2 — ruling out coincidence.
     </div>
   </div>
 
   <!-- SECTION 4 — CORPORATE NETWORKS -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">4</div>
       <div><h2>Corporate Networks Route Thousands of Cases in Lockstep</h2><span class="step-tag">Corporate Network Concentration</span></div>
     </div>
     <p class="desc">Networks of 10–140+ practices sharing one billing domain and routing uniformly to the same IDRE signal corporate-level coordination. Two strategies appear: <strong>merit routing</strong> and <strong>default routing</strong>.</p>
     <div class="two-col" style="align-items:start">
       <div class="chart-box">
         <h4>Routing Concentration vs. Win Rate by Domain</h4>
-        <div class="ch-sub"><span style="color:#dc2626">●</span> Win ≥80% &nbsp;<span style="color:#f59e0b">●</span> Win 40–80% &nbsp;<span style="color:#9ca3af">●</span> Win &lt;40% · Size ∝ dispute volume</div>
+        <div class="ch-sub"><span style="color:#dc2626">●</span> Win ≥80% &nbsp;<span style="color:#f59e0b">●</span> Win 40–80% &nbsp;<span style="color:#000">●</span> Win &lt;40% · Size ∝ dispute volume</div>
         <div class="ch-lg"><canvas id="c_s6d_scatter"></canvas></div>
       </div>
       <div class="tbl-wrap" style="margin-top:0;max-height:310px;overflow-y:auto">
@@ -1196,46 +1311,53 @@ table.t tr:hover td{background:#fafafa}
       </div>
     </div>
     <div class="insight warn" style="margin-top:14px">
-      <strong>Two routing strategies:</strong> paragonanesthesia.com (11 practices, 100% win, 98.8% to Provider Resources) routes for merit advantage. fam-llc.com (133 practices, 78.4% to Fed H&amp;A, 38.1% win) routes to an IDRE with a 28.3% default rate — winning through insurer non-response, not case merit.
+      Each bubble represents a <strong>corporate provider network</strong> — a group of practices sharing one billing domain. The x-axis shows how exclusively they route to a single IDRE; the y-axis shows their win rate there. Bubble size reflects total dispute volume. Red bubbles win ≥80% (merit routing); amber win 40–80% (mixed); grey win &lt;40% (default routing). <strong>Key observation:</strong> Networks of up to 140 practices route uniformly to a single IDRE — a pattern only possible through deliberate corporate coordination. Two strategies are visible: merit routing and default routing (winning through insurer non-response). fam-llc.com alone accounts for 30,438 disputes across 133 practices, all directed to the same IDRE.
     </div>
   </div>
 
+  <!-- ══════════════════════════════════════════════════════════
+       PART B — MEDICARE BENCHMARKING & CASE-MIX ANALYSIS
+       ══════════════════════════════════════════════════════════ -->
   <div class="divider-label">Part B — Medicare Benchmarking &amp; Case-Mix Analysis</div>
 
-  <!-- SECTION 5 — OFFER INFLATION -->
+  <!-- SECTION 5 — OFFER INFLATION (Step 15b) -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">5</div>
       <div><h2>Offer Inflation — Providers Submit Disproportionately Higher Offers at Preferred IDREs</h2><span class="step-tag">Offer Inflation vs Medicare Benchmark</span></div>
     </div>
     <p class="desc">Flagged providers submit offers that are 2–19× higher at their preferred IDRE compared to other IDREs — even when their Medicare-benchmarked case complexity (RVU ratio) is equal or lower. This eliminates the "higher-complexity cases" defense for offer inflation.</p>
-    <div class="chart-box" style="margin-bottom:14px">
-      <h4>Median Offer at Primary IDRE vs. All Others — Top 10 by Inflation Ratio <span style="color:#9ca3af;font-weight:400">(% of QPA)</span></h4>
-      <div class="ch-sub"><span style="color:#dc2626">■</span> Offer at preferred IDRE &nbsp;<span style="color:#22c55e">■</span> Offer at all other IDREs &nbsp;·&nbsp; Ratio label = inflation multiplier · Hover for RVU complexity ratio.</div>
-      <div class="ch" style="height:280px"><canvas id="c_15b"></canvas></div>
+    <div class="two-col" style="align-items:start">
+      <div class="chart-box">
+        <h4>Median Offer at Primary IDRE vs. All Others — Top 10 by Inflation Ratio <span style="color:#000;font-weight:400">(% of QPA)</span></h4>
+        <div class="ch-sub"><span style="color:#dc2626">■</span> Offer at preferred IDRE &nbsp;<span style="color:#22c55e">■</span> Offer at all other IDREs &nbsp;·&nbsp; Ratio label = inflation multiplier · Hover for RVU complexity ratio.</div>
+        <div class="ch-lg"><canvas id="c_15b"></canvas></div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:0;max-height:310px;overflow-y:auto">
+        <table class="t" style="width:100%" id="tbl_15b">
+          <thead style="position:sticky;top:0;background:#f8fafc;z-index:1"><tr>
+            <th onclick="sortT('tbl_15b',0)">Provider ↕</th>
+            <th>Domain</th><th>Primary IDRE</th>
+            <th class="r" onclick="sortT('tbl_15b',3)">Line Items ↕</th>
+            <th class="r">Offer @ Primary</th>
+            <th class="r">Offer @ Others</th>
+            <th class="r" onclick="sortT('tbl_15b',6)">Inflation × ↕</th>
+            <th class="r" data-tip="Median RVU at primary vs other IDREs. <1 means simpler cases at primary.">RVU Ratio ⓘ</th>
+            <th>Flag</th>
+          </tr></thead>
+          <tbody id="tb_15b"></tbody>
+        </table>
+      </div>
     </div>
-    <div class="tbl-wrap" style="margin-top:0">
-      <table class="t" style="width:100%" id="tbl_15b">
-        <thead><tr>
-          <th onclick="sortT('tbl_15b',0)">Provider ↕</th>
-          <th>Domain</th><th>Primary IDRE</th>
-          <th class="r" onclick="sortT('tbl_15b',3)">Line Items ↕</th>
-          <th class="r">Offer @ Primary</th>
-          <th class="r">Offer @ Others</th>
-          <th class="r" onclick="sortT('tbl_15b',6)">Inflation × ↕</th>
-          <th class="r" data-tip="Median RVU at primary vs other IDREs. <1 means simpler cases at primary.">RVU Ratio ⓘ</th>
-          <th>Flag</th>
-        </tr></thead>
-        <tbody id="tb_15b"></tbody>
-      </table>
-    </div>
-    <div class="insight danger" style="margin-top:14px">
-      <strong>Offer inflation is not driven by complexity:</strong> South Main Surgery Alliance submits offers 18.6× higher at Capitol Bridge (34.8% vs 1.9% of QPA) while their RVU ratio is 0.81 — meaning cases at Capitol Bridge are actually <em>simpler</em> than elsewhere. NPPA Services: 8× inflation with RVU ratio 0.85. The inflation is driven by IDRE preference, not case difficulty.
+    <div class="insight warn" style="margin-top:14px">
+      This chart compares the <strong>median offer each provider submits at their preferred IDRE</strong> (red) against their median offer at all other IDREs (green), expressed as a percentage of QPA. The inflation ratio is how many times higher the primary-IDRE offer is. If offers were merit-based, the two bars should be similar regardless of which IDRE is handling the case. <strong>Key observation:</strong> South Main Surgery Alliance submits offers 18.6× higher at Capitol Bridge versus all other IDREs — while their cases there are actually simpler (RVU ratio 0.81). The inflation follows the IDRE, not the patient. Medicare RVU data eliminates the "harder cases" defense for every provider flagged with OFFER_EXCEEDS_COMPLEXITY.
     </div>
   </div>
 
-  <!-- SECTION 6 — IDRE AWARD BENCHMARK -->
+  <!-- SECTION 6 — IDRE AWARD BENCHMARK (Step 15d) -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">6</div>
       <div><h2>IDRE Award-to-Medicare Ratio — System-Level Benchmark</h2><span class="step-tag">IDRE Award vs Medicare Benchmark</span></div>
     </div>
     <p class="desc">Across all 13 IDREs, median awards are a fraction of Medicare rates (0.02–0.06×). Despite this, providers fight intensely over which IDRE handles their disputes — because even small differences in award rates at these dispute volumes translate to significant financial outcomes.</p>
@@ -1251,14 +1373,15 @@ table.t tr:hover td{background:#fafafa}
         <div class="ch" style="height:280px"><canvas id="c_15d_pct"></canvas></div>
       </div>
     </div>
-    <div class="insight info" style="margin-top:14px">
-      <strong>Context for CMS:</strong> All IDREs award below Medicare on the median case. Maximus Federal has the highest median ratio (0.06×) and the highest share of cases above Medicare (4.9%). Providers routing to Maximus for high-value service codes can capture above-Medicare awards on a meaningful share of their disputes — a financially rational but gaming-adjacent strategy at scale.
+    <div class="insight warn" style="margin-top:14px">
+      The left chart shows the <strong>median award each IDRE approves relative to the Medicare fee schedule rate</strong> — a value of 0.05 means the median approved award is 5% of Medicare. The right chart shows what share of line items were awarded above Medicare. Together these reveal the financial landscape providers are navigating when selecting an IDRE. <strong>Key observation:</strong> All 13 IDREs award at or below Medicare on the median case — yet providers fight intensely over IDRE selection. Maximus Federal awards the most relative to Medicare (0.06× median, 4.9% above Medicare), making it a strategic target for high-value service codes. Small award differences, multiplied across thousands of disputes, represent significant and measurable financial exposure.
     </div>
   </div>
 
-  <!-- SECTION 7 — CASE-MIX DEFENSE TEST -->
+  <!-- SECTION 7 — CASE-MIX DEFENSE TEST (Step 16) -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">7</div>
       <div><h2>Case-Mix Complexity Control — Routing Advantage Survives the Strongest Defense</h2><span class="step-tag">RVU-Matched Case-Mix Analysis</span></div>
     </div>
     <p class="desc">The most plausible innocent explanation for a win rate gap is that providers route harder cases to a favorable IDRE because they are genuinely harder. This step tests that claim using Medicare RVU weights as a complexity proxy. If providers have similar or easier cases at their preferred IDRE, the defense fails.</p>
@@ -1280,14 +1403,15 @@ table.t tr:hover td{background:#fafafa}
         </table>
       </div>
     </div>
-    <div class="insight danger" style="margin-top:14px">
-      <strong>Case-mix defense fails for 12 of 13 providers.</strong> 10 providers show SIMILAR RVU complexity — the gap cannot be explained by harder cases. 2 providers (EMCC STEPHENVILLE, ER24 DENTON) actually have <em>simpler</em> cases at Capitol Bridge, making the routing advantage even less defensible. Only Roper Radiologists (civie.com at Maximus) presents a partial case-mix argument.
+    <div class="insight warn" style="margin-top:14px">
+      The <strong>RVU ratio</strong> (x-axis) measures case complexity at a provider's preferred IDRE relative to all other IDREs, using Medicare Relative Value Units as the proxy. A ratio below 1.0 means cases at the preferred IDRE are simpler; above 1.0 means harder. If the "harder cases" defense were valid, flagged providers should cluster to the right. The y-axis shows how large their win rate gap is. <strong>Key observation:</strong> 12 of 13 flagged providers cannot use "harder cases" as a defense — their case complexity at the preferred IDRE is the same or lower than at other IDREs. Two providers (EMCC STEPHENVILLE, ER24 DENTON) route their simplest cases to Capitol Bridge and still win 47–51 pp more there. The routing advantage cannot be explained by clinical complexity — it is structural.
     </div>
   </div>
 
-  <!-- SECTION 8 — FINAL SCORECARD -->
+  <!-- SECTION 8 — FINAL SCORECARD (Step 18) -->
   <div class="section">
     <div class="section-label-row">
+      <div class="section-num">8</div>
       <div><h2>Medicare-Anchored Regulatory Referral Scorecard — Final Consolidated Output</h2><span class="step-tag">Regulatory Referral Scorecard</span></div>
     </div>
     <p class="desc">Every flagged provider scored across all signals: routing concentration, win rate gap (raw and Wilson-adjusted), z-score, IDRE outperformance vs system average, RVU complexity verdict, and offer inflation. CRITICAL tier = all signals active. HIGH tier = most signals active with statistically confirmed gaps.</p>
@@ -1315,8 +1439,8 @@ table.t tr:hover td{background:#fafafa}
         <tbody id="tb_18"></tbody>
       </table>
     </div>
-    <div class="insight danger" style="margin-top:16px">
-      <strong>4 CRITICAL-tier providers recommended for immediate CMS regulatory referral:</strong> EMCC STEPHENVILLE PHYSICIANS, EMCC PADRE ISLAND ER, EMER ADDISON PHYSICIANS, and EMER RICHARDSON PHYSICIANS PLLC — all via halomd.com network, all routing to Capitol Bridge, all with statistically confirmed win rate gaps and failing case-mix defense.
+    <div class="insight warn" style="margin-top:16px">
+      This is the <strong>final consolidated output</strong>, scoring each validated provider across every signal — routing concentration, win rate gap, z-score, IDRE outperformance, case-mix verdict, and offer inflation. The x-axis is the raw win rate gap; the y-axis is the statistical z-score. Bubble size reflects total dispute volume. Red bubbles are <strong>CRITICAL tier</strong> (all signals active); amber are <strong>HIGH tier</strong> (most signals active). Providers in the upper-right combine the largest gaps with the strongest statistical certainty. <strong>Key observation:</strong> 4 providers are CRITICAL tier — every signal fires simultaneously. All 4 route to Capitol Bridge through the halomd.com network. These are the first-priority audit referrals derivable directly from CMS public data — no additional data collection required.
     </div>
   </div>
 
@@ -1326,6 +1450,7 @@ table.t tr:hover td{background:#fafafa}
 
 <!-- ===== TAB: HIGH-PAYMENT TIMING (LOGIC 1) ===== -->
 <div id="tab-l1" class="tab-pane">
+  <iframe class="logic1-embed" title="Logic 1 High-Payment Timing Dashboard" src="logic1_dashboard.html" loading="eager"></iframe>
     <!-- ===== PAGE ===== -->
     <div class="page">
       <!-- HEADER -->
@@ -2048,7 +2173,7 @@ function initReq7Charts() {
   });
 }
 
-/* ===== REQ 2 — DATA ===== */
+/* ===== REQ 2 — DATA (v6) ===== */
 const baseline = [
   {n:'Island Peer Review (IPRO)',   wr:98.4, dr:7.9},
   {n:'Provider Resources, Inc.',    wr:98.1, dr:0.1},
@@ -2059,12 +2184,13 @@ const baseline = [
   {n:'Maximus Federal Services',    wr:88.5, dr:4.3},
   {n:'iMPROve Health',              wr:85.7, dr:5.1},
   {n:'Federal H&A Services',        wr:82.4, dr:28.3},
-  {n:'Livanta (Commence)',           wr:77.6, dr:8.4},
+  {n:'Livanta (Commence)',          wr:77.6, dr:8.4},
   {n:'National Medical Reviews',    wr:69.4, dr:5.2},
   {n:'MET Healthcare Solutions',    wr:68.3, dr:15.2},
   {n:'Network Medical Review',      wr:66.0, dr:5.4},
   {n:'Keystone Peer Review Org.',   wr:57.7, dr:4.8},
 ];
+
 const step8Top = [
   {n:'NPPA SERVICES',                  idre:'EdiPhy',        gap:21.5, z:31.76, a:'HIGH_SUSPICION'},
   {n:'VILLA PARK NEUROLOGICAL',        idre:'EdiPhy',        gap:20.2, z:15.95, a:'REFER_FOR_INVESTIGATION'},
@@ -2077,6 +2203,7 @@ const step8Top = [
   {n:'EMCC STEPHENVILLE PHYSICIANS',   idre:'Capitol Bridge',gap:51.3, z:6.61,  a:'REFER_FOR_INVESTIGATION'},
   {n:'EMER ADDISON PHYSICIANS',        idre:'Capitol Bridge',gap:41.9, z:6.60,  a:'REFER_FOR_INVESTIGATION'},
 ];
+
 const scatterAll = [
   {n:'NPPA SERVICES',             idre:'EdiPhy',         gap:21.5,z:31.76,d:7631, a:'HIGH_SUSPICION'},
   {n:'VILLA PARK NEUROLOGICAL',   idre:'EdiPhy',         gap:20.2,z:15.95,d:1908, a:'REFER_FOR_INVESTIGATION'},
@@ -2109,6 +2236,7 @@ const scatterAll = [
   {n:'WEST PLANO EP',             idre:'C2C',            gap:21.0,z:4.25, d:322,  a:'HIGH_SUSPICION'},
   {n:'EMER MESQUITE GUS',         idre:'Capitol Bridge', gap:28.2,z:4.21, d:244,  a:'REFER_FOR_INVESTIGATION'},
 ];
+
 const step12 = [
   {n:'EMER RICHARDSON (alt)',      idre:'Capitol Bridge',routing:94.3,d:106,wP:100.0,wO:33.3,gap:66.7,avg:93.4,tier:'CRITICAL'},
   {n:'EMCC NORTE FTW BEACH LLC',   idre:'Capitol Bridge',routing:84.6,d:195,wP:98.0, wO:46.4,gap:51.6,avg:93.4,tier:'HIGH'},
@@ -2123,6 +2251,7 @@ const step12 = [
   {n:'EMER MESQUITE GUS THOMASSON',idre:'Capitol Bridge',routing:83.2,d:244,wP:92.9, wO:64.7,gap:28.2,avg:93.4,tier:'HIGH'},
   {n:'NERA IOM, PLLC',             idre:'EdiPhy',        routing:80.1,d:151,wP:100.0,wO:72.4,gap:27.6,avg:96.7,tier:'HIGH'},
 ];
+
 const step6dAll = [
   {dom:'paragonanesthesia.com', idre:'Provider Resources', p:11,  rt:98.8, d:240,   wr:100.0},
   {dom:'metrohealthbill.net',   idre:'Provider Resources', p:2,   rt:98.7, d:79,    wr:98.7},
@@ -2140,6 +2269,12 @@ const step6dAll = [
   {dom:'christushealth.org',    idre:'Fed H&A',            p:1,   rt:84.6, d:273,   wr:22.5},
   {dom:'altushealthsystem.com', idre:'Fed H&A',            p:1,   rt:77.6, d:6643,  wr:30.2},
 ];
+
+// ════════════════════════════════════════════════════════
+// PART B DATA
+// ════════════════════════════════════════════════════════
+
+// Step 15b — top 10 by inflation ratio
 const step15b = [
   {n:'South Main Surgery Alliance',  dom:'halomd.com',              idre:'Capitol Bridge',   dli:122,  ofP:34.8, ofO:1.9,  ratio:18.6, rvu:0.81, flag:true},
   {n:'N/R (rightmedicalbilling)',    dom:'rightmedicalbilling.com', idre:'Fed H&A',          dli:5010, ofP:65.5, ofO:6.0,  ratio:10.9, rvu:1.00, flag:true},
@@ -2155,6 +2290,8 @@ const step15b = [
   {n:'EMER HULEN PHYSICIANS PLLC',   dom:'halomd.com',              idre:'Capitol Bridge',   dli:252,  ofP:21.5, ofO:9.6,  ratio:2.2,  rvu:0.58, flag:true},
   {n:'North Jersey Spine Group',     dom:'cnsomd.com',              idre:'Fed H&A',          dli:80,   ofP:35.6, ofO:17.1, ratio:2.1,  rvu:0.65, flag:true},
 ];
+
+// Step 15d — IDRE award-to-medicare benchmark
 const step15d = [
   {n:'Maximus Federal Services', li:34607,  med:0.06, p25:0.02, p75:0.17, pctAbove:4.9, pct2x:2.4, pct5x:0.6},
   {n:'Capitol Bridge, LLC',      li:110834, med:0.05, p25:0.02, p75:0.14, pctAbove:3.4, pct2x:1.4, pct5x:0.3},
@@ -2170,6 +2307,8 @@ const step15d = [
   {n:'MET Healthcare Solutions', li:22105,  med:0.03, p25:0.01, p75:0.06, pctAbove:0.5, pct2x:0.3, pct5x:0.0},
   {n:'National Medical Reviews', li:24409,  med:0.02, p25:0.01, p75:0.05, pctAbove:0.9, pct2x:0.4, pct5x:0.1},
 ];
+
+// Step 16 — case-mix complexity
 const step16 = [
   {n:'EMER N FTW BEACH LLC',      gap:51.6, dliP:338, rvuP:1.41, rvuO:1.60, ratio:0.88, v:'SIMILAR'},
   {n:'EMCC STEPHENVILLE PHYS',    gap:51.3, dliP:265, rvuP:1.60, rvuO:2.17, ratio:0.74, v:'EASIER'},
@@ -2185,6 +2324,8 @@ const step16 = [
   {n:'EMER MESQUITE GUS',         gap:28.2, dliP:326, rvuP:1.60, rvuO:1.60, ratio:1.00, v:'SIMILAR'},
   {n:'NERA IOM, PLLC',            gap:27.6, dliP:102, rvuP:1.01, rvuO:1.18, ratio:0.86, v:'SIMILAR'},
 ];
+
+// Step 18 — final scorecard
 const step18 = [
   {n:'Roper Radiologists, P.A.',    dom:'civie.com',    idre:'Maximus Federal', disp:338, dispP:272, rt:80.5, wrP:98.8, wrO:50.8, gap:48.0, adjGap:34.1, z:11.1,  rvuR:1.25, cx:'HARDER',  ofI:0.4, tier:'HIGH'},
   {n:'EMER MESQUITE GUS THOMASSON', dom:'halomd.com',   idre:'Capitol Bridge',  disp:244, dispP:203, rt:83.2, wrP:92.9, wrO:64.7, gap:28.2, adjGap:8.1,  z:4.21,  rvuR:1.00, cx:'SIMILAR', ofI:1.7, tier:'HIGH'},
@@ -2203,139 +2344,253 @@ const step18 = [
 
 var r2Initialized = false;
 function initReq2Charts() {
-  const AVG = 86.8;
-  const sorted = [...baseline].sort((a,b)=>b.wr-a.wr);
-  dc('c_wr');
-  charts['c_wr'] = new Chart(document.getElementById('c_wr'),{
-    type:'bar',
-    data:{labels:sorted.map(d=>d.n),datasets:[{data:sorted.map(d=>d.wr),backgroundColor:sorted.map(d=>d.wr>95?'#dc2626':d.wr>=AVG?'#0071BC':'#7c3aed'),borderRadius:3}]},
-    options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`Merit: ${c.raw}%  (${(c.raw-AVG).toFixed(1)} pp vs avg)  ·  Default: ${sorted[c.dataIndex].dr}%`}}},scales:{x:{title:{display:true,text:'Merit Win Rate (%)',font:{size:11},color:'#6b7280'},min:40,max:100,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},y:{ticks:{font:{size:10.5}}}},responsive:true,maintainAspectRatio:false}
-  });
-  const actColor={'REFER_FOR_INVESTIGATION':'rgba(220,38,38,.8)','HIGH_SUSPICION':'rgba(234,88,12,.75)','INCONCLUSIVE':'rgba(156,163,175,.7)'};
-  const actLabel={'REFER_FOR_INVESTIGATION':'REFER FOR INVESTIGATION','HIGH_SUSPICION':'HIGH SUSPICION','INCONCLUSIVE':'INCONCLUSIVE'};
-  dc('c_scatter');
-  charts['c_scatter'] = new Chart(document.getElementById('c_scatter'),{
-    type:'bubble',
-    data:{datasets:Object.keys(actColor).map(act=>({label:actLabel[act],data:scatterAll.filter(d=>d.a===act).map(d=>({x:d.gap,y:d.z,r:Math.max(5,Math.min(22,Math.sqrt(d.d/15))),n:d.n,idre:d.idre,d:d.d})),backgroundColor:actColor[act]}))},
-    options:{plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:14}},tooltip:{callbacks:{label:c=>`${c.raw.n}\nIDRE: ${c.raw.idre}\nGap: ${c.raw.x} pp | Z: ${c.raw.y}\nDisputes: ${c.raw.d.toLocaleString()}`}}},scales:{x:{title:{display:true,text:'Win Rate Gap (pp) — Primary IDRE vs All Others',font:{size:11.5}},min:0,max:75,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+' pp',font:{size:10.5}}},y:{title:{display:true,text:'Z-Score',font:{size:11.5}},min:0,max:35,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}}},responsive:true,maintainAspectRatio:false}
-  });
-  document.getElementById('tb_top10').innerHTML = step8Top.map(d=>{
-    const b=d.a==='REFER_FOR_INVESTIGATION'?`<span class="br">REFER</span>`:d.a==='HIGH_SUSPICION'?`<span class="bs">HIGH SUSP</span>`:`<span class="bi">INCONCL.</span>`;
-    const zc=d.z>=10?'#dc2626':d.z>=6?'#d97706':'#374151';
-    return `<tr><td style="font-size:11.5px;font-weight:600;max-width:180px;word-break:break-word">${d.n}</td>
-      <td style="font-size:11px;color:#6b7280;white-space:nowrap">${d.idre}</td>
-      <td class="r" style="color:#d97706;font-weight:700">${d.gap}</td>
-      <td class="r" style="font-weight:800;color:${zc}">${d.z}</td><td>${b}</td></tr>`;
-  }).join('');
-  const s12=[...step12].sort((a,b)=>b.gap-a.gap);
-  dc('c_validated');
-  charts['c_validated'] = new Chart(document.getElementById('c_validated'),{
-    type:'bar',
-    data:{labels:s12.map(d=>d.n.length>30?d.n.slice(0,28)+'…':d.n),datasets:[{label:'Win Rate @ Primary IDRE',data:s12.map(d=>d.wP),backgroundColor:'#0071BC',borderRadius:2},{label:'Win Rate @ All Other IDREs',data:s12.map(d=>d.wO),backgroundColor:'#22c55e',borderRadius:2}]},
-    options:{indexAxis:'y',plugins:{legend:{position:'top',labels:{font:{size:12},padding:14}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw}%`}}},scales:{x:{title:{display:true,text:'Win Rate (%)',font:{size:11},color:'#6b7280'},min:0,max:105,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},y:{ticks:{font:{size:10.5}}}},responsive:true,maintainAspectRatio:false}
-  });
-  document.getElementById('tb_v').innerHTML=s12.map(d=>{
-    const b=d.tier==='CRITICAL'?`<span class="bc">CRITICAL</span>`:`<span class="bh">HIGH</span>`;
-    return `<tr><td style="font-weight:600;font-size:11.5px;max-width:200px;word-break:break-word">${d.n}</td>
-      <td style="font-size:11.5px;white-space:nowrap">${d.idre}</td>
-      <td class="r">${d.routing}%</td><td class="r">${d.d}</td>
-      <td class="r" style="color:#0071BC;font-weight:700">${d.wP}%</td>
-      <td class="r" style="color:#6b7280">${d.wO}%</td>
-      <td class="r" style="font-weight:800;color:#dc2626">${d.gap} pp</td>
-      <td class="r" style="color:#9ca3af">${d.avg}%</td><td>${b}</td></tr>`;
-  }).join('');
-  dc('c_s6d_scatter');
-  charts['c_s6d_scatter'] = new Chart(document.getElementById('c_s6d_scatter'),{
-    type:'bubble',
-    data:{datasets:[{label:'Corporate Domain',data:step6dAll.map(d=>({x:d.rt,y:d.wr,r:Math.max(5,Math.min(26,Math.cbrt(d.d)*1.8)),dom:d.dom,idre:d.idre,p:d.p,d:d.d})),backgroundColor:step6dAll.map(d=>d.wr>=80?'rgba(220,38,38,.8)':d.wr>=40?'rgba(245,158,11,.8)':'rgba(107,114,128,.75)'),borderColor:'rgba(255,255,255,.5)',borderWidth:1}]},
-    options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.raw.dom}  →  ${c.raw.idre}\n${c.raw.p} practices · ${c.raw.d.toLocaleString()} disputes\nRouting: ${c.raw.x}%  ·  Win Rate: ${c.raw.y}%`}}},scales:{x:{title:{display:true,text:'Routing Concentration — % to Single IDRE',font:{size:11}},min:70,max:102,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}},y:{title:{display:true,text:'Win Rate at Primary IDRE (%)',font:{size:11}},min:15,max:105,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}}},responsive:true,maintainAspectRatio:false}
-  });
-  const pb=d=>d.wr>=80?`<span class="bc">Merit Routing</span>`:d.wr>=40?`<span class="be">Mixed</span>`:`<span class="bi">Default Routing</span>`;
-  document.getElementById('tb_s6d').innerHTML=[...step6dAll].sort((a,b)=>b.p-a.p).map(d=>`<tr>
-    <td style="font-family:monospace;font-size:11px;font-weight:700">${d.dom}</td>
-    <td style="font-size:11px;white-space:nowrap">${d.idre}</td>
-    <td class="r" style="font-weight:700">${d.p}</td>
-    <td class="r">${d.rt}%</td><td class="r">${d.d.toLocaleString()}</td>
-    <td class="r" style="font-weight:700;color:${d.wr>=80?'#dc2626':d.wr>=40?'#d97706':'#6b7280'}">${d.wr}%</td>
-    <td>${pb(d)}</td></tr>`).join('');
-  const s15b_chart=[...step15b].sort((a,b)=>a.ratio-b.ratio);
-  dc('c_15b');
-  charts['c_15b']=new Chart(document.getElementById('c_15b'),{
-    type:'bar',
-    data:{labels:s15b_chart.map(d=>d.n.length>28?d.n.slice(0,26)+'…':d.n),datasets:[{label:'Offer at Primary IDRE (% QPA)',data:s15b_chart.map(d=>d.ofP),backgroundColor:'#dc2626',borderRadius:2},{label:'Offer at Other IDREs (% QPA)',data:s15b_chart.map(d=>d.ofO),backgroundColor:'#22c55e',borderRadius:2}]},
-    options:{indexAxis:'y',plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:12}},tooltip:{callbacks:{label:c=>{const d=s15b_chart[c.dataIndex];return `${c.dataset.label}: ${c.raw}% QPA  ·  Ratio: ${d.ratio}×  ·  RVU ratio: ${d.rvu}`;}}}},scales:{x:{title:{display:true,text:'Median Provider Offer (% of QPA)',font:{size:11},color:'#6b7280'},min:0,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},y:{ticks:{font:{size:10.5}}}},responsive:true,maintainAspectRatio:false}
-  });
-  document.getElementById('tb_15b').innerHTML=step15b.map(d=>{
-    const fb=d.flag?`<span class="br">EXCEEDS COMPLEXITY</span>`:`<span class="bi">—</span>`;
-    const rc=d.rvu<0.9?'#dc2626':d.rvu>1.1?'#16a34a':'#374151';
-    return `<tr>
-      <td style="font-size:11.5px;font-weight:600;max-width:170px;word-break:break-word">${d.n}</td>
-      <td style="font-family:monospace;font-size:10.5px">${d.dom}</td>
-      <td style="font-size:11px;white-space:nowrap">${d.idre}</td>
-      <td class="r">${d.dli.toLocaleString()}</td>
-      <td class="r" style="color:#dc2626;font-weight:700">${d.ofP}%</td>
-      <td class="r" style="color:#16a34a">${d.ofO}%</td>
-      <td class="r" style="font-weight:800;color:#0071BC">${d.ratio}×</td>
-      <td class="r" style="font-weight:700;color:${rc}">${d.rvu}</td>
-      <td>${fb}</td></tr>`;
-  }).join('');
-  const s15dSorted=[...step15d].sort((a,b)=>b.med-a.med);
-  dc('c_15d_med');
-  charts['c_15d_med']=new Chart(document.getElementById('c_15d_med'),{
-    type:'bar',
-    data:{labels:s15dSorted.map(d=>d.n),datasets:[{label:'Median Award / Medicare Rate',data:s15dSorted.map(d=>d.med),backgroundColor:s15dSorted.map(d=>d.pctAbove>3?'#f59e0b':d.pctAbove>1?'#0071BC':'#22c55e'),borderRadius:3}]},
-    options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>{const d=s15dSorted[c.dataIndex];return `Median: ${c.raw}× Medicare  ·  p25: ${d.p25}×  p75: ${d.p75}×  ·  Above Medicare: ${d.pctAbove}%`;}}}},scales:{x:{title:{display:true,text:'Award-to-Medicare Ratio (×)',font:{size:11},color:'#6b7280'},min:0,max:0.1,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}},y:{ticks:{font:{size:10.5}}}},responsive:true,maintainAspectRatio:false}
-  });
-  dc('c_15d_pct');
-  charts['c_15d_pct']=new Chart(document.getElementById('c_15d_pct'),{
-    type:'bar',
-    data:{labels:s15dSorted.map(d=>d.n),datasets:[{label:'% Cases Above Medicare',data:s15dSorted.map(d=>d.pctAbove),backgroundColor:'#f59e0b',borderRadius:2},{label:'% Cases at 2× Medicare',data:s15dSorted.map(d=>d.pct2x),backgroundColor:'#dc2626',borderRadius:2}]},
-    options:{indexAxis:'y',plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:12}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw}%`}}},scales:{x:{title:{display:true,text:'% of Line Items',font:{size:11},color:'#6b7280'},min:0,max:6,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},y:{ticks:{font:{size:10.5}}}},responsive:true,maintainAspectRatio:false}
-  });
-  const vColor={SIMILAR:'rgba(220,38,38,.8)',EASIER:'rgba(245,158,11,.8)',HARDER:'rgba(22,163,74,.8)'};
-  const vLabel={SIMILAR:'Defense FAILS (similar complexity)',EASIER:'Defense BACKFIRES (simpler cases)',HARDER:'Partial defense (harder cases)'};
-  dc('c_16_scatter');
-  charts['c_16_scatter']=new Chart(document.getElementById('c_16_scatter'),{
-    type:'bubble',
-    data:{datasets:Object.keys(vColor).map(v=>({label:vLabel[v],data:step16.filter(d=>d.v===v).map(d=>({x:d.ratio,y:d.gap,r:Math.max(6,Math.min(22,Math.sqrt(d.dliP/8))),n:d.n,gap:d.gap,rvuP:d.rvuP,rvuO:d.rvuO})),backgroundColor:vColor[v]}))},
-    options:{plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:14}},tooltip:{callbacks:{label:c=>`${c.raw.n}\nWin Gap: ${c.raw.gap} pp\nRVU Primary: ${c.raw.rvuP}  ·  RVU Others: ${c.raw.rvuO}\nRatio: ${c.raw.x}`}}},scales:{x:{title:{display:true,text:'RVU Ratio (Primary / Others) — Complexity Proxy',font:{size:11}},min:0.3,max:1.4,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}},y:{title:{display:true,text:'Win Rate Gap (pp)',font:{size:11}},min:20,max:58,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}}},responsive:true,maintainAspectRatio:false}
-  });
-  document.getElementById('tb_16').innerHTML=step16.map(d=>{
-    const vb=d.v==='SIMILAR'?`<span class="br">Defense FAILS</span>`:d.v==='EASIER'?`<span class="bs">BACKFIRES</span>`:`<span class="bg">Partial</span>`;
-    return `<tr>
-      <td style="font-size:11px;font-weight:600;max-width:160px;word-break:break-word">${d.n}</td>
-      <td class="r" style="font-weight:700;color:#dc2626">${d.gap} pp</td>
-      <td class="r" style="font-weight:700;color:${d.ratio<0.9?'#dc2626':d.ratio>1.1?'#16a34a':'#374151'}">${d.ratio}</td>
-      <td>${vb}</td></tr>`;
-  }).join('');
-  dc('c_18_scatter');
-  charts['c_18_scatter']=new Chart(document.getElementById('c_18_scatter'),{
-    type:'bubble',
-    data:{datasets:[
-      {label:'CRITICAL — Immediate Referral',data:step18.filter(d=>d.tier==='CRITICAL').map(d=>({x:d.gap,y:d.z,r:Math.max(6,Math.min(22,Math.sqrt(d.disp/8))),n:d.n,d:d.disp,cx:d.cx})),backgroundColor:'rgba(220,38,38,.85)'},
-      {label:'HIGH — Enhanced Review',data:step18.filter(d=>d.tier==='HIGH').map(d=>({x:d.gap,y:d.z,r:Math.max(6,Math.min(22,Math.sqrt(d.disp/8))),n:d.n,d:d.disp,cx:d.cx})),backgroundColor:'rgba(245,158,11,.8)'},
+  var _r2PrevColor = Chart.defaults.color;
+  Chart.defaults.color = '#000';
+  try {
+const AVG = 86.8;
+
+// ── Section 1: IDRE Baseline ──────────────────────────
+const sorted = [...baseline].sort((a,b)=>b.wr-a.wr);
+dc('c_wr');
+charts['c_wr'] = new Chart(document.getElementById('c_wr'),{
+  type:'bar',
+  data:{labels:sorted.map(d=>d.n),
+    datasets:[{data:sorted.map(d=>d.wr),
+      backgroundColor:sorted.map(d=>d.wr>95?'#dc2626':d.wr>=AVG?'#0071BC':'#7c3aed'),borderRadius:3}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:c=>`Merit: ${c.raw}%  (${(c.raw-AVG).toFixed(1)} pp vs avg)  ·  Default: ${sorted[c.dataIndex].dr}%`}}},
+    scales:{
+      x:{title:{display:true,text:'Merit Win Rate (%)',font:{size:11},color:'#000'},min:40,max:100,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+
+// ── Section 2: Scatter ────────────────────────────────
+dc('c_scatter');
+const actColor={'REFER_FOR_INVESTIGATION':'rgba(220,38,38,.8)','HIGH_SUSPICION':'rgba(234,88,12,.75)','INCONCLUSIVE':'rgba(75,85,99,.75)'};
+const actLabel={'REFER_FOR_INVESTIGATION':'REFER FOR INVESTIGATION','HIGH_SUSPICION':'HIGH SUSPICION','INCONCLUSIVE':'INCONCLUSIVE'};
+charts['c_scatter'] = new Chart(document.getElementById('c_scatter'),{
+  type:'bubble',
+  data:{datasets:Object.keys(actColor).map(act=>({
+    label:actLabel[act],
+    data:scatterAll.filter(d=>d.a===act).map(d=>({x:d.gap,y:d.z,r:Math.max(5,Math.min(22,Math.sqrt(d.d/15))),n:d.n,idre:d.idre,d:d.d})),
+    backgroundColor:actColor[act]
+  }))},
+  options:{plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:14}},
+    tooltip:{callbacks:{label:c=>`${c.raw.n}\nIDRE: ${c.raw.idre}\nGap: ${c.raw.x} pp | Z: ${c.raw.y}\nDisputes: ${c.raw.d.toLocaleString()}`}}},
+    scales:{
+      x:{title:{display:true,text:'Win Rate Gap (pp) — Primary IDRE vs All Others',font:{size:11.5}},min:0,max:75,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+' pp',font:{size:10.5}}},
+      y:{title:{display:true,text:'Z-Score',font:{size:11.5}},min:0,max:35,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+document.getElementById('tb_top10').innerHTML = step8Top.map(d=>{
+  const b=d.a==='REFER_FOR_INVESTIGATION'?`<span class="br">REFER</span>`:d.a==='HIGH_SUSPICION'?`<span class="bs">HIGH SUSP</span>`:`<span class="bi">INCONCL.</span>`;
+  const zc=d.z>=10?'#dc2626':d.z>=6?'#d97706':'#000';
+  return `<tr><td style="font-size:11.5px;font-weight:600;max-width:180px;word-break:break-word">${d.n}</td>
+    <td style="font-size:11px;color:#000;white-space:nowrap">${d.idre}</td>
+    <td class="r" style="color:#d97706;font-weight:700">${d.gap}</td>
+    <td class="r" style="font-weight:800;color:${zc}">${d.z}</td><td>${b}</td></tr>`;
+}).join('');
+
+// ── Section 3: Validated ──────────────────────────────
+const s12=[...step12].sort((a,b)=>b.gap-a.gap);
+dc('c_validated');
+charts['c_validated'] = new Chart(document.getElementById('c_validated'),{
+  type:'bar',
+  data:{labels:s12.map(d=>d.n.length>30?d.n.slice(0,28)+'…':d.n),
+    datasets:[
+      {label:'Win Rate @ Primary IDRE',    data:s12.map(d=>d.wP),backgroundColor:'#0071BC',borderRadius:2},
+      {label:'Win Rate @ All Other IDREs', data:s12.map(d=>d.wO),backgroundColor:'#22c55e',borderRadius:2},
     ]},
-    options:{plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:14}},tooltip:{callbacks:{label:c=>`${c.raw.n}\nDisputes: ${c.raw.d}  ·  Gap: ${c.raw.x} pp  ·  Z: ${c.raw.y}\nComplexity: ${c.raw.cx}`}}},scales:{x:{title:{display:true,text:'Win Rate Gap — Primary vs All Others (pp)',font:{size:11}},min:20,max:58,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+' pp',font:{size:10.5}}},y:{title:{display:true,text:'Z-Score',font:{size:11}},min:3,max:13,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}}},responsive:true,maintainAspectRatio:false}
-  });
-  document.getElementById('tb_18').innerHTML=step18.map(d=>{
-    const tb=d.tier==='CRITICAL'?`<span class="bc">CRITICAL</span>`:`<span class="bh">HIGH</span>`;
-    const cxb=d.cx==='EASIER'?`<span class="bs">EASIER</span>`:d.cx==='HARDER'?`<span class="bg">HARDER</span>`:`<span class="bi">SIMILAR</span>`;
-    return `<tr>
-      <td style="font-size:11px;font-weight:600;max-width:160px;word-break:break-word">${d.n}</td>
-      <td style="font-family:monospace;font-size:10px">${d.dom}</td>
-      <td style="font-size:10.5px;white-space:nowrap">${d.idre}</td>
-      <td class="r">${d.disp}</td>
-      <td class="r">${d.rt}%</td>
-      <td class="r" style="color:#0071BC;font-weight:700">${d.wrP}%</td>
-      <td class="r" style="color:#6b7280">${d.wrO}%</td>
-      <td class="r" style="font-weight:800;color:#dc2626">${d.gap}</td>
-      <td class="r" style="color:#9ca3af">${d.adjGap}</td>
-      <td class="r" style="font-weight:700;color:${d.z>=7?'#dc2626':d.z>=5?'#d97706':'#374151'}">${d.z}</td>
-      <td class="r" style="color:${d.rvuR<0.9?'#dc2626':d.rvuR>1.1?'#16a34a':'#374151'}">${d.rvuR}</td>
-      <td>${cxb}</td>
-      <td class="r" style="color:${d.ofI>1.5?'#dc2626':d.ofI<0.9?'#9ca3af':'#374151'}">${d.ofI}×</td>
-      <td>${tb}</td></tr>`;
-  }).join('');
+  options:{indexAxis:'y',plugins:{legend:{position:'top',labels:{font:{size:12},padding:14}},
+    tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw}%`}}},
+    scales:{
+      x:{title:{display:true,text:'Win Rate (%)',font:{size:11},color:'#000'},min:0,max:105,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+document.getElementById('tb_v').innerHTML=s12.map(d=>{
+  const b=d.tier==='CRITICAL'?`<span class="bc">CRITICAL</span>`:`<span class="bh">HIGH</span>`;
+  return `<tr><td style="font-weight:600;font-size:11.5px;max-width:200px;word-break:break-word">${d.n}</td>
+    <td style="font-size:11.5px;white-space:nowrap">${d.idre}</td>
+    <td class="r">${d.routing}%</td><td class="r">${d.d}</td>
+    <td class="r" style="color:#0071BC;font-weight:700">${d.wP}%</td>
+    <td class="r" style="color:#000">${d.wO}%</td>
+    <td class="r" style="font-weight:800;color:#dc2626">${d.gap} pp</td>
+    <td class="r" style="color:#000">${d.avg}%</td><td>${b}</td></tr>`;
+}).join('');
+
+// ── Section 4: Corporate Networks ────────────────────
+dc('c_s6d_scatter');
+charts['c_s6d_scatter'] = new Chart(document.getElementById('c_s6d_scatter'),{
+  type:'bubble',
+  data:{datasets:[{label:'Corporate Domain',
+    data:step6dAll.map(d=>({x:d.rt,y:d.wr,r:Math.max(5,Math.min(26,Math.cbrt(d.d)*1.8)),dom:d.dom,idre:d.idre,p:d.p,d:d.d})),
+    backgroundColor:step6dAll.map(d=>d.wr>=80?'rgba(220,38,38,.8)':d.wr>=40?'rgba(245,158,11,.8)':'rgba(107,114,128,.75)'),
+    borderColor:'rgba(255,255,255,.5)',borderWidth:1}]},
+  options:{plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:c=>`${c.raw.dom}  →  ${c.raw.idre}\n${c.raw.p} practices · ${c.raw.d.toLocaleString()} disputes\nRouting: ${c.raw.x}%  ·  Win Rate: ${c.raw.y}%`}}},
+    scales:{
+      x:{title:{display:true,text:'Routing Concentration — % to Single IDRE',font:{size:11}},min:70,max:102,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}},
+      y:{title:{display:true,text:'Win Rate at Primary IDRE (%)',font:{size:11}},min:15,max:105,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+const pb=d=>d.wr>=80?`<span class="bc">Merit Routing</span>`:d.wr>=40?`<span class="be">Mixed</span>`:`<span class="bi">Default Routing</span>`;
+document.getElementById('tb_s6d').innerHTML=[...step6dAll].sort((a,b)=>b.p-a.p).map(d=>`<tr>
+  <td style="font-family:monospace;font-size:11px;font-weight:700">${d.dom}</td>
+  <td style="font-size:11px;white-space:nowrap">${d.idre}</td>
+  <td class="r" style="font-weight:700">${d.p}</td>
+  <td class="r">${d.rt}%</td><td class="r">${d.d.toLocaleString()}</td>
+  <td class="r" style="font-weight:700;color:${d.wr>=80?'#dc2626':d.wr>=40?'#d97706':'#000'}">${d.wr}%</td>
+  <td>${pb(d)}</td></tr>`).join('');
+
+// ══════════════════════════════════════════════════════
+// ── Section 5: Offer Inflation (Step 15b) ────────────
+const s15b_chart=[...step15b].sort((a,b)=>a.ratio-b.ratio);
+dc('c_15b');
+charts['c_15b']=new Chart(document.getElementById('c_15b'),{
+  type:'bar',
+  data:{
+    labels:s15b_chart.map(d=>d.n.length>28?d.n.slice(0,26)+'…':d.n),
+    datasets:[
+      {label:'Offer at Primary IDRE (% QPA)', data:s15b_chart.map(d=>d.ofP), backgroundColor:'#dc2626', borderRadius:2},
+      {label:'Offer at Other IDREs (% QPA)',  data:s15b_chart.map(d=>d.ofO), backgroundColor:'#22c55e', borderRadius:2},
+    ]},
+  options:{indexAxis:'y',plugins:{
+    legend:{position:'top',labels:{font:{size:11.5},padding:12}},
+    tooltip:{callbacks:{label:c=>{
+      const d=s15b_chart[c.dataIndex];
+      return `${c.dataset.label}: ${c.raw}% QPA  ·  Ratio: ${d.ratio}×  ·  RVU ratio: ${d.rvu}`;
+    }}}},
+    scales:{
+      x:{title:{display:true,text:'Median Provider Offer (% of QPA)',font:{size:11},color:'#000'},min:0,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+document.getElementById('tb_15b').innerHTML=step15b.map(d=>{
+  const fb=d.flag?`<span class="br">EXCEEDS COMPLEXITY</span>`:`<span class="bi">—</span>`;
+  const rc=d.rvu<0.9?'#dc2626':d.rvu>1.1?'#16a34a':'#000';
+  return `<tr>
+    <td style="font-size:11.5px;font-weight:600;max-width:170px;word-break:break-word">${d.n}</td>
+    <td style="font-family:monospace;font-size:10.5px">${d.dom}</td>
+    <td style="font-size:11px;white-space:nowrap">${d.idre}</td>
+    <td class="r">${d.dli.toLocaleString()}</td>
+    <td class="r" style="color:#dc2626;font-weight:700">${d.ofP}%</td>
+    <td class="r" style="color:#16a34a">${d.ofO}%</td>
+    <td class="r" style="font-weight:800;color:#0071BC">${d.ratio}×</td>
+    <td class="r" style="font-weight:700;color:${rc}">${d.rvu}</td>
+    <td>${fb}</td></tr>`;
+}).join('');
+
+// ── Section 6: IDRE Award Benchmark (Step 15d) ───────
+const s15dSorted=[...step15d].sort((a,b)=>b.med-a.med);
+dc('c_15d_med');
+charts['c_15d_med']=new Chart(document.getElementById('c_15d_med'),{
+  type:'bar',
+  data:{labels:s15dSorted.map(d=>d.n),
+    datasets:[{
+      label:'Median Award / Medicare Rate',
+      data:s15dSorted.map(d=>d.med),
+      backgroundColor:s15dSorted.map(d=>d.pctAbove>3?'#f59e0b':d.pctAbove>1?'#0071BC':'#22c55e'),
+      borderRadius:3}]},
+  options:{indexAxis:'y',plugins:{legend:{display:false},
+    tooltip:{callbacks:{label:c=>{
+      const d=s15dSorted[c.dataIndex];
+      return `Median: ${c.raw}× Medicare  ·  p25: ${d.p25}×  p75: ${d.p75}×  ·  Above Medicare: ${d.pctAbove}%`;
+    }}}},
+    scales:{
+      x:{title:{display:true,text:'Award-to-Medicare Ratio (×)',font:{size:11},color:'#000'},min:0,max:0.1,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+dc('c_15d_pct');
+charts['c_15d_pct']=new Chart(document.getElementById('c_15d_pct'),{
+  type:'bar',
+  data:{labels:s15dSorted.map(d=>d.n),
+    datasets:[
+      {label:'% Cases Above Medicare',   data:s15dSorted.map(d=>d.pctAbove), backgroundColor:'#f59e0b', borderRadius:2},
+      {label:'% Cases at 2× Medicare',   data:s15dSorted.map(d=>d.pct2x),   backgroundColor:'#dc2626', borderRadius:2},
+    ]},
+  options:{indexAxis:'y',plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:12}},
+    tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw}%`}}},
+    scales:{
+      x:{title:{display:true,text:'% of Line Items',font:{size:11},color:'#000'},min:0,max:6,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10.5}}},
+      y:{ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+
+// ── Section 7: Case-Mix (Step 16) ────────────────────
+const vColor={SIMILAR:'rgba(220,38,38,.8)',EASIER:'rgba(245,158,11,.8)',HARDER:'rgba(22,163,74,.8)'};
+const vLabel={SIMILAR:'Defense FAILS (similar complexity)',EASIER:'Defense BACKFIRES (simpler cases)',HARDER:'Partial defense (harder cases)'};
+dc('c_16_scatter');
+charts['c_16_scatter']=new Chart(document.getElementById('c_16_scatter'),{
+  type:'bubble',
+  data:{datasets:Object.keys(vColor).map(v=>({
+    label:vLabel[v],
+    data:step16.filter(d=>d.v===v).map(d=>({
+      x:d.ratio,y:d.gap,
+      r:Math.max(6,Math.min(22,Math.sqrt(d.dliP/8))),
+      n:d.n,gap:d.gap,rvuP:d.rvuP,rvuO:d.rvuO
+    })),
+    backgroundColor:vColor[v]
+  }))},
+  options:{plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:14}},
+    tooltip:{callbacks:{label:c=>`${c.raw.n}\nWin Gap: ${c.raw.gap} pp\nRVU Primary: ${c.raw.rvuP}  ·  RVU Others: ${c.raw.rvuO}\nRatio: ${c.raw.x}`}}},
+    scales:{
+      x:{title:{display:true,text:'RVU Ratio (Primary / Others) — Complexity Proxy',font:{size:11}},min:0.3,max:1.4,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}},
+      y:{title:{display:true,text:'Win Rate Gap (pp)',font:{size:11}},min:20,max:58,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+document.getElementById('tb_16').innerHTML=step16.map(d=>{
+  const vb=d.v==='SIMILAR'?`<span class="br">Defense FAILS</span>`:d.v==='EASIER'?`<span class="bs">BACKFIRES</span>`:`<span class="bg">Partial</span>`;
+  return `<tr>
+    <td style="font-size:11px;font-weight:600;max-width:160px;word-break:break-word">${d.n}</td>
+    <td class="r" style="font-weight:700;color:#dc2626">${d.gap} pp</td>
+    <td class="r" style="font-weight:700;color:${d.ratio<0.9?'#dc2626':d.ratio>1.1?'#16a34a':'#000'}">${d.ratio}</td>
+    <td>${vb}</td></tr>`;
+}).join('');
+
+// ── Section 8: Final Scorecard (Step 18) ─────────────
+dc('c_18_scatter');
+charts['c_18_scatter']=new Chart(document.getElementById('c_18_scatter'),{
+  type:'bubble',
+  data:{datasets:[
+    {label:'CRITICAL — Immediate Referral',
+      data:step18.filter(d=>d.tier==='CRITICAL').map(d=>({x:d.gap,y:d.z,r:Math.max(6,Math.min(22,Math.sqrt(d.disp/8))),n:d.n,d:d.disp,cx:d.cx})),
+      backgroundColor:'rgba(220,38,38,.85)'},
+    {label:'HIGH — Enhanced Review',
+      data:step18.filter(d=>d.tier==='HIGH').map(d=>({x:d.gap,y:d.z,r:Math.max(6,Math.min(22,Math.sqrt(d.disp/8))),n:d.n,d:d.disp,cx:d.cx})),
+      backgroundColor:'rgba(245,158,11,.8)'},
+  ]},
+  options:{plugins:{legend:{position:'top',labels:{font:{size:11.5},padding:14}},
+    tooltip:{callbacks:{label:c=>`${c.raw.n}\nDisputes: ${c.raw.d}  ·  Gap: ${c.raw.x} pp  ·  Z: ${c.raw.y}\nComplexity: ${c.raw.cx}`}}},
+    scales:{
+      x:{title:{display:true,text:'Win Rate Gap — Primary vs All Others (pp)',font:{size:11}},min:20,max:58,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+' pp',font:{size:10.5}}},
+      y:{title:{display:true,text:'Z-Score',font:{size:11}},min:3,max:13,grid:{color:'#f3f4f6'},ticks:{font:{size:10.5}}}},
+    responsive:true,maintainAspectRatio:false}
+});
+document.getElementById('tb_18').innerHTML=step18.map(d=>{
+  const tb=d.tier==='CRITICAL'?`<span class="bc">CRITICAL</span>`:`<span class="bh">HIGH</span>`;
+  const cxb=d.cx==='EASIER'?`<span class="bs">EASIER</span>`:d.cx==='HARDER'?`<span class="bg">HARDER</span>`:`<span class="bi">SIMILAR</span>`;
+  return `<tr>
+    <td style="font-size:11px;font-weight:600;max-width:160px;word-break:break-word">${d.n}</td>
+    <td style="font-family:monospace;font-size:10px">${d.dom}</td>
+    <td style="font-size:10.5px;white-space:nowrap">${d.idre}</td>
+    <td class="r">${d.disp}</td>
+    <td class="r">${d.rt}%</td>
+    <td class="r" style="color:#0071BC;font-weight:700">${d.wrP}%</td>
+    <td class="r" style="color:#000">${d.wrO}%</td>
+    <td class="r" style="font-weight:800;color:#dc2626">${d.gap}</td>
+    <td class="r" style="color:#000">${d.adjGap}</td>
+    <td class="r" style="font-weight:700;color:${d.z>=7?'#dc2626':d.z>=5?'#d97706':'#000'}">${d.z}</td>
+    <td class="r" style="color:${d.rvuR<0.9?'#dc2626':d.rvuR>1.1?'#16a34a':'#000'}">${d.rvuR}</td>
+    <td>${cxb}</td>
+    <td class="r" style="color:${d.ofI>1.5?'#dc2626':d.ofI<0.9?'#000':'#000'}">${d.ofI}×</td>
+    <td>${tb}</td></tr>`;
+}).join('');
+  } finally {
+    Chart.defaults.color = _r2PrevColor;
+  }
 }
 
 /* ===== SHARED TABLE SORT (Req 7 & Req 2) ===== */
@@ -4044,22 +4299,28 @@ function l4CreateBubble(bubbleData) {
           datasets:[{label:'Avg overcharge multiple',data:top.map(function(d){return d.ask;}),
                      backgroundColor:top.map(function(d){return svcColors[d.svc]||svcColors.other;}),borderRadius:4}]},
     options:{indexAxis:'y',maintainAspectRatio:false,animation:{duration:600},
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:function(ctx){
+      plugins:{legend:{display:false},tooltip:{callbacks:{title:function(items){var d=top[items[0].dataIndex];return d?d.name:'';},label:function(ctx){
         var d=top[ctx.dataIndex];
         var lines=['Avg multiple: '+Math.round(ctx.raw).toLocaleString()+'×','Claims: '+d.claims.toLocaleString()];
-        if(d.wr!=null) lines.push('Win rate: '+d.wr+'%');
+        if(d.wr!=null) lines.push('Disputes won: '+d.wr+'%');
         var sm={iom:'IOM / Neuromonitoring',rad:'Radiology',em:'Emergency Medicine',other:'Other'};
         lines.push('Service: '+(sm[d.svc]||'Other')); return lines;
       }}}},
       scales:{
-        x:{type:'logarithmic',title:{display:true,text:'Average overcharge multiple (log scale)',font:{size:10.5},color:'#5a6475'},
+        x:{type:'logarithmic',title:{display:true,text:'Average billed multiple vs QPA (log scale) — drives row order',font:{size:10.5},color:'#5a6475'},
            grid:{color:'#f0f2f5'},ticks:{callback:function(v){var ok=[1,10,100,1000,10000,100000];return ok.indexOf(v)>=0?(v>=1000?(v/1000).toFixed(0)+'k×':v+'×'):null;}}},
-        y:{grid:{display:false},ticks:{display:false},afterFit:function(axis){axis.width=0;}}
+        y:{grid:{display:false},ticks:{display:true,autoSkip:false,maxRotation:0,color:'#5a6475',font:{size:10.5,family:'Inter, system-ui, sans-serif'}}}
       }},
     plugins:[{id:'l4WrLabels',afterDatasetsDraw:function(chart){
-      var ctx2=chart.ctx; var meta=chart.getDatasetMeta(0); ctx2.save();
-      ctx2.font='600 10.5px Inter,sans-serif'; ctx2.fillStyle='#5a6475';
-      meta.data.forEach(function(bar,i){var d=top[i];if(d&&d.wr!=null){var x=bar.x+5,y=bar.y+4,label=d.wr+'% win';if(x+60<chart.width)ctx2.fillText(label,x,y);}});
+      var ctx2=chart.ctx;var meta=chart.getDatasetMeta(0);var area=chart.chartArea;ctx2.save();
+      ctx2.font='600 10.5px Inter,sans-serif';ctx2.fillStyle='#5a6475';
+      meta.data.forEach(function(bar,i){
+        var d=top[i];if(!d||d.wr==null)return;
+        var label=d.wr+'% won';var w=ctx2.measureText(label).width;var pad=6;var y=bar.y+4;
+        var xAfter=bar.x+pad;var right=area.right-2;var left=area.left+2;
+        if(xAfter+w<=right) ctx2.fillText(label,xAfter,y);
+        else { var xBefore=bar.x-w-pad;if(xBefore>=left) ctx2.fillText(label,xBefore,y); else ctx2.fillText(label,Math.max(left,right-w),y); }
+      });
       ctx2.restore();
     }}]
   });
@@ -5071,6 +5332,43 @@ function initL1Charts() {
 
 
 }
+</script>
+<script>
+(function () {
+  function normalizeDashText(root) {
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+    var node;
+    while ((node = walker.nextNode())) {
+      var parent = node.parentElement;
+      if (!parent) continue;
+      var tag = parent.tagName;
+      if (tag === "SCRIPT" || tag === "STYLE" || tag === "NOSCRIPT") continue;
+      if (/[–—]/.test(node.nodeValue)) {
+        node.nodeValue = node.nodeValue.replace(/[–—]/g, "-");
+      }
+    }
+  }
+
+  normalizeDashText(document.body);
+
+  var observer = new MutationObserver(function (mutations) {
+    mutations.forEach(function (mutation) {
+      mutation.addedNodes.forEach(function (addedNode) {
+        if (addedNode.nodeType === Node.TEXT_NODE) {
+          if (/[–—]/.test(addedNode.nodeValue)) {
+            addedNode.nodeValue = addedNode.nodeValue.replace(/[–—]/g, "-");
+          }
+          return;
+        }
+        if (addedNode.nodeType === Node.ELEMENT_NODE) {
+          normalizeDashText(addedNode);
+        }
+      });
+    });
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+})();
 </script>
 </body>
 </html>
