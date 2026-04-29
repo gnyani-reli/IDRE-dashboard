@@ -44,12 +44,11 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 .tab-btn.active { color: #185fa5; border-bottom-color: #185fa5; font-weight: 600; }
 .tab-pane { display: none; }
 .tab-pane.active { display: block; }
+/* Embedded CMS HTML files live beside index.html — Linux/Vercel paths are case-sensitive (CMS_IDRE_*.html). */
 #tab-r7 > .page,
-#tab-r2 > .page,
-#tab-l1 > .page { display: none; }
+#tab-r2 > .page { display: none; }
 #tab-r7 .req7-embed,
-#tab-r2 .req2-embed,
-#tab-l1 .logic1-embed {
+#tab-r2 .req2-embed {
   display: block;
   width: 100%;
   min-height: calc(100vh - 70px);
@@ -901,7 +900,7 @@ table.t tr:hover td{background:#fafafa}
      TAB: Req 7 — Volume & Merit Inflation
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r7" class="tab-pane">
-<iframe class="req7-embed" title="Requirement 7 Volume and Merit Inflation Dashboard" src="cms_idre_req7_volume_dashboard_v3.html" loading="eager"></iframe>
+<iframe class="req7-embed" title="Requirement 7 Volume and Merit Inflation Dashboard" src="CMS_IDRE_Req7_Volume_Dashboard_v3.html" loading="eager"></iframe>
 
 <div class="page">
 
@@ -1184,7 +1183,7 @@ table.t tr:hover td{background:#fafafa}
      TAB: Req 2 — Routing Concentration
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r2" class="tab-pane">
-<iframe class="req2-embed" title="Requirement 2 Routing Concentration Dashboard" src="cms_idre_req2_routing_dashboard_v6.html" loading="eager"></iframe>
+<iframe class="req2-embed" title="Requirement 2 Routing Concentration Dashboard" src="CMS_IDRE_Req2_Routing_Dashboard_v6.html" loading="eager"></iframe>
 <div class="page">
   <!-- KPI CARDS -->
   <div class="kpi-grid">
@@ -1450,8 +1449,7 @@ table.t tr:hover td{background:#fafafa}
 
 <!-- ===== TAB: HIGH-PAYMENT TIMING (LOGIC 1) ===== -->
 <div id="tab-l1" class="tab-pane">
-  <iframe class="logic1-embed" title="Logic 1 High-Payment Timing Dashboard" src="logic1_dashboard.html" loading="eager"></iframe>
-    <!-- ===== PAGE ===== -->
+    <!-- ===== PAGE ===== (logic1_dashboard.html iframe removed — file not deployed; full Logic 1 story is inline below) ===== -->
     <div class="page">
       <!-- HEADER -->
       <div class="header">
