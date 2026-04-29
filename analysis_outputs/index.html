@@ -93,11 +93,11 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 .tt-badge.t3 { background: #b91c1c; color: #fff; }
 
 /* ===== LOGIC 3 – PLAN NON-RESPONSE MONITOR ===== */
-#tab-l3 .page, #tab-l4 .page { width: 100%; padding: 12px clamp(8px, 1.4vw, 16px) 22px; }
-#tab-l3 .header, #tab-l4 .header { margin-bottom: 14px; }
-#tab-l3 .header-top, #tab-l4 .header-top { display: flex; justify-content: space-between; align-items: center; gap: 14px; background: var(--surface2); border: 1px solid #d5d7da; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; flex-wrap: wrap; }
-#tab-l3 .header h1, #tab-l4 .header h1 { font-size: 18px; font-weight: 600; line-height: 1.2; color: var(--text); }
-#tab-l3 .header + .insight, #tab-l4 .header + .insight { background: var(--blue-lt); border-left: 4px solid var(--blue); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13px; color: #0c447c; line-height: 1.6; margin-bottom: 24px; }
+#tab-l3 .page, #tab-l4 .page, #tab-r7 .page, #tab-r2 .page { width: 100%; padding: 12px clamp(8px, 1.4vw, 16px) 22px; }
+#tab-l3 .header, #tab-l4 .header, #tab-r7 .header, #tab-r2 .header { margin-bottom: 14px; }
+#tab-l3 .header-top, #tab-l4 .header-top, #tab-r7 .header-top, #tab-r2 .header-top { display: flex; justify-content: space-between; align-items: center; gap: 14px; background: var(--surface2); border: 1px solid #d5d7da; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; flex-wrap: wrap; }
+#tab-l3 .header h1, #tab-l4 .header h1, #tab-r7 .header h1, #tab-r2 .header h1 { font-size: 18px; font-weight: 600; line-height: 1.2; color: var(--text); }
+#tab-l3 .header + .insight, #tab-l4 .header + .insight, #tab-r7 .header + .insight, #tab-r2 .header + .insight { background: var(--blue-lt); border-left: 4px solid var(--blue); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13px; color: #0c447c; line-height: 1.6; margin-bottom: 24px; }
 #tab-l3 .kpi-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
 #tab-l4 .kpi-strip, #tab-r7 .kpi-strip, #tab-r2 .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
 #tab-l3 .kpi, #tab-l4 .kpi, #tab-r7 .kpi, #tab-r2 .kpi, #tab-l1 .kpi { box-shadow: var(--shadow); }
@@ -191,22 +191,20 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 }
 
 /* ===== LOGIC 4 v2 – HIGH-ASK PROVIDER MONITOR ===== */
-#tab-r7 .dash, #tab-r2 .dash { overflow-x: hidden; }
+#tab-r7 .page, #tab-r2 .page { overflow-x: hidden; }
 
 /* L4 scoped CSS variables */
 #tab-l4 { --l4-navy:#00304e; --l4-blue:#1f6fb2; --l4-blue-lt:#e6f0fb; --l4-red:#b42318; --l4-orange:#c0560a; --l4-amber:#a36e0e; --l4-green:#1a7a4a; --l4-surface:#ffffff; --l4-surface2:#f5f7fa; --l4-border:#dde1e8; --l4-text:#0f1923; --l4-muted:#5a6475; --l4-faint:#8a939f; --l4-shadow:0 1px 3px rgba(0,0,0,0.07); --l4-tab-offset:52px; overflow-x: clip; }
 /* dvh tracks the visible window when the MacBook browser / dock eats height; avoids “flat” layout vs external monitor */
 #tab-l4.tab-pane.active { min-height: calc(100vh - var(--l4-tab-offset)); min-height: calc(100dvh - var(--l4-tab-offset)); box-sizing: border-box; }
 
-/* dash wrapper — tab 2 + Req7 + Req2 (same outer shell; title → insight → KPIs) */
-#tab-l4 .dash,
-#tab-r7 .dash,
-#tab-r2 .dash { width: 100%; max-width: 100%; margin: 0; padding: 12px clamp(8px, 1.4vw, 16px) 40px; box-sizing: border-box; }
+/* dash wrapper — tab 2 (High-Ask) only */
+#tab-l4 .dash { width: 100%; max-width: 100%; margin: 0; padding: 12px clamp(8px, 1.4vw, 16px) 40px; box-sizing: border-box; }
 
-/* header (High-Ask + Req7 + Req2 hero — same chrome) */
-#tab-l4 .l4-header, #tab-r7 .l4-header, #tab-r2 .l4-header { margin-bottom:14px; }
-#tab-l4 .l4-header-top, #tab-r7 .l4-header-top, #tab-r2 .l4-header-top { display:flex; justify-content:space-between; align-items:center; gap:14px; background:var(--l4-surface2); border:1px solid #d5d7da; border-radius:10px; padding:12px 14px; margin-bottom:8px; flex-wrap:wrap; }
-#tab-l4 .l4-h1, #tab-r7 .l4-h1, #tab-r2 .l4-h1 { font-size:18px; font-weight:600; line-height:1.2; color:var(--l4-text); }
+/* header (High-Ask tab 2 only — Req7/Req2 use tab-1-style .header above) */
+#tab-l4 .l4-header { margin-bottom:14px; }
+#tab-l4 .l4-header-top { display:flex; justify-content:space-between; align-items:center; gap:14px; background:var(--l4-surface2); border:1px solid #d5d7da; border-radius:10px; padding:12px 14px; margin-bottom:8px; flex-wrap:wrap; }
+#tab-l4 .l4-h1 { font-size:18px; font-weight:600; line-height:1.2; color:var(--l4-text); }
 #tab-l4 .l4-filters { display:flex; gap:10px; flex-wrap:wrap; }
 #tab-l4 .l4-filters { display:none; }
 #tab-l4 .l4-filter-group { display:flex; flex-direction:column; gap:4px; min-width:118px; }
@@ -214,9 +212,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l4 .l4-filter-group select { background:var(--l4-surface); border:1px solid #cfd3d8; border-radius:4px; padding:0 8px; font-size:12px; font-family:inherit; color:var(--l4-text); cursor:pointer; outline:none; min-width:118px; height:30px; }
 #tab-l4 .l4-filter-group select:focus { border-color:var(--l4-blue); }
 
-/* insight box (blue callout under hero title) */
-#tab-l4 .l4-insight, #tab-r7 .l4-insight, #tab-r2 .l4-insight { background:var(--l4-blue-lt); border-left:4px solid var(--l4-blue); border-radius:0 8px 8px 0; padding:12px 16px; font-size:13px; color:#0c447c; line-height:1.6; margin-bottom:20px; }
-#tab-l4 .l4-insight strong, #tab-r7 .l4-insight strong, #tab-r2 .l4-insight strong { font-weight: 700; }
+#tab-l4 .l4-insight { background:var(--l4-blue-lt); border-left:4px solid var(--l4-blue); border-radius:0 8px 8px 0; padding:12px 16px; font-size:13px; color:#0c447c; line-height:1.6; margin-bottom:20px; }
+#tab-l4 .l4-insight strong { font-weight: 700; }
 
 /* KPI strip */
 #tab-l4 .l4-kpi-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:22px; }
@@ -298,7 +295,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   #tab-l4 .l4-header-top { flex-direction: column; align-items: stretch; }
   #tab-l3 .kpi-strip, #tab-r7 .kpi-strip, #tab-r2 .kpi-strip { grid-template-columns: repeat(2,1fr); }
   #tab-l3 .two-col { grid-template-columns: 1fr; }
-  #tab-l3 .header-top, #tab-r7 .l4-header-top, #tab-r2 .l4-header-top { flex-direction: column; align-items: stretch; }
+  #tab-l3 .header-top, #tab-r7 .header-top, #tab-r2 .header-top { flex-direction: column; align-items: stretch; }
 }
 @media(max-width:760px) {
   #tab-r7 .kpi-strip, #tab-r2 .kpi-strip { grid-template-columns: 1fr; }
@@ -345,7 +342,7 @@ table.t tr:hover td{background:#fafafa}
 .bi{background:#f9fafb;color:#6b7280;border:1px solid #d1d5db;border-radius:10px;padding:2px 7px;font-size:10px;font-weight:700}
 [data-tip]{cursor:help;position:relative}
 [data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#111827;color:#f9fafb;font-size:11px;padding:6px 10px;border-radius:6px;white-space:normal;max-width:260px;text-align:center;z-index:9999;line-height:1.4}
-/* Req 7 & 2 — section layout (hero uses High-Ask .l4-header + .l4-insight + .kpi-grid) */
+/* Req 7 & 2 — section layout (hero matches tab 1: .page > .header + .insight + .kpi-grid) */
 #tab-r7 .two-col,#tab-r2 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 #tab-r7 .three-col,#tab-r2 .three-col{display:grid;grid-template-columns:3fr 2fr;gap:18px}
 /* ===== REQ7 v3 (scoped #tab-r7) ===== */
@@ -398,12 +395,12 @@ table.t tr:hover td{background:#fafafa}
 #tab-r2 .ch{position:relative;height:260px}
 #tab-r2 .ch-lg{position:relative;height:310px}
 #tab-r2 .ch-xl{position:relative;height:360px}
-#tab-r2 .insight{border-radius:8px;padding:13px 16px;font-size:12.5px;line-height:1.65;margin-top:16px}
-#tab-r2 .insight.info{background:#eff6ff;border-left:4px solid #0071BC;color:#1e3a5f}
-#tab-r2 .insight.warn{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
-#tab-r2 .insight.danger{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
-#tab-r2 .insight.success{background:#f0fdf4;border-left:4px solid #16a34a;color:#14532d}
-#tab-r2 .insight strong{font-weight:700}
+#tab-r2 .section .insight{border-radius:8px;padding:13px 16px;font-size:12.5px;line-height:1.65;margin-top:16px}
+#tab-r2 .section .insight.info{background:#eff6ff;border-left:4px solid #0071BC;color:#1e3a5f}
+#tab-r2 .section .insight.warn{background:#fffbeb;border-left:4px solid #f59e0b;color:#78350f}
+#tab-r2 .section .insight.danger{background:#fef2f2;border-left:4px solid #dc2626;color:#7f1d1d}
+#tab-r2 .section .insight.success{background:#f0fdf4;border-left:4px solid #16a34a;color:#14532d}
+#tab-r2 .section .insight strong{font-weight:700}
 #tab-r2 .tbl-wrap{overflow-x:auto;border-radius:8px;border:1px solid #e5e7eb;margin-top:16px}
 #tab-r2 table.t{width:100%;border-collapse:collapse;font-size:12px}
 #tab-r2 table.t thead tr{background:#f8fafc}
@@ -898,18 +895,18 @@ table.t tr:hover td{background:#fafafa}
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r7" class="tab-pane">
 
-<div class="dash">
+<div class="page">
 
-  <!-- Hero (same structure as tab 2 — High-Ask: .l4-header + .l4-insight) -->
-  <div class="l4-header">
-    <div class="l4-header-top">
+  <!-- Hero: same chrome as tab 1 — .header + .insight + KPIs -->
+  <div class="header">
+    <div class="header-top">
       <div>
-        <h1 class="l4-h1">Volume &amp; Merit Inflation</h1>
+        <h1>How Corporate Billing Networks Concentrate National IDR Volume—and Why Merit Inflation, Defaults, and Dual-Track Wins Signal Audit Risk</h1>
       </div>
     </div>
   </div>
 
-  <div class="l4-insight">
+  <div class="insight">
   In Q1–Q2 2025, national IDR volume reached roughly <strong>1.06 million</strong> disputes (OON E&amp;NE + air ambulance). The market is <strong>highly concentrated</strong> — <strong>10 corporate billing networks control 66%</strong> of all filings. Among top domains, <strong>24</strong> show multi-signal patterns (high default wins, cross-plan targeting, volume bursts, dual-track strategies) inconsistent with ordinary dispute activity. <strong>Key observation:</strong> the highest composite risk score on record is <strong>45.9</strong> (fam-llc.com), supporting Tier 1 audit referral where patterns align.
   </div>
 
@@ -1179,7 +1176,7 @@ table.t tr:hover td{background:#fafafa}
     </div>
   </div>
 
-</div><!-- .dash -->
+</div><!-- /page -->
 
 </div><!-- /tab-r7 -->
 
@@ -1187,18 +1184,18 @@ table.t tr:hover td{background:#fafafa}
      TAB: Req 2 — Routing Concentration
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r2" class="tab-pane">
-<div class="dash">
+<div class="page">
 
-  <!-- Hero (same structure as tab 2 — High-Ask: .l4-header + .l4-insight) -->
-  <div class="l4-header">
-    <div class="l4-header-top">
+  <!-- Hero: same chrome as tab 1 — .header + .insight + KPIs -->
+  <div class="header">
+    <div class="header-top">
       <div>
-        <h1 class="l4-h1">Routing Concentration</h1>
+        <h1>How Routing Disputes to Selected Certified IDREs Changes Merit Wins and Offers When Case Complexity Should Be the Same</h1>
       </div>
     </div>
   </div>
 
-  <div class="l4-insight">
+  <div class="insight">
   Under the same federal program, <strong>IDRE merit win rates span 40.7 percentage points</strong> (98.4% at IPRO vs 57.7% at Keystone), so routing choice is financially decisive. Flagged providers submit offers up to <strong>18.6× higher</strong> at their preferred IDRE for the same case complexity; <strong>12 of 13</strong> cannot explain the gap with case-mix. <strong>Key observation:</strong> the Step 18 scorecard flags <strong>4 CRITICAL-tier</strong> providers for immediate CMS regulatory referral.
   </div>
 
@@ -1455,7 +1452,7 @@ table.t tr:hover td{background:#fafafa}
     </div>
   </div>
 
-</div><!-- .dash -->
+</div><!-- /page -->
 
 </div><!-- /tab-r2 -->
 
