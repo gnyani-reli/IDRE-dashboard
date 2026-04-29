@@ -66,6 +66,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   --l4-surface2: #f5f7fa;
   --l4-blue: #1f6fb2;
   --l4-blue-lt: #e6f0fb;
+  --l4-tab-offset: 52px;
   --shadow: none;
   --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
 }
@@ -93,7 +94,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 .tt-badge.t3 { background: #b91c1c; color: #fff; }
 
 /* ===== LOGIC 3 – PLAN NON-RESPONSE MONITOR ===== */
-#tab-l3 .page, #tab-l4 .page, #tab-r7 .page, #tab-r2 .page { width: 100%; padding: 12px clamp(8px, 1.4vw, 16px) 22px; }
+#tab-l3 .page, #tab-l4 .page { width: 100%; padding: 12px clamp(8px, 1.4vw, 16px) 22px; }
 #tab-l3 .header, #tab-l4 .header { margin-bottom: 14px; }
 #tab-l3 .header-top, #tab-l4 .header-top { display: flex; justify-content: space-between; align-items: center; gap: 14px; background: var(--surface2); border: 1px solid #d5d7da; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; flex-wrap: wrap; }
 #tab-l3 .header h1, #tab-l4 .header h1 { font-size: 18px; font-weight: 600; line-height: 1.2; color: var(--text); }
@@ -191,15 +192,15 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 }
 
 /* ===== LOGIC 4 v2 – HIGH-ASK PROVIDER MONITOR ===== */
-#tab-r7 .page, #tab-r2 .page { overflow-x: hidden; }
+#tab-r7 .dash, #tab-r2 .dash { overflow-x: hidden; }
 
 /* L4 scoped CSS variables */
 #tab-l4 { --l4-navy:#00304e; --l4-blue:#1f6fb2; --l4-blue-lt:#e6f0fb; --l4-red:#b42318; --l4-orange:#c0560a; --l4-amber:#a36e0e; --l4-green:#1a7a4a; --l4-surface:#ffffff; --l4-surface2:#f5f7fa; --l4-border:#dde1e8; --l4-text:#0f1923; --l4-muted:#5a6475; --l4-faint:#8a939f; --l4-shadow:0 1px 3px rgba(0,0,0,0.07); --l4-tab-offset:52px; overflow-x: clip; }
 /* dvh tracks the visible window when the MacBook browser / dock eats height; avoids “flat” layout vs external monitor */
-#tab-l4.tab-pane.active { min-height: calc(100vh - var(--l4-tab-offset)); min-height: calc(100dvh - var(--l4-tab-offset)); box-sizing: border-box; }
+#tab-l4.tab-pane.active, #tab-r7.tab-pane.active { min-height: calc(100vh - var(--l4-tab-offset)); min-height: calc(100dvh - var(--l4-tab-offset)); box-sizing: border-box; }
 
-/* dash wrapper — full width like #tab-l3 .page / Req7 (no 1460px max column) */
-#tab-l4 .dash { width: 100%; max-width: 100%; margin: 0; padding: 12px clamp(8px, 1.4vw, 16px) 40px; box-sizing: border-box; }
+/* dash wrapper — same shell as High-Ask (tab 2): title → insight → KPIs stack in source order */
+#tab-l4 .dash, #tab-r7 .dash { width: 100%; max-width: 100%; margin: 0; padding: 12px clamp(8px, 1.4vw, 16px) 40px; box-sizing: border-box; display: flex; flex-direction: column; gap: 0; }
 
 /* header (High-Ask + Req7 + Req2 hero — same chrome) */
 #tab-l4 .l4-header, #tab-r7 .l4-header, #tab-r2 .l4-header { margin-bottom:14px; }
@@ -371,7 +372,7 @@ table.t tr:hover td{background:#fafafa}
 /* ===== LOGIC 1 — HIGH-PAYMENT TIMING TAB ===== */
 
 /* ===== REQ2 v6 (scoped #tab-r2) ===== */
-#tab-r2 .page{padding:20px 20px 36px}
+#tab-r2 .dash{padding:20px 20px 36px;display:flex;flex-direction:column;gap:0;width:100%;max-width:100%;margin:0;box-sizing:border-box}
 #tab-r2 .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
 #tab-r2 .kpi{background:#fff;border-radius:10px;border-top:3px solid #0071BC;padding:16px 18px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
 #tab-r2 .kpi.red{border-top-color:#dc2626}
@@ -896,9 +897,9 @@ table.t tr:hover td{background:#fafafa}
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r7" class="tab-pane">
 
-<div class="page">
+<div class="dash">
 
-  <!-- Hero (same structure as tab 2 — High-Ask: .l4-header + .l4-insight) -->
+  <!-- Hero — mirrors tab 2 (#tab-l4 .dash): .l4-header → .l4-insight → KPI row -->
   <div class="l4-header">
     <div class="l4-header-top">
       <div>
@@ -1177,7 +1178,7 @@ table.t tr:hover td{background:#fafafa}
     </div>
   </div>
 
-</div><!-- /page -->
+</div><!-- /dash -->
 
 </div><!-- /tab-r7 -->
 
@@ -1185,9 +1186,9 @@ table.t tr:hover td{background:#fafafa}
      TAB: Req 2 — Routing Concentration
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r2" class="tab-pane">
-<div class="page">
+<div class="dash">
 
-  <!-- Hero (same structure as tab 2 — High-Ask: .l4-header + .l4-insight) -->
+  <!-- Hero — mirrors tab 2: .l4-header → .l4-insight → KPI row -->
   <div class="l4-header">
     <div class="l4-header-top">
       <div>
@@ -1453,7 +1454,7 @@ table.t tr:hover td{background:#fafafa}
     </div>
   </div>
 
-</div>
+</div><!-- /dash -->
 
 </div><!-- /tab-r2 -->
 
