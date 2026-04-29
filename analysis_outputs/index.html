@@ -193,8 +193,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 /* dvh tracks the visible window when the MacBook browser / dock eats height; avoids “flat” layout vs external monitor */
 #tab-l4.tab-pane.active { min-height: calc(100vh - var(--l4-tab-offset)); min-height: calc(100dvh - var(--l4-tab-offset)); box-sizing: border-box; }
 
-/* dash wrapper */
-#tab-l4 .dash { max-width: min(1460px, 100%); margin:0 auto; padding:14px 18px 40px; box-sizing: border-box; width: 100%; }
+/* dash wrapper — full width like #tab-l3 .page / Req7 (no 1460px max column) */
+#tab-l4 .dash { width: 100%; max-width: 100%; margin: 0; padding: 12px clamp(8px, 1.4vw, 16px) 40px; box-sizing: border-box; }
 
 /* header */
 #tab-l4 .l4-header { margin-bottom:14px; }
