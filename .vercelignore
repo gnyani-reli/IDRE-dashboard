@@ -3,3 +3,19 @@ node_modules
 .git
 .DS_Store
 .vercel
+puf/
+tmp/
+dist/
+demo/
+_idre-dashboard-clean/
+1_project_scope/
+FEE 2025/
+*.py
+*.sql
+*.pdf
+*.png
+*.jpg
+*.jpeg
+analysis_outputs/__pycache__/
+analysis_outputs/archive_not_for_cms/
+analysis_outputs/final_dashboards_pdf/
