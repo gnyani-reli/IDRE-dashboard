@@ -44,17 +44,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 .tab-btn.active { color: #185fa5; border-bottom-color: #185fa5; font-weight: 600; }
 .tab-pane { display: none; }
 .tab-pane.active { display: block; }
-/* Embedded CMS HTML files live beside index.html — Linux/Vercel paths are case-sensitive (CMS_IDRE_*.html). */
-#tab-r7 > .page,
-#tab-r2 > .page { display: none; }
-#tab-r7 .req7-embed,
-#tab-r2 .req2-embed {
-  display: block;
-  width: 100%;
-  min-height: calc(100vh - 70px);
-  border: 0;
-  background: #f4f6f8;
-}
+/* Req 7 & Req 2: full dashboards are inline in .page (charts + story). Iframes removed — they duplicated content and broke when paths/deploy drifted. */
 
 /* ===== DESIGN TOKENS ===== */
 :root {
@@ -900,7 +890,6 @@ table.t tr:hover td{background:#fafafa}
      TAB: Req 7 — Volume & Merit Inflation
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r7" class="tab-pane">
-<iframe class="req7-embed" title="Requirement 7 Volume and Merit Inflation Dashboard" src="CMS_IDRE_Req7_Volume_Dashboard_v3.html" loading="eager"></iframe>
 
 <div class="page">
 
@@ -1183,7 +1172,6 @@ table.t tr:hover td{background:#fafafa}
      TAB: Req 2 — Routing Concentration
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r2" class="tab-pane">
-<iframe class="req2-embed" title="Requirement 2 Routing Concentration Dashboard" src="CMS_IDRE_Req2_Routing_Dashboard_v6.html" loading="eager"></iframe>
 <div class="page">
   <!-- KPI CARDS -->
   <div class="kpi-grid">
@@ -2613,20 +2601,35 @@ function sortT(id, col){
 
 /* ===== TAB SWITCHING ===== */
 function switchTab(id) {
+  var pane = document.getElementById('tab-' + id);
+  if (!pane) return;
   document.querySelectorAll('.tab-pane').forEach(function(p) {
     p.style.display = 'none';
     p.classList.remove('active');
   });
   document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
-  var pane = document.getElementById('tab-' + id);
   pane.style.display = 'block';
   pane.classList.add('active');
   var btns = document.querySelectorAll('.tab-btn');
   if (id === 'l3') { btns[0].classList.add('active'); drawCharts(); }
   if (id === 'l4') { btns[1].classList.add('active'); l4ApplyFilters(); }
-  if (id === 'r7') { btns[2].classList.add('active'); if(!r7Initialized){ initReq7Charts(); r7Initialized=true; } }
-  if (id === 'r2') { btns[3].classList.add('active'); if(!r2Initialized){ initReq2Charts(); r2Initialized=true; } }
-  if (id === 'l1') { btns[4].classList.add('active'); if(!l1Initialized){ initL1Charts(); l1Initialized=true; } }
+  if (id === 'r7') {
+    btns[2].classList.add('active');
+    if (!r7Initialized) {
+      requestAnimationFrame(function () {
+        try { initReq7Charts(); r7Initialized = true; } catch (e) { console.error(e); }
+      });
+    }
+  }
+  if (id === 'r2') {
+    btns[3].classList.add('active');
+    if (!r2Initialized) {
+      requestAnimationFrame(function () {
+        try { initReq2Charts(); r2Initialized = true; } catch (e) { console.error(e); }
+      });
+    }
+  }
+  if (id === 'l1') { btns[4].classList.add('active'); if(!l1Initialized){ try { initL1Charts(); l1Initialized=true; } catch (e) { console.error(e); } } }
   var tabNames = {
     l3: 'plan-non-response-monitor',
     l4: 'high-ask-provider-monitor',
@@ -2634,11 +2637,15 @@ function switchTab(id) {
     r2: 'routing-concentration',
     l1: 'high-payment-timing'
   };
-  window.location.hash = tabNames[id] || id;
+  var name = tabNames[id] || id;
+  if (name && ('#' + name) !== window.location.hash) {
+    window.location.hash = name;
+  }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  var hash = window.location.hash.replace('#', '');
+function applyHashToTab() {
+  var hash = window.location.hash.replace(/^#/, '').trim();
+  try { hash = decodeURIComponent(hash); } catch (e) {}
   var nameToId = {
     'plan-non-response-monitor': 'l3',
     'high-ask-provider-monitor': 'l4',
@@ -2648,7 +2655,10 @@ document.addEventListener('DOMContentLoaded', function () {
   };
   var id = nameToId[hash];
   if (id) { switchTab(id); }
-});
+}
+
+document.addEventListener('DOMContentLoaded', applyHashToTab);
+window.addEventListener('hashchange', applyHashToTab);
 
 /* ============================================================
    LOGIC 3 – PLAN NON-RESPONSE MONITOR
@@ -4457,7 +4467,11 @@ window.addEventListener('resize', function() {
   if (!active) return;
   if (active.id === 'tab-l3') drawCharts();
   if (active.id === 'tab-l4') l4ApplyFilters();
-  /* Chart.js responsive:true handles resize for Req7/Req2 automatically */
+  if (active.id === 'tab-r7' || active.id === 'tab-r2') {
+    Object.keys(charts).forEach(function (k) {
+      try { if (charts[k] && typeof charts[k].resize === 'function') charts[k].resize(); } catch (e) {}
+    });
+  }
 });
 
 /* ===== LOGIC 1 — HIGH-PAYMENT TIMING CHARTS ===== */
