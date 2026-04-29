@@ -61,6 +61,11 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   --green: #1a7a4a;
   --blue: #185fa5;
   --blue-lt: #dce8f5;
+  /* L4 hero tokens — shared so Req7 / Req2 can reuse .l4-* chrome (vars also set on #tab-l4) */
+  --l4-text: #0f1923;
+  --l4-surface2: #f5f7fa;
+  --l4-blue: #1f6fb2;
+  --l4-blue-lt: #e6f0fb;
   --shadow: none;
   --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
 }
@@ -89,10 +94,10 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
 /* ===== LOGIC 3 – PLAN NON-RESPONSE MONITOR ===== */
 #tab-l3 .page, #tab-l4 .page, #tab-r7 .page, #tab-r2 .page { width: 100%; padding: 12px clamp(8px, 1.4vw, 16px) 22px; }
-#tab-l3 .header, #tab-l4 .header, #tab-r7 .header, #tab-r2 .header { margin-bottom: 14px; }
-#tab-l3 .header-top, #tab-l4 .header-top, #tab-r7 .header-top, #tab-r2 .header-top { display: flex; justify-content: space-between; align-items: center; gap: 14px; background: var(--surface2); border: 1px solid #d5d7da; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; flex-wrap: wrap; }
-#tab-l3 .header h1, #tab-l4 .header h1, #tab-r7 .header h1, #tab-r2 .header h1 { font-size: 18px; font-weight: 600; line-height: 1.2; color: var(--text); }
-#tab-l3 .header + .insight, #tab-l4 .header + .insight, #tab-r7 .header + .insight, #tab-r2 .header + .insight { background: var(--blue-lt); border-left: 4px solid var(--blue); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13px; color: #0c447c; line-height: 1.6; margin-bottom: 24px; }
+#tab-l3 .header, #tab-l4 .header { margin-bottom: 14px; }
+#tab-l3 .header-top, #tab-l4 .header-top { display: flex; justify-content: space-between; align-items: center; gap: 14px; background: var(--surface2); border: 1px solid #d5d7da; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; flex-wrap: wrap; }
+#tab-l3 .header h1, #tab-l4 .header h1 { font-size: 18px; font-weight: 600; line-height: 1.2; color: var(--text); }
+#tab-l3 .header + .insight, #tab-l4 .header + .insight { background: var(--blue-lt); border-left: 4px solid var(--blue); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 13px; color: #0c447c; line-height: 1.6; margin-bottom: 24px; }
 #tab-l3 .kpi-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
 #tab-l4 .kpi-strip, #tab-r7 .kpi-strip, #tab-r2 .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
 #tab-l3 .kpi, #tab-l4 .kpi, #tab-r7 .kpi, #tab-r2 .kpi, #tab-l1 .kpi { box-shadow: var(--shadow); }
@@ -196,10 +201,10 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 /* dash wrapper — full width like #tab-l3 .page / Req7 (no 1460px max column) */
 #tab-l4 .dash { width: 100%; max-width: 100%; margin: 0; padding: 12px clamp(8px, 1.4vw, 16px) 40px; box-sizing: border-box; }
 
-/* header */
-#tab-l4 .l4-header { margin-bottom:14px; }
-#tab-l4 .l4-header-top { display:flex; justify-content:space-between; align-items:center; gap:14px; background:var(--l4-surface2); border:1px solid #d5d7da; border-radius:10px; padding:12px 14px; margin-bottom:8px; flex-wrap:wrap; }
-#tab-l4 .l4-h1 { font-size:18px; font-weight:600; line-height:1.2; color:var(--l4-text); }
+/* header (High-Ask + Req7 + Req2 hero — same chrome) */
+#tab-l4 .l4-header, #tab-r7 .l4-header, #tab-r2 .l4-header { margin-bottom:14px; }
+#tab-l4 .l4-header-top, #tab-r7 .l4-header-top, #tab-r2 .l4-header-top { display:flex; justify-content:space-between; align-items:center; gap:14px; background:var(--l4-surface2); border:1px solid #d5d7da; border-radius:10px; padding:12px 14px; margin-bottom:8px; flex-wrap:wrap; }
+#tab-l4 .l4-h1, #tab-r7 .l4-h1, #tab-r2 .l4-h1 { font-size:18px; font-weight:600; line-height:1.2; color:var(--l4-text); }
 #tab-l4 .l4-filters { display:flex; gap:10px; flex-wrap:wrap; }
 #tab-l4 .l4-filters { display:none; }
 #tab-l4 .l4-filter-group { display:flex; flex-direction:column; gap:4px; min-width:118px; }
@@ -207,8 +212,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l4 .l4-filter-group select { background:var(--l4-surface); border:1px solid #cfd3d8; border-radius:4px; padding:0 8px; font-size:12px; font-family:inherit; color:var(--l4-text); cursor:pointer; outline:none; min-width:118px; height:30px; }
 #tab-l4 .l4-filter-group select:focus { border-color:var(--l4-blue); }
 
-/* insight box */
-#tab-l4 .l4-insight { background:var(--l4-blue-lt); border-left:4px solid var(--l4-blue); border-radius:0 8px 8px 0; padding:12px 16px; font-size:13px; color:#0c447c; line-height:1.6; margin-bottom:20px; }
+/* insight box (blue callout under hero title) */
+#tab-l4 .l4-insight, #tab-r7 .l4-insight, #tab-r2 .l4-insight { background:var(--l4-blue-lt); border-left:4px solid var(--l4-blue); border-radius:0 8px 8px 0; padding:12px 16px; font-size:13px; color:#0c447c; line-height:1.6; margin-bottom:20px; }
 
 /* KPI strip */
 #tab-l4 .l4-kpi-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:22px; }
@@ -290,7 +295,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   #tab-l4 .l4-header-top { flex-direction: column; align-items: stretch; }
   #tab-l3 .kpi-strip, #tab-r7 .kpi-strip, #tab-r2 .kpi-strip { grid-template-columns: repeat(2,1fr); }
   #tab-l3 .two-col { grid-template-columns: 1fr; }
-  #tab-l3 .header-top, #tab-r7 .header-top, #tab-r2 .header-top { flex-direction: column; align-items: stretch; }
+  #tab-l3 .header-top, #tab-r7 .l4-header-top, #tab-r2 .l4-header-top { flex-direction: column; align-items: stretch; }
 }
 @media(max-width:760px) {
   #tab-r7 .kpi-strip, #tab-r2 .kpi-strip { grid-template-columns: 1fr; }
@@ -337,7 +342,7 @@ table.t tr:hover td{background:#fafafa}
 .bi{background:#f9fafb;color:#6b7280;border:1px solid #d1d5db;border-radius:10px;padding:2px 7px;font-size:10px;font-weight:700}
 [data-tip]{cursor:help;position:relative}
 [data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 5px);left:50%;transform:translateX(-50%);background:#111827;color:#f9fafb;font-size:11px;padding:6px 10px;border-radius:6px;white-space:normal;max-width:260px;text-align:center;z-index:9999;line-height:1.4}
-/* Req 7 & 2 — section layout (hero uses L3/L4 .header + .kpi-strip above) */
+/* Req 7 & 2 — section layout (hero uses High-Ask .l4-header + .l4-insight + .kpi-grid) */
 #tab-r7 .two-col,#tab-r2 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 #tab-r7 .three-col,#tab-r2 .three-col{display:grid;grid-template-columns:3fr 2fr;gap:18px}
 /* ===== REQ7 v3 (scoped #tab-r7) ===== */
@@ -893,17 +898,17 @@ table.t tr:hover td{background:#fafafa}
 
 <div class="page">
 
-  <!-- HEADER (same pattern as Plan Non-Response & High-Ask) -->
-  <div class="header">
-    <div class="header-top">
+  <!-- Hero (same structure as tab 2 — High-Ask: .l4-header + .l4-insight) -->
+  <div class="l4-header">
+    <div class="l4-header-top">
       <div>
-        <h1>Volume &amp; Merit Inflation</h1>
+        <h1 class="l4-h1">Volume &amp; Merit Inflation</h1>
       </div>
     </div>
   </div>
 
-  <div class="insight">
-  <strong>Overall Finding:</strong> The IDR dispute market is highly concentrated — 10 corporate billing networks control 66% of all national filings. Among these, 24 domains exhibit multi-signal behavioral patterns: abnormally high default win rates, cross-plan targeting, quarter-over-quarter volume bursts, and dual-track winning strategies. These patterns are inconsistent with legitimate dispute activity and warrant structured audit referral.
+  <div class="l4-insight">
+  In Q1–Q2 2025, national IDR volume reached roughly <strong>1.06 million</strong> disputes (OON E&amp;NE + air ambulance). The market is <strong>highly concentrated</strong> — <strong>10 corporate billing networks control 66%</strong> of all filings. Among top domains, <strong>24</strong> show multi-signal patterns (high default wins, cross-plan targeting, volume bursts, dual-track strategies) inconsistent with ordinary dispute activity. <strong>Key observation:</strong> the highest composite risk score on record is <strong>45.9</strong> (fam-llc.com), supporting Tier 1 audit referral where patterns align.
   </div>
 
   <!-- KPI CARDS -->
@@ -1182,17 +1187,17 @@ table.t tr:hover td{background:#fafafa}
 <div id="tab-r2" class="tab-pane">
 <div class="page">
 
-  <!-- HEADER (same pattern as Plan Non-Response & High-Ask) -->
-  <div class="header">
-    <div class="header-top">
+  <!-- Hero (same structure as tab 2 — High-Ask: .l4-header + .l4-insight) -->
+  <div class="l4-header">
+    <div class="l4-header-top">
       <div>
-        <h1>Routing Concentration</h1>
+        <h1 class="l4-h1">Routing Concentration</h1>
       </div>
     </div>
   </div>
 
-  <div class="insight">
-  <strong>Overall Finding:</strong> Selective IDRE routing is confirmed, statistically significant, and persistent across two quarters. Medicare benchmarking adds a further layer of evidence: flagged providers submit offers up to <strong>18.6× higher</strong> at their preferred IDRE despite identical case complexity — and 12 of 13 providers cannot use case-mix as a defense. The final scorecard (Step 18) identifies <strong>4 CRITICAL-tier providers</strong> for immediate CMS regulatory referral.
+  <div class="l4-insight">
+  Under the same federal program, <strong>IDRE merit win rates span 40.7 percentage points</strong> (98.4% at IPRO vs 57.7% at Keystone), so routing choice is financially decisive. Flagged providers submit offers up to <strong>18.6× higher</strong> at their preferred IDRE for the same case complexity; <strong>12 of 13</strong> cannot explain the gap with case-mix. <strong>Key observation:</strong> the Step 18 scorecard flags <strong>4 CRITICAL-tier</strong> providers for immediate CMS regulatory referral.
   </div>
 
   <!-- KPI CARDS -->
