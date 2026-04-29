@@ -712,50 +712,69 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 <div class="l4-chart-grid-full" id="l4Sarah619Section">
   <div class="l4-card l4-card-flex">
     <div class="l4-card-header">
-      <div class="l4-card-title">Where do the 619 providers sit? (Medicare multiple)</div>
-      <div class="l4-card-sub">Answers &quot;where are they on average?&quot; with <strong>distribution</strong>, not only extremes. <strong>Cohort (audited):</strong> Set A = NPIs with ≥1 line where <code>TRY_CAST(Provider_Facility_Offer_as_of_QPA AS DOUBLE) ≥ 6</code>; Set B = NPIs with <code>provider_offer_as_pct_of_medicare</code> not null and ≥ 3; <strong>619 = A ∩ B</strong> (here <strong>B ⊆ A</strong>, so |A ∩ B| = |B|). <code>data_quarter</code> ∈ Q1_2025, Q2_2025 · <code>idre.idre_silver.fee_schedule_joined_oon_emergency_nonemergency</code>. <a href="sql_genie/619_cohort_reconciliation.md" target="_blank" rel="noopener" style="color:#1f6fb2;text-decoration:underline;">Reconciliation notes</a> · <a href="cohort_619_audited.csv" download style="color:#1f6fb2;text-decoration:underline;">cohort_619_audited.csv</a> (619 rows)</div>
+      <div class="l4-card-title">Executive view: how the 619 Medicare‑confirmed providers actually price</div>
+      <div class="l4-card-sub"><strong>Question we are answering:</strong> When leadership sees “619 providers,” how far above Medicare are those asks in practice — modest markups, or mostly extreme outliers?<br><br><strong>Who this is:</strong> The same <strong>619 organizations</strong> shown in the KPI above — billing at least <strong>6×</strong> the federal benchmark <em>and</em> at least <strong>3×</strong> the Medicare rate for the same service (Q1–Q2 2025, out‑of‑network emergency / non‑emergency). <strong>“× Medicare”</strong> means: for every <strong>$1</strong> Medicare would allow for that code, the provider’s offer is that many dollars (e.g. <strong>5×</strong> ≈ five times the Medicare reference).</div>
     </div>
     <div class="l4-card-body-flex" style="flex-direction:column;gap:14px;">
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;font-size:12px;color:#5a6475;">
-        <div style="background:#e8f2fc;border:1px solid #b8d4ef;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">Typical (Sarah)</strong><br><span style="font-size:11px;color:#5a6475;">Median of per‑NPI <em>medians</em></span><br><span style="font-size:22px;font-weight:700;color:#1f6fb2;">4.36×</span> Medicare</div>
-        <div style="background:#f5f7fa;border:1px solid #dde1e8;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">Median of means</strong><br><span style="font-size:11px;color:#5a6475;">Across 619 NPIs</span><br><span style="font-size:22px;font-weight:700;color:#1f6fb2;">5.38×</span> Medicare</div>
-        <div style="background:#f5f7fa;border:1px solid #dde1e8;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">Mean of means</strong><br><span style="font-size:11px;color:#5a6475;">Tail‑sensitive KPI view</span><br><span style="font-size:22px;font-weight:700;color:#b42318;">67.5×</span> Medicare</div>
-        <div style="background:#f5f7fa;border:1px solid #dde1e8;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">Mean of medians</strong><br><span style="font-size:11px;color:#5a6475;">Robust aggregate</span><br><span style="font-size:20px;font-weight:700;color:#5a6475;">42.0×</span> Medicare</div>
-        <div style="background:#f5f7fa;border:1px solid #dde1e8;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">P25 → P75</strong> <span style="font-size:10px;color:#8a939f;">(mean‑based)</span><br><span style="font-size:17px;font-weight:700;color:#0f1923;">3.88× – 8.82×</span></div>
-        <div style="background:#f5f7fa;border:1px solid #dde1e8;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">P90 / P95 / Max</strong><br><span style="font-size:15px;font-weight:700;color:#0f1923;">26.5× / 162× / 3,363×</span></div>
+      <div style="background:#e8f2fc;border:1px solid #b8d4ef;border-radius:10px;padding:14px 16px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#1f6fb2;margin-bottom:6px;">What to say in the room</div>
+        <p style="margin:0;font-size:14px;line-height:1.55;color:#0f1923;"><strong>Most of the 619 are not “astronomical” vs Medicare.</strong> The clearest read for oversight is about <strong>4–5× Medicare</strong> for a typical organization’s typical line — think materially above the government reference, not thousands of times it. The <strong>67×</strong> figure is a <strong>simple average</strong> that <strong>overstates</strong> day‑to‑day pricing because a <strong>small specialty tail</strong> (roughly <strong>8%</strong> of the 619) files very high asks and pulls the average up.</p>
       </div>
-      <p class="l4-chart-note" style="margin:0;border:none;padding:0;"><strong>Deck headline.</strong> The typical Medicare‑confirmed outlier is about <strong>4–5× Medicare</strong> when you use the <strong>median of per‑NPI medians</strong> (4.36×); the <strong>67× mean of per‑NPI means</strong> is driven by a thin tail. <strong>78.6%</strong> of NPIs (486/619) fall in <strong>3–10×</strong> on average; only <strong>47</strong> (7.6%) are <strong>≥50×</strong>, mostly neuromonitoring (959xx). <strong>Caveat:</strong> 484 NPIs (78%) have <strong>&lt;10 qualifying lines</strong> — per‑NPI averages are noisier there; 135 have ≥10 lines. The <strong>619 KPI does not apply a win‑rate filter</strong> (572 if you add one; 47 NPIs drop). <strong>Air ambulance</strong> is a separate cohort (87 NPIs; 86 net‑new vs this 619). Counts match <code>L4_KPI_DATA.all.provs_gt3x_medicare</code>.</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;font-size:12px;color:#5a6475;">
+        <div style="background:#f5f7fa;border:1px solid #dde1e8;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">Typical organization</strong><br><span style="font-size:11px;color:#5a6475;">Best single stat for “where are they?” — resists outliers</span><br><span style="font-size:22px;font-weight:700;color:#1f6fb2;">4.36×</span><span style="font-size:12px;color:#5a6475;"> Medicare</span></div>
+        <div style="background:#f5f7fa;border:1px solid #dde1e8;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">Middle of the pack</strong><br><span style="font-size:11px;color:#5a6475;">Median of each org’s <em>average</em> vs Medicare</span><br><span style="font-size:22px;font-weight:700;color:#1f6fb2;">5.38×</span><span style="font-size:12px;color:#5a6475;"> Medicare</span></div>
+        <div style="background:#fff5f5;border:1px solid #f5cfcf;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">Simple average (caution)</strong><br><span style="font-size:11px;color:#5a6475;">Use for risk framing, not as “typical”</span><br><span style="font-size:22px;font-weight:700;color:#b42318;">67.5×</span><span style="font-size:12px;color:#5a6475;"> Medicare</span></div>
+        <div style="background:#f5f7fa;border:1px solid #dde1e8;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">Alternative average</strong><br><span style="font-size:11px;color:#5a6475;">Average of each org’s median line vs Medicare</span><br><span style="font-size:20px;font-weight:700;color:#5a6475;">42.0×</span><span style="font-size:12px;color:#5a6475;"> Medicare</span></div>
+        <div style="background:#f5f7fa;border:1px solid #dde1e8;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">Where half sit</strong><br><span style="font-size:11px;color:#5a6475;">25th to 75th percentile (average‑based)</span><br><span style="font-size:17px;font-weight:700;color:#0f1923;">3.88× – 8.82×</span></div>
+        <div style="background:#f5f7fa;border:1px solid #dde1e8;border-radius:8px;padding:10px 12px;"><strong style="color:#0f1923;">How high it can go</strong><br><span style="font-size:11px;color:#5a6475;">90th / 95th / max organization average</span><br><span style="font-size:15px;font-weight:700;color:#0f1923;">26.5× / 162× / 3,363×</span></div>
+      </div>
+      <div style="background:#f7f9fb;border-left:4px solid #1f6fb2;border-radius:0 8px 8px 0;padding:12px 14px;font-size:13px;line-height:1.6;color:#0f1923;">
+        <strong style="display:block;margin-bottom:8px;color:#0f1923;">Stakeholder takeaways</strong>
+        <ul style="margin:0;padding-left:18px;">
+          <li style="margin-bottom:6px;"><strong>Two stories, not one.</strong> About <strong>four in five</strong> organizations (486 of 619) concentrate between <strong>3× and 10× Medicare</strong> — a <strong>broad, structural</strong> pattern of pricing above the government reference, with dispute win rates in those bands typically around <strong>80–83%</strong>.</li>
+          <li style="margin-bottom:6px;"><strong>A narrow tail drives the scary average.</strong> Only <strong>47</strong> organizations (~8%) sit at <strong>50× Medicare or higher</strong>; that small group is what inflates the <strong>67× simple average</strong>. Oversight can prioritize the tail without assuming every one of the 619 looks like the average.</li>
+          <li style="margin-bottom:6px;"><strong>The KPI count is not a “winners only” list.</strong> The headline <strong>619</strong> does <strong>not</strong> require that an organization win most disputes. If you add a strict “won more than lost” screen, the list shrinks to <strong>572</strong> — still large, but a different policy choice.</li>
+          <li style="margin-bottom:6px;"><strong>Sample size caveat.</strong> About <strong>78%</strong> of these organizations have <strong>fewer than ten</strong> qualifying lines in the period; treat per‑organization averages as <strong>directional</strong> there. <strong>135</strong> have ten or more lines and support firmer comparisons.</li>
+          <li><strong>Air ambulance is separate.</strong> Comparable work on ambulance benchmarks yields <strong>87</strong> organizations — almost all <strong>different</strong> from this 619 — and should be reported on its own slide if leadership cares about that line of business.</li>
+        </ul>
+      </div>
       <div class="l4-chart-grid l4-chart-grid-stretch" style="margin:0;">
         <div class="l4-card" style="box-shadow:none;border:1px solid #edf0f3;">
           <div class="l4-card-header" style="padding:10px 14px;">
-            <div class="l4-card-title" style="font-size:13px;">Providers by Medicare-multiple band</div>
-            <div class="l4-card-sub">NPI counts per band (audited Genie run). Hover a bar for dispute volume, avg multiple in band, and avg win rate in band.</div>
+            <div class="l4-card-title" style="font-size:13px;">How many organizations sit in each pricing band?</div>
+            <div class="l4-card-sub">Each bar is a count of the 619. Hover for dispute volume in that band, typical multiple in the band, and typical win rate in the band.</div>
           </div>
           <div class="l4-canvas-wrap-tall" style="min-height:260px;"><canvas id="l619BandChart"></canvas></div>
         </div>
         <div class="l4-card" style="box-shadow:none;border:1px solid #edf0f3;">
           <div class="l4-card-header" style="padding:10px 14px;">
-            <div class="l4-card-title" style="font-size:13px;">Band volume vs. multiple (log scale)</div>
-            <div class="l4-card-sub">Each point is one band: x ≈ typical multiple in the band (log axis), y = NPI count. Highlights the long tail.</div>
+            <div class="l4-card-title" style="font-size:13px;">Same picture with the tail on a log scale</div>
+            <div class="l4-card-sub">Each dot is one band: left = lower vs Medicare, right = higher. Height = how many organizations. Makes the <strong>small extreme tail</strong> visible without shrinking the large middle.</div>
           </div>
           <div class="l4-canvas-wrap-tall" style="min-height:260px;"><canvas id="l619LogScatter"></canvas></div>
         </div>
       </div>
-      <div style="overflow-x:auto;border:1px solid #edf0f3;border-radius:8px;margin-top:4px;">
+      <div style="font-size:12px;font-weight:600;color:#0f1923;margin-top:4px;">Where the highest multiples concentrate (service codes)</div>
+      <p style="margin:0 0 6px;font-size:11px;line-height:1.5;color:#5a6475;">Among lines at <strong>50× Medicare or more</strong>, neuromonitoring‑style codes (959xx) account for most of the extreme activity below — that is the <strong>specialty story</strong> behind part of the tail, not the whole 619.</p>
+      <div style="overflow-x:auto;border:1px solid #edf0f3;border-radius:8px;">
         <table class="l4-data-table" style="margin:0;font-size:11px;">
           <thead><tr class="l4-sticky-head">
-            <th>CPT</th><th>Description</th><th class="l4r">Lines</th><th class="l4r">NPIs</th><th class="l4r">Avg × Med</th>
+            <th>Code</th><th>Service (plain language)</th><th class="l4r">Claims</th><th class="l4r">Orgs</th><th class="l4r">Avg vs Med</th>
           </tr></thead>
           <tbody>
-            <tr><td>95937</td><td>Nerve-muscle junction testing</td><td class="l4r">29</td><td class="l4r">13</td><td class="l4r">4,344×</td></tr>
-            <tr><td>95955</td><td>Intraoperative EEG</td><td class="l4r">26</td><td class="l4r">14</td><td class="l4r">3,776×</td></tr>
-            <tr><td>95861</td><td>Needle EMG, 2 extremities</td><td class="l4r">25</td><td class="l4r">2</td><td class="l4r">702×</td></tr>
-            <tr><td>71045</td><td>Chest X-ray, 1 view</td><td class="l4r">16</td><td class="l4r">3</td><td class="l4r">269×</td></tr>
-            <tr><td>93010</td><td>ECG interpretation</td><td class="l4r">15</td><td class="l4r">14</td><td class="l4r">119×</td></tr>
+            <tr><td>95937</td><td>Nerve / muscle testing (high‑tech monitoring)</td><td class="l4r">29</td><td class="l4r">13</td><td class="l4r">4,344×</td></tr>
+            <tr><td>95955</td><td>Brain wave monitoring during surgery</td><td class="l4r">26</td><td class="l4r">14</td><td class="l4r">3,776×</td></tr>
+            <tr><td>95861</td><td>Muscle / nerve electrical testing</td><td class="l4r">25</td><td class="l4r">2</td><td class="l4r">702×</td></tr>
+            <tr><td>71045</td><td>Chest X‑ray</td><td class="l4r">16</td><td class="l4r">3</td><td class="l4r">269×</td></tr>
+            <tr><td>93010</td><td>ECG review</td><td class="l4r">15</td><td class="l4r">14</td><td class="l4r">119×</td></tr>
           </tbody>
         </table>
       </div>
-      <p class="l4-chart-note" style="margin:0;padding:8px 0 0;border:none;font-size:11px;color:#5a6475;">≥50× Medicare tail by CPT (qualifying lines in dual cohort). Neuromonitoring 959xx dominates volume at extreme multiples.</p>
+      <details style="font-size:11px;color:#5a6475;line-height:1.5;border-top:1px solid #edf0f3;padding-top:10px;">
+        <summary style="cursor:pointer;font-weight:600;color:#1f6fb2;">Technical definition, audit trail, and download</summary>
+        <p style="margin:10px 0 6px;"><strong>Cohort:</strong> Organizations (NPI) with at least one Q1–Q2 2025 line where the offer is at least <strong>6×</strong> the federal benchmark <em>and</em> at least <strong>3×</strong> Medicare on fee‑joined lines — <code>idre.idre_silver.fee_schedule_joined_oon_emergency_nonemergency</code>. In this extract, every organization at ≥3× Medicare was already in the ≥6× benchmark set, so the count equals the Medicare gate (<strong>619</strong>), matching the dashboard funnel.</p>
+        <p style="margin:0;"><a href="sql_genie/619_cohort_reconciliation.md" target="_blank" rel="noopener" style="color:#1f6fb2;">Reconciliation write‑up</a> · <a href="cohort_619_audited.csv" download style="color:#1f6fb2;">Download all 619 rows (CSV)</a></p>
+      </details>
     </div>
   </div>
 </div>
@@ -4051,7 +4070,7 @@ function l4Create619SarahCharts() {
     data: {
       labels: bands.map(function(d) { return d.label; }),
       datasets: [{
-        label: 'Providers (NPIs)',
+        label: 'Organizations (NPIs)',
         data: bands.map(function(d) { return d.providers; }),
         backgroundColor: colors,
         borderRadius: 4
@@ -4108,7 +4127,7 @@ function l4Create619SarahCharts() {
             title: function() { return ''; },
             label: function(ctx) {
               var d = sc[ctx.dataIndex];
-              return d.label + ': ' + d.y + ' NPIs · ~' + (d.x >= 1000 ? (d.x / 1000).toFixed(1) + 'k×' : d.x.toFixed(1) + '×') + ' on x (log)';
+              return d.label + ': ' + d.y + ' orgs · ~' + (d.x >= 1000 ? (d.x / 1000).toFixed(1) + 'k×' : d.x.toFixed(1) + '×') + ' on x (log)';
             }
           }
         }
@@ -4131,7 +4150,7 @@ function l4Create619SarahCharts() {
         },
         y: {
           beginAtZero: true,
-          title: { display: true, text: 'NPI count in band', font: { size: 10 }, color: '#5a6475' },
+          title: { display: true, text: 'Organizations in band', font: { size: 10 }, color: '#5a6475' },
           grid: { color: '#f0f2f5' }
         }
       }
