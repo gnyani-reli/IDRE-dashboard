@@ -1944,7 +1944,7 @@ html, body, body * { font-size: 15px !important; }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 if (typeof Chart !== 'undefined') {
-  Chart.defaults.font.size = 15;
+  Chart.defaults.font.size = 13;
   Chart.defaults.font.family = 'inherit';
   Chart.defaults.color = '#3d4a5c';
 }
@@ -4886,7 +4886,7 @@ function l4ApplyFilters() {
   l4RenderTrends(fTrends(L4_TRENDS));
   l4RenderDualFlagged(f(L4_DUAL_FLAGGED,'name'));
   l4Create619SarahCharts();
-  enforceChartFontSizes(15);
+  enforceChartFontSizes(13);
 }
 
 /* ===== INIT ===== */
@@ -4896,14 +4896,14 @@ window.addEventListener('load', function() {
   if (qSel) qSel.addEventListener('change', applyFilters);
   if (sSel) sSel.addEventListener('change', applyFilters);
   drawCharts();
-  enforceChartFontSizes(15);
+  enforceChartFontSizes(13);
   /* L4 v2 filters */
   var fq4 = document.getElementById('filterQuarter');
   var fs4 = document.getElementById('filterSvc');
   if (fq4) fq4.addEventListener('change', function(){ L4_STATE.quarter=this.value; l4ApplyFilters(); });
   if (fs4) fs4.addEventListener('change', function(){ L4_STATE.svc=this.value; l4ApplyFilters(); });
   l4ApplyFilters();
-  enforceChartFontSizes(15);
+  enforceChartFontSizes(13);
 });
 
 window.addEventListener('resize', function() {
@@ -4911,17 +4911,17 @@ window.addEventListener('resize', function() {
   if (!active) return;
   if (active.id === 'tab-l3') {
     drawCharts();
-    enforceChartFontSizes(15);
+    enforceChartFontSizes(13);
   }
   if (active.id === 'tab-l4') {
     l4ApplyFilters();
-    enforceChartFontSizes(15);
+    enforceChartFontSizes(13);
   }
   if (active.id === 'tab-r7' || active.id === 'tab-r2') {
     Object.keys(charts).forEach(function (k) {
       try { if (charts[k] && typeof charts[k].resize === 'function') charts[k].resize(); } catch (e) {}
     });
-    enforceChartFontSizes(15);
+    enforceChartFontSizes(13);
   }
 });
 
@@ -5435,7 +5435,7 @@ function initL1Charts() {
 
       // ── CHART DEFAULTS (align with global Chart.defaults at script top) ─
       Chart.defaults.font.family = "inherit";
-      Chart.defaults.font.size = 15;
+      Chart.defaults.font.size = 13;
       Chart.defaults.color = "#3d4a5c";
 
       const GRID = { color: "rgba(0,0,0,0.06)" };
@@ -5794,7 +5794,7 @@ function initL1Charts() {
         .join("");
 
 
-      enforceChartFontSizes(15);
+      enforceChartFontSizes(13);
 }
 </script>
 <script>
