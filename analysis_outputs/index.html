@@ -4835,6 +4835,44 @@ function l4RenderDualFlagged(data) {
   }).join('');
 }
 
+function enforceChartFontSizes(minSize) {
+  var target = minSize || 15;
+  function bumpFontObject(fontObj) {
+    if (!fontObj || typeof fontObj !== 'object') return;
+    if (fontObj.size == null || Number(fontObj.size) < target) {
+      fontObj.size = target;
+    }
+  }
+  function walk(node) {
+    if (!node || typeof node !== 'object') return;
+    Object.keys(node).forEach(function (k) {
+      var v = node[k];
+      if (!v || typeof v !== 'object') return;
+      if (k === 'font' || k === 'titleFont' || k === 'bodyFont' || k === 'footerFont') {
+        bumpFontObject(v);
+      }
+      walk(v);
+    });
+  }
+  try {
+    Object.values(Chart.instances || {}).forEach(function (chart) {
+      if (!chart || !chart.options) return;
+      walk(chart.options);
+      if (!chart.options.plugins) chart.options.plugins = {};
+      if (!chart.options.plugins.legend) chart.options.plugins.legend = {};
+      if (!chart.options.plugins.legend.labels) chart.options.plugins.legend.labels = {};
+      if (!chart.options.plugins.legend.labels.font) chart.options.plugins.legend.labels.font = {};
+      bumpFontObject(chart.options.plugins.legend.labels.font);
+      if (!chart.options.plugins.tooltip) chart.options.plugins.tooltip = {};
+      if (!chart.options.plugins.tooltip.titleFont) chart.options.plugins.tooltip.titleFont = {};
+      if (!chart.options.plugins.tooltip.bodyFont) chart.options.plugins.tooltip.bodyFont = {};
+      bumpFontObject(chart.options.plugins.tooltip.titleFont);
+      bumpFontObject(chart.options.plugins.tooltip.bodyFont);
+      chart.update('none');
+    });
+  } catch (e) {}
+}
+
 function l4ApplyFilters() {
   var q=L4_STATE.quarter, s=L4_STATE.svc;
   function f(arr,nameField){return arr.filter(function(d){var qok=q==='all'||!d.q||d.q===q;var sok=s==='all'||l4GetSvc(d[nameField||'name'])===s;return qok&&sok;});}
@@ -4848,6 +4886,7 @@ function l4ApplyFilters() {
   l4RenderTrends(fTrends(L4_TRENDS));
   l4RenderDualFlagged(f(L4_DUAL_FLAGGED,'name'));
   l4Create619SarahCharts();
+  enforceChartFontSizes(15);
 }
 
 /* ===== INIT ===== */
@@ -4857,12 +4896,14 @@ window.addEventListener('load', function() {
   if (qSel) qSel.addEventListener('change', applyFilters);
   if (sSel) sSel.addEventListener('change', applyFilters);
   drawCharts();
+  enforceChartFontSizes(15);
   /* L4 v2 filters */
   var fq4 = document.getElementById('filterQuarter');
   var fs4 = document.getElementById('filterSvc');
   if (fq4) fq4.addEventListener('change', function(){ L4_STATE.quarter=this.value; l4ApplyFilters(); });
   if (fs4) fs4.addEventListener('change', function(){ L4_STATE.svc=this.value; l4ApplyFilters(); });
   l4ApplyFilters();
+  enforceChartFontSizes(15);
 });
 
 window.addEventListener('resize', function() {
@@ -4870,12 +4911,17 @@ window.addEventListener('resize', function() {
   if (!active) return;
   if (active.id === 'tab-l3') {
     drawCharts();
+    enforceChartFontSizes(15);
   }
-  if (active.id === 'tab-l4') l4ApplyFilters();
+  if (active.id === 'tab-l4') {
+    l4ApplyFilters();
+    enforceChartFontSizes(15);
+  }
   if (active.id === 'tab-r7' || active.id === 'tab-r2') {
     Object.keys(charts).forEach(function (k) {
       try { if (charts[k] && typeof charts[k].resize === 'function') charts[k].resize(); } catch (e) {}
     });
+    enforceChartFontSizes(15);
   }
 });
 
@@ -5748,6 +5794,7 @@ function initL1Charts() {
         .join("");
 
 
+      enforceChartFontSizes(15);
 }
 </script>
 <script>
