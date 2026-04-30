@@ -899,54 +899,138 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   <div class="l4-card l4-card-flex">
     <div class="l4-card-header">
       <div class="l4-card-title">Most extreme providers &mdash; who is actually draining the system?</div>
-      <div class="l4-card-sub">Two axes summarize exposure in the data: <strong>how far typical offers sit above the federal benchmark</strong> and <strong>how often the provider wins when the offer is disputed</strong>. This matrix combines both. <strong>Top-right = largest joint values on those axes in this view.</strong> Hover any provider name for details.</div>
+      <div class="l4-card-sub">Two axes summarize exposure: <strong>typical offer vs federal benchmark</strong> (horizontal, log scale) and <strong>dispute win rate</strong> (vertical). The <strong>bubble chart</strong> plots exact positions for the highest-multiple providers with known win rates; dashed lines match the matrix thresholds. The <strong>2×2 matrix</strong> lists the top 20 by typical multiple for quick scanning.</div>
     </div>
     <div class="l4-card-body-flex" style="flex-direction:column;gap:0;">
 
-      <div id="riskMatrixWrap" style="display:grid;grid-template-columns:26px 1fr 1fr;grid-template-rows:1fr 1fr 24px;gap:5px;padding:14px 14px 6px;flex:1;min-height:400px;">
+      <div class="risk-matrix-scatter-host">
+        <div class="risk-matrix-scatter-head">
+          <div class="risk-matrix-scatter-title">Where providers sit on both measures at once</div>
+          <p class="risk-matrix-scatter-lede">Bubble position = typical multiple (×QPA) vs win %. Bubble size ≈ claim volume in this filter. Gray dashed lines: 5,000× and 93% — same cuts as the quadrants below. Providers without win-rate in the merged data appear only in the matrix pills.</p>
+        </div>
+        <div class="risk-matrix-scatter-canvas-wrap">
+          <canvas id="riskMatrixScatter"></canvas>
+        </div>
+        <div id="riskScatterEmpty" class="risk-matrix-scatter-empty" style="display:none;">No providers with both typical multiple and win rate match the current filters.</div>
+      </div>
 
-        <div style="grid-column:1;grid-row:1/3;display:flex;align-items:center;justify-content:center;">
-          <span style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;color:#8a94a6;letter-spacing:.03em;">&#8592; Wins disputes less &nbsp;&nbsp; Wins disputes more &#8594;</span>
+      <div id="riskMatrixWrap">
+
+        <div class="rm-grid-y-label">
+          <span>&#8592; Wins disputes less &nbsp;&nbsp; Wins disputes more &#8594;</span>
         </div>
 
-        <div id="qTL" style="grid-column:2;grid-row:1;background:#FEF9EC;border:1px solid #F0DFA0;border-radius:9px;padding:10px 12px;overflow:hidden;">
-          <div style="font-size:9.5px;font-weight:700;color:#92680A;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Bills a lot &nbsp;&middot;&nbsp; usually loses disputes</div>
-          <div style="font-size:11.5px;font-weight:600;color:#5A3A00;margin-bottom:6px;">High multiple &mdash; disputes often stopped</div>
-          <div id="pillsTL" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+        <div id="qTL" class="rm-quad rm-quad-tl">
+          <div class="rm-quad-kicker">Bills a lot &nbsp;&middot;&nbsp; usually loses disputes</div>
+          <div id="rmSubTL" class="rm-quad-sub">High multiple &mdash; disputes often stopped</div>
+          <div id="pillsTL" class="rm-pills"></div>
         </div>
 
-        <div id="qTR" style="grid-column:3;grid-row:1;background:#FEF0F0;border:2px solid #ECA0A0;border-radius:9px;padding:10px 12px;overflow:hidden;position:relative;">
-          <div style="position:absolute;top:8px;right:9px;font-size:9px;font-weight:700;background:#A32D2D;color:#fff;padding:2px 7px;border-radius:20px;letter-spacing:.05em;">REVIEW</div>
-          <div style="font-size:9.5px;font-weight:700;color:#8B1A1A;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Bills a lot &nbsp;&middot;&nbsp; wins disputes too</div>
-          <div style="font-size:11.5px;font-weight:600;color:#6B1010;margin-bottom:6px;">&#9888; Largest combined spread (this view)</div>
-          <div id="pillsTR" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+        <div id="qTR" class="rm-quad rm-quad-tr">
+          <div class="rm-quad-review">REVIEW</div>
+          <div class="rm-quad-kicker">Bills a lot &nbsp;&middot;&nbsp; wins disputes too</div>
+          <div id="rmSubTR" class="rm-quad-sub">&#9888; Largest combined spread (this view)</div>
+          <div id="pillsTR" class="rm-pills"></div>
         </div>
 
-        <div id="qBL" style="grid-column:2;grid-row:2;background:#F2FAF5;border:1px solid #BFDECE;border-radius:9px;padding:10px 12px;overflow:hidden;">
-          <div style="font-size:9.5px;font-weight:700;color:#27650A;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Bills moderately &nbsp;&middot;&nbsp; usually loses</div>
-          <div style="font-size:11.5px;font-weight:600;color:#1B4A07;margin-bottom:6px;">Lower concern</div>
-          <div id="pillsBL" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+        <div id="qBL" class="rm-quad rm-quad-bl">
+          <div class="rm-quad-kicker">Bills moderately &nbsp;&middot;&nbsp; usually loses</div>
+          <div id="rmSubBL" class="rm-quad-sub">Lower concern</div>
+          <div id="pillsBL" class="rm-pills"></div>
         </div>
 
-        <div id="qBR" style="grid-column:3;grid-row:2;background:#EEF5FD;border:1px solid #A8CCF0;border-radius:9px;padding:10px 12px;overflow:hidden;">
-          <div style="font-size:9.5px;font-weight:700;color:#0E4A8C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Bills moderately &nbsp;&middot;&nbsp; wins disputes</div>
-          <div style="font-size:11.5px;font-weight:600;color:#0A306E;margin-bottom:6px;">Worth watching</div>
-          <div id="pillsBR" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+        <div id="qBR" class="rm-quad rm-quad-br">
+          <div class="rm-quad-kicker">Bills moderately &nbsp;&middot;&nbsp; wins disputes</div>
+          <div id="rmSubBR" class="rm-quad-sub">Worth watching</div>
+          <div id="pillsBR" class="rm-pills"></div>
         </div>
 
-        <div style="grid-column:2;grid-row:3;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:#8a94a6;">Moderate billing multiple</div>
-        <div style="grid-column:3;grid-row:3;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:#8a94a6;">Very high billing multiple</div>
+        <div class="rm-grid-x-label rm-grid-x-left">Moderate billing multiple</div>
+        <div class="rm-grid-x-label rm-grid-x-right">Very high billing multiple</div>
       </div>
 
       <div id="rmTooltip" style="display:none;margin:0 14px 8px;background:#fff;border:1px solid #dde3ec;border-radius:8px;padding:9px 13px;font-size:12px;line-height:1.7;color:#0f1923;"></div>
 
       <p class="l4-chart-note" style="margin:0 14px 14px;">
-        <strong>How to read this.</strong> Each provider is placed by two independent measures: how extreme their typical bill is vs the federal benchmark (left = moderate, right = very high) and how often they win disputes (bottom = usually stopped, top = usually wins). <strong>Top-right cells combine very high typical multiples with very high win rates</strong> &mdash; the largest joint values in this matrix. Top-left cells combine very high multiples with outcomes more often stopped in dispute. Thresholds: high multiple &gt;5,000&times; QPA; high win rate &ge;93%.
+        <strong>How to read this.</strong> Use the <strong>chart</strong> for relative position and volume; use the <strong>matrix</strong> for named lists. High multiple = typical offer &gt;5,000&times; QPA; high win rate = &ge;93%. <strong>Top-right</strong> combines both &mdash; largest joint signal in this framing. Providers are ranked into the matrix by typical multiple (top 20); the chart shows up to 35 with known win rates.
       </p>
     </div>
   </div>
 
   <style>
+    .risk-matrix-scatter-host { padding: 12px 14px 4px; flex-shrink: 0; border-bottom: 1px solid #edf0f3; }
+    .risk-matrix-scatter-head { margin-bottom: 8px; }
+    .risk-matrix-scatter-title { font-size: 12px; font-weight: 700; color: #0f1923; letter-spacing: 0.02em; }
+    .risk-matrix-scatter-lede { margin: 6px 0 0; font-size: 11px; line-height: 1.5; color: #5a6475; max-width: 72em; }
+    .risk-matrix-scatter-canvas-wrap { height: min(300px, 38vh); min-height: 220px; position: relative; }
+    .risk-matrix-scatter-empty { margin-top: 8px; font-size: 12px; color: #8a94a6; text-align: center; padding: 24px 12px; background: #f7f9fb; border-radius: 8px; border: 1px dashed #dde3ec; }
+    #riskMatrixWrap {
+      display: grid;
+      grid-template-columns: 26px 1fr 1fr;
+      grid-template-rows: auto auto 22px;
+      gap: 8px;
+      padding: 12px 14px 6px;
+      align-items: start;
+    }
+    .rm-grid-y-label {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      align-self: stretch;
+    }
+    .rm-grid-y-label span {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-size: 10px;
+      color: #8a94a6;
+      letter-spacing: 0.03em;
+    }
+    .rm-quad {
+      border-radius: 9px;
+      padding: 10px 12px;
+      overflow: hidden;
+      align-self: start;
+      min-height: 0;
+    }
+    .rm-quad-tl { grid-column: 2; grid-row: 1; background: #FEF9EC; border: 1px solid #F0DFA0; }
+    .rm-quad-tr { grid-column: 3; grid-row: 1; background: #FEF0F0; border: 2px solid #ECA0A0; position: relative; }
+    .rm-quad-bl { grid-column: 2; grid-row: 2; background: #F2FAF5; border: 1px solid #BFDECE; }
+    .rm-quad-br { grid-column: 3; grid-row: 2; background: #EEF5FD; border: 1px solid #A8CCF0; }
+    .rm-quad-review {
+      position: absolute;
+      top: 8px;
+      right: 9px;
+      font-size: 9px;
+      font-weight: 700;
+      background: #A32D2D;
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
+    }
+    .rm-quad-kicker { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .rm-quad-tl .rm-quad-kicker { color: #92680A; }
+    .rm-quad-tr .rm-quad-kicker { color: #8B1A1A; }
+    .rm-quad-bl .rm-quad-kicker { color: #27650A; }
+    .rm-quad-br .rm-quad-kicker { color: #0E4A8C; }
+    .rm-quad-sub { font-size: 11.5px; font-weight: 600; margin-bottom: 6px; line-height: 1.35; }
+    .rm-quad-tl .rm-quad-sub { color: #5A3A00; }
+    .rm-quad-tr .rm-quad-sub { color: #6B1010; }
+    .rm-quad-bl .rm-quad-sub { color: #1B4A07; }
+    .rm-quad-br .rm-quad-sub { color: #0A306E; }
+    .rm-pills { display: flex; flex-wrap: wrap; gap: 3px; align-content: flex-start; }
+    .rm-grid-x-label {
+      grid-row: 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9.5px;
+      color: #8a94a6;
+    }
+    .rm-grid-x-left { grid-column: 2; }
+    .rm-grid-x-right { grid-column: 3; }
     .rm-pill { display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;cursor:pointer;white-space:nowrap;transition:transform .1s;font-weight:500;border:none; }
     .rm-pill:hover { transform:scale(1.07); }
     .rm-red   { background:#F5BFBF;color:#6B1010; }
@@ -4175,10 +4259,180 @@ function l4GetBubbleData(qFilter, svcFilter) {
   return result.filter(function(d){return d.claims>0&&d.ask>0;}).sort(function(a,b){return b.ask-a.ask;});
 }
 
-function l4CreateBubble(bubbleData) {
-  /* Risk matrix: replaces old bar chart */
+function l4RiskQuad(d) {
   var HIGH_MULTIPLE = 5000;
   var HIGH_WIN = 93;
+  var hiM = d.ask >= HIGH_MULTIPLE;
+  var hiW = d.wr != null && d.wr >= HIGH_WIN;
+  if (hiM && hiW) return 'TR';
+  if (hiM && !hiW) return 'TL';
+  if (!hiM && hiW) return 'BR';
+  return 'BL';
+}
+
+function l4CreateRiskScatter(bubbleData) {
+  var HIGH_MULTIPLE = 5000;
+  var HIGH_WIN = 93;
+  var svcLabel = {iom:'Intraoperative Monitoring',rad:'Radiology',em:'Emergency Medicine',other:'Other'};
+  l4DestroyChart('riskScatter');
+  var canvas = document.getElementById('riskMatrixScatter');
+  var cw = document.querySelector('.risk-matrix-scatter-canvas-wrap');
+  var emptyEl = document.getElementById('riskScatterEmpty');
+  if (!canvas || !cw) return;
+
+  var slice = (bubbleData || []).slice(0, 35).filter(function (d) {
+    return d.wr != null && d.claims > 0 && d.ask > 0;
+  });
+  if (!slice.length) {
+    cw.style.display = 'none';
+    if (emptyEl) {
+      emptyEl.style.display = 'block';
+      emptyEl.textContent = 'No providers with win-rate data match the current filters — adjust quarter or service type.';
+    }
+    return;
+  }
+  cw.style.display = '';
+  if (emptyEl) emptyEl.style.display = 'none';
+
+  function bubbleR(n) {
+    return Math.min(24, 5 + Math.sqrt(n || 0));
+  }
+  var colors = {
+    TR: 'rgba(192,57,43,0.72)',
+    TL: 'rgba(212,160,23,0.78)',
+    BR: 'rgba(31,111,178,0.68)',
+    BL: 'rgba(39,101,14,0.68)',
+  };
+  var borderColors = {
+    TR: 'rgba(139,26,26,0.9)',
+    TL: 'rgba(146,104,10,0.9)',
+    BR: 'rgba(14,74,140,0.9)',
+    BL: 'rgba(27,74,7,0.9)',
+  };
+
+  var pts = slice.map(function (d) {
+    var q = l4RiskQuad(d);
+    return {
+      x: Math.max(d.ask, 1),
+      y: d.wr,
+      r: bubbleR(d.claims),
+      quad: q,
+      meta: d,
+    };
+  });
+
+  var xVals = pts.map(function (p) { return p.x; });
+  var xMin = Math.max(40, Math.min.apply(null, xVals) * 0.65);
+  var xMax = Math.max.apply(null, xVals) * 1.12;
+
+  var lineVert = [{x: HIGH_MULTIPLE, y: 48}, {x: HIGH_MULTIPLE, y: 100}];
+  var lineHorz = [{x: xMin, y: HIGH_WIN}, {x: xMax, y: HIGH_WIN}];
+
+  L4_CHARTS.riskScatter = new Chart(canvas.getContext('2d'), {
+    data: {
+      datasets: [
+        {
+          type: 'bubble',
+          label: 'Providers (color = quadrant below)',
+          data: pts.map(function (p) { return {x: p.x, y: p.y, r: p.r}; }),
+          backgroundColor: pts.map(function (p) { return colors[p.quad]; }),
+          borderColor: pts.map(function (p) { return borderColors[p.quad]; }),
+          borderWidth: 1,
+          order: 0,
+        },
+        {
+          type: 'line',
+          label: '',
+          data: lineVert,
+          borderColor: 'rgba(90,100,120,0.45)',
+          borderDash: [5, 5],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false,
+          order: 10,
+          tension: 0,
+        },
+        {
+          type: 'line',
+          label: '',
+          data: lineHorz,
+          borderColor: 'rgba(90,100,120,0.45)',
+          borderDash: [5, 5],
+          borderWidth: 1.5,
+          pointRadius: 0,
+          fill: false,
+          order: 11,
+          tension: 0,
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      animation: {duration: 450},
+      interaction: {mode: 'nearest', intersect: true},
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            font: {size: 10},
+            boxWidth: 10,
+            padding: 10,
+            filter: function (item) {
+              return item.datasetIndex === 0;
+            },
+          },
+        },
+        tooltip: {
+          callbacks: {
+            title: function (items) {
+              var it = items[0];
+              if (!it || it.datasetIndex !== 0) return '';
+              var d = pts[it.dataIndex].meta;
+              return d.name;
+            },
+            label: function (ctx) {
+              if (ctx.datasetIndex !== 0) return '';
+              var d = pts[ctx.dataIndex].meta;
+              var kLabel = d.ask >= 1000 ? (d.ask / 1000).toFixed(1) + 'k×' : Math.round(d.ask) + '×';
+              return [
+                'Typical multiple: ' + kLabel + ' vs QPA',
+                'Win rate: ' + d.wr + '%',
+                'Claims: ' + (d.claims || 0).toLocaleString(),
+                'Service: ' + (svcLabel[d.svc] || 'Other'),
+                'Quadrant: ' + (ctx.raw.x >= HIGH_MULTIPLE ? 'High ×' : 'Moderate ×') + ' · ' + (ctx.raw.y >= HIGH_WIN ? 'High wins' : 'Lower wins'),
+              ];
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          type: 'logarithmic',
+          title: {display: true, text: 'Typical multiple vs federal benchmark (log scale)', font: {size: 10}, color: '#5a6475'},
+          grid: {color: '#eef1f4'},
+          ticks: {
+            callback: function (v) {
+              var ok = [50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000];
+              if (ok.indexOf(v) >= 0) return v >= 1000 ? (v / 1000).toFixed(0).replace(/\.0$/, '') + 'k×' : v + '×';
+              return null;
+            },
+          },
+          min: xMin,
+          suggestedMax: xMax,
+        },
+        y: {
+          title: {display: true, text: 'Dispute win rate (%)', font: {size: 10}, color: '#5a6475'},
+          min: 48,
+          max: 100,
+          grid: {color: '#eef1f4'},
+          ticks: {stepSize: 5},
+        },
+      },
+    },
+  });
+}
+
+function l4CreateBubble(bubbleData) {
   var svcLabel = {iom:'Intraoperative Monitoring',rad:'Radiology',em:'Emergency Medicine',other:'Other'};
 
   var containers = {TR:'pillsTR',TL:'pillsTL',BR:'pillsBR',BL:'pillsBL'};
@@ -4192,21 +4446,40 @@ function l4CreateBubble(bubbleData) {
   var wrap = document.getElementById('riskMatrixWrap');
   if(!wrap) return;
 
+  var cw = document.querySelector('.risk-matrix-scatter-canvas-wrap');
+  var emptyEl = document.getElementById('riskScatterEmpty');
+
   if(!bubbleData||!bubbleData.length){
-    wrap.innerHTML='<div class="l4-empty" style="grid-column:1/4;display:flex;align-items:center;justify-content:center;">No providers match the selected filters.</div>';
+    l4DestroyChart('riskScatter');
+    if (cw) cw.style.display = 'none';
+    if (emptyEl) {
+      emptyEl.style.display = 'block';
+      emptyEl.textContent = 'No providers match the selected filters.';
+    }
+    var subs = {rmSubTL:'High multiple — disputes often stopped',rmSubTR:'\u26A0 Largest combined spread (this view)',rmSubBL:'Lower concern',rmSubBR:'Worth watching'};
+    Object.keys(subs).forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=subs[id]; });
     return;
   }
 
+  if (cw) cw.style.display = '';
+  if (emptyEl) emptyEl.style.display = 'none';
+  l4CreateRiskScatter(bubbleData);
+
   var top = bubbleData.slice(0,20);
+  var counts = {TR:0,TL:0,BR:0,BL:0};
+  top.forEach(function(d){ counts[l4RiskQuad(d)]++; });
+
+  var subElTL = document.getElementById('rmSubTL');
+  var subElTR = document.getElementById('rmSubTR');
+  var subElBL = document.getElementById('rmSubBL');
+  var subElBR = document.getElementById('rmSubBR');
+  if (subElTL) subElTL.textContent = 'High multiple — disputes often stopped · ' + counts.TL + ' in top 20';
+  if (subElTR) subElTR.textContent = '\u26A0 Largest combined spread (this view) · ' + counts.TR + ' in top 20';
+  if (subElBL) subElBL.textContent = 'Lower concern · ' + counts.BL + ' in top 20';
+  if (subElBR) subElBR.textContent = 'Worth watching · ' + counts.BR + ' in top 20';
 
   top.forEach(function(d){
-    var hiM = d.ask >= HIGH_MULTIPLE;
-    var hiW = d.wr != null && d.wr >= HIGH_WIN;
-    var quad = (hiM ? 'T' : 'B') + (hiM && hiW ? 'R' : hiM && !hiW ? 'L' : !hiM && hiW ? 'R' : 'L');
-    if(!hiM && hiW) quad = 'BR';
-    if(!hiM && !hiW) quad = 'BL';
-    if(hiM && hiW) quad = 'TR';
-    if(hiM && !hiW) quad = 'TL';
+    var quad = l4RiskQuad(d);
 
     var cls = quad==='TR'?'rm-red':quad==='TL'?'rm-amber':quad==='BR'?'rm-blue':'rm-green';
     var containerId = 'pills'+quad;
