@@ -71,6 +71,20 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 /* User-requested global text lock: force all text to 15px */
 html, body, body * { font-size: 15px !important; }
 
+/* Restore original emphasis sizing for dashboard titles + KPI numbers */
+#tab-l1 .header h1,
+#tab-l3 .header h1,
+#tab-l4 .header h1,
+#tab-r7 .header h1,
+#tab-r2 .header h1 { font-size: 22px !important; }
+
+#tab-l1 .kpi-val,
+#tab-l3 .kpi-val,
+#tab-l4 .kpi-val,
+#tab-r7 .kpi-val,
+#tab-r2 .kpi-val,
+#tab-l4 .l4-kpi-val { font-size: 32px !important; }
+
 /* ===== DESIGN TOKENS ===== */
 :root {
   --bg: #f4f6f8;
