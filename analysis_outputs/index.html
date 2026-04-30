@@ -121,7 +121,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 .tt-badge.t2 { background: #b45309; color: #fff; }
 .tt-badge.t3 { background: #b91c1c; color: #fff; }
 
-/* ===== LOGIC 3 – PLAN NON-RESPONSE MONITOR ===== */
+/* ===== Logic 3 — When Plans Don't Respond ===== */
 #tab-l3 .page, #tab-l4 .page, #tab-r7 .page, #tab-r2 .page { width: 100%; padding: 12px clamp(8px, 1.4vw, 16px) 22px; }
 #tab-l3 .header, #tab-l4 .header, #tab-r7 .header, #tab-r2 .header { margin-bottom: 14px; }
 #tab-l3 .header-top, #tab-l4 .header-top, #tab-r7 .header-top, #tab-r2 .header-top { display: flex; justify-content: space-between; align-items: center; gap: 14px; background: var(--surface2); border: 1px solid #d5d7da; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; flex-wrap: wrap; }
@@ -207,7 +207,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l3 .bar-list + .chart-insight, #tab-r7 .bar-list + .chart-insight, #tab-r2 .bar-list + .chart-insight { margin-top: 14px; }
 /* -- HEADER META (Logic3) -- */
 #tab-l3 .header-meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
-/* -- Market dominance landmark (Plan Non-Response + Volume & Merit) -- */
+/* -- Market dominance landmark (Plan Non-Response + Corporate Network Patterns) -- */
 #tab-l3 .l3-vol-section { margin-bottom: 22px; }
 #tab-l3 .l3-vol-head, #tab-r7 .l3-vol-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
 #tab-l3 .l3-vol-step, #tab-r7 .l3-vol-step { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
@@ -229,7 +229,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   #tab-l3 .kpi-strip { grid-template-columns: 1fr; }
 }
 
-/* ===== LOGIC 4 v2 – HIGH-ASK PROVIDER MONITOR ===== */
+/* ===== Logic 4 — Providers Billing Far Above Benchmark ===== */
 #tab-r7 .page, #tab-r2 .page { overflow-x: hidden; }
 
 /* L4 scoped CSS variables */
@@ -466,14 +466,14 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
 <!-- ===== TAB NAV ===== -->
 <div class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('l3')">Plans Not Responding to Disputes</button>
+  <button class="tab-btn active" onclick="switchTab('l3')">When Plans Don't Respond</button>
   <button class="tab-btn" onclick="switchTab('l4')">Providers Billing Far Above Benchmark</button>
   <button class="tab-btn" onclick="switchTab('r7')">Corporate Network Patterns</button>
   <button class="tab-btn" onclick="switchTab('r2')">Arbitrator Selection Patterns</button>
-  <button class="tab-btn" onclick="switchTab('l1')">How Quickly High Payments Are Approved</button>
+  <button class="tab-btn" onclick="switchTab('l1')">How Quickly High Payments Are Resolved</button>
 </div>
 
-<!-- ===== TAB: LOGIC 3 – PLAN NON-RESPONSE MONITOR ===== -->
+<!-- ===== TAB: When Plans Don't Respond (Logic 3) ===== -->
 <div id="tab-l3" class="tab-pane active">
 <div class="page">
 
@@ -481,7 +481,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   <div class="header">
     <div class="header-top">
       <div>
-        <h1>Plans Not Responding to Disputes</h1>
+        <h1>When Plans Don't Respond</h1>
       </div>
       <div class="filters">
         <div class="filter-group">
@@ -547,7 +547,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       </div>
       <div class="card-body" style="padding-top:0;">
         <div class="chart-wrap chart-wrap--md"><canvas id="c_l3_market_vol"></canvas></div>
-        <p class="chart-insight chart-insight-plain" style="margin-top:0;border-radius:0 0 8px 8px;">Bars rank the top corporate billing domains by Q1–Q2 2025 dispute filings (OON E&amp;NE + air ambulance, same basis as Volume &amp; Merit). Color encodes <strong>provider default win rate</strong> — wins where the plan never responded. Use alongside the scatter plots below to see which networks combine scale with default-heavy outcomes.</p>
+        <p class="chart-insight chart-insight-plain" style="margin-top:0;border-radius:0 0 8px 8px;">Bars rank the top corporate billing domains by Q1–Q2 2025 dispute filings (OON E&amp;NE + air ambulance, same basis as <strong>Corporate Network Patterns</strong>). Color encodes <strong>provider default win rate</strong> — wins where the plan never responded. Use alongside the scatter plots below to see which networks combine scale with default-heavy outcomes.</p>
       </div>
     </div>
   </div>
@@ -720,7 +720,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 </div>
 </div><!-- end tab-l3 -->
 
-<!-- ===== TAB: LOGIC 4 – HIGH-ASK PROVIDER MONITOR ===== -->
+<!-- ===== TAB: Providers Billing Far Above Benchmark (Logic 4) ===== -->
 <div id="tab-l4" class="tab-pane">
 <div class="dash">
 
@@ -993,7 +993,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 </div><!-- end tab-l4 -->
 
 <!-- ═══════════════════════════════════════════════════════════════
-     TAB: Req 7 — Volume & Merit Inflation
+     TAB: Corporate Network Patterns (Req 7)
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r7" class="tab-pane">
 
@@ -1256,7 +1256,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 </div><!-- /tab-r7 -->
 
 <!-- ═══════════════════════════════════════════════════════════════
-     TAB: Req 2 — Routing Concentration
+     TAB: Arbitrator Selection Patterns (Req 2)
      ═══════════════════════════════════════════════════════════════ -->
 <div id="tab-r2" class="tab-pane">
 <div class="page">
@@ -1528,7 +1528,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
 </div><!-- /tab-r2 -->
 
-<!-- ===== TAB: HIGH-PAYMENT TIMING (LOGIC 1) ===== -->
+<!-- ===== TAB: How Quickly High Payments Are Resolved (Logic 1) ===== -->
 <div id="tab-l1" class="tab-pane">
     <!-- ===== PAGE · logic1 dashboard 4 (synced) ===== -->
     <div class="page">
@@ -1537,7 +1537,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <div class="header">
         <div class="header-top">
           <div>
-            <h1>How Quickly High Payments Are Approved</h1>
+            <h1>How Quickly High Payments Are Resolved</h1>
             <div class="header-meta">Payment Timing Anomaly · Q1 + Q2 2025 · OON Emergency + Air Ambulance</div>
           </div>
         </div>
@@ -2523,7 +2523,7 @@ document.addEventListener('DOMContentLoaded', applyHashToTab);
 window.addEventListener('hashchange', applyHashToTab);
 
 /* ============================================================
-   LOGIC 3 – PLAN NON-RESPONSE MONITOR
+   Logic 3 — When Plans Don't Respond
    ============================================================ */
 
 const PROV_FOCUS = [
@@ -3941,7 +3941,7 @@ function drawCharts(){
 
 
 /* ============================================================
-   LOGIC 4 v2 – HIGH-ASK PROVIDER MONITOR
+   Logic 4 — Providers Billing Far Above Benchmark
    ============================================================ */
 const L4_VOL_DRIVERS = [
   {name:"Singleton Associates, P.A.",cases:92951,avg:10.4,q:"q2"},
@@ -4487,7 +4487,7 @@ window.addEventListener('resize', function() {
   }
 });
 
-/* ===== LOGIC 1 — HIGH-PAYMENT TIMING CHARTS ===== */
+/* ===== Logic 1 — How Quickly High Payments Are Resolved (charts) ===== */
 var l1Initialized = false;
 function initL1Charts() {
       // ── DATA ─────────────────────────────────────────────────────────────
