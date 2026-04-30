@@ -75,6 +75,13 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 .kpi { background: #fff; border-radius: 10px; border: 1px solid #dfe1e2; padding: 14px 16px; }
 .kpi-lbl { font-size: 11px; color: #565c65; margin-bottom: 6px; line-height: 1.4; }
 .kpi-val { font-size: 24px; font-weight: 600; line-height: 1; }
+.kpi-context {
+  font-size: 11px;
+  color: #5a6475;
+  line-height: 1.35;
+  margin: 0;
+  font-weight: 400;
+}
 .kpi-desc { font-size: 11.5px; color: #6f777f; margin-top: 6px; line-height: 1.4; }
 .card { background: #fff; border: 1px solid #dfe1e2; border-radius: 10px; }
 .note { font-size: 11px; color: #6f777f; margin-top: 10px; line-height: 1.4; }
@@ -231,7 +238,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l4 .l4-kpi-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:22px; }
 #tab-l4 .l4-kpi { background:var(--l4-surface); border:1px solid var(--l4-border); border-radius:11px; padding:15px 17px; display:flex; flex-direction:column; justify-content:space-between; box-shadow:var(--l4-shadow); }
 #tab-l4 .l4-kpi-desc { font-size:11.5px; color:var(--l4-muted); line-height:1.45; margin-bottom:10px; }
-#tab-l4 .l4-kpi-val { font-size:27px; font-weight:700; line-height:1; }
+#tab-l4 .l4-kpi-val { font-size:27px; font-weight:700; line-height:1; margin-bottom:4px; }
 #tab-l4 .l4-k-blue .l4-kpi-val { color:var(--l4-blue); }
 #tab-l4 .l4-k-red .l4-kpi-val { color:var(--l4-red); }
 #tab-l4 .l4-k-amber .l4-kpi-val { color:var(--l4-amber); }
@@ -483,16 +490,19 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <div class="kpi-lbl">Flagged providers</div>
       <div class="kpi-desc" style="margin-bottom:8px;">Providers winning 60%+ of disputes via plan non-response (min. 10 wins, 50 disputes)</div>
       <div class="kpi-val" id="kpiFlaggedProviders">—</div>
+      <p class="kpi-context">providers meeting the default-win share rule in this view (10+ wins, 50+ disputes)</p>
     </div>
     <div class="kpi k-red">
       <div class="kpi-lbl">Default-win disputes</div>
       <div class="kpi-desc" style="margin-bottom:8px;">Total cases won automatically because the plan never responded — updates with filters above</div>
       <div class="kpi-val" id="kpiDefaultWins">—</div>
+      <p class="kpi-context">disputes the provider won because the plan did not respond in time</p>
     </div>
     <div class="kpi k-orange">
       <div class="kpi-lbl">Overall default-win rate</div>
       <div class="kpi-desc" style="margin-bottom:8px;">Share of all disputes that end in a provider default win — updates with filters above</div>
       <div class="kpi-val" id="kpiOverallDefaults">—</div>
+      <p class="kpi-context">share of all disputes in the extract that close as provider default wins</p>
     </div>
   </div>
 
@@ -727,18 +737,22 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   <div class="l4-kpi l4-k-blue">
     <div class="l4-kpi-desc">Providers who met the 6× federal benchmark threshold on at least one line and filed disputes in this extract</div>
     <div class="l4-kpi-val" id="kpi1">10,453</div>
+    <p class="kpi-context">providers who billed at least 6× the federal benchmark</p>
   </div>
   <div class="l4-kpi l4-k-red">
     <div class="l4-kpi-desc">Total disputed claims submitted at extreme rates — the majority of which these providers won</div>
     <div class="l4-kpi-val" id="kpi2">842,565</div>
+    <p class="kpi-context">disputed claims filed at extreme rates</p>
   </div>
   <div class="l4-kpi l4-k-green">
     <div class="l4-kpi-desc">Providers extreme against the Medicare fee schedule in the same period — a pattern inconsistent with a low benchmark as the sole explanation</div>
     <div class="l4-kpi-val" id="kpi5">619</div>
+    <p class="kpi-context">providers flagged as outliers against both federal and Medicare rates</p>
   </div>
   <div class="l4-kpi l4-k-amber">
     <div class="l4-kpi-desc">The most extreme individual claim on record in Q1–Q2 2025</div>
     <div class="l4-kpi-val" id="kpi3">3,857,500×</div>
+    <p class="kpi-context">the single most extreme bill found in the dataset</p>
   </div>
 </div>
 
@@ -980,21 +994,25 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <div class="kpi-lbl">National IDR disputes</div>
       <div class="kpi-desc" style="margin-bottom:8px">Q1 + Q2 2025 · OON E&amp;NE + Air Ambulance</div>
       <div class="kpi-val">~1.06M</div>
+      <p class="kpi-context">national dispute filings counted for OON E&amp;NE + air ambulance in this extract</p>
     </div>
     <div class="kpi k-amber">
       <div class="kpi-lbl">Share held by top 10 domains</div>
       <div class="kpi-desc" style="margin-bottom:8px">halomd.com (17%) + teamhealth.com (16%) = 33% alone</div>
       <div class="kpi-val">66%</div>
+      <p class="kpi-context">share of national volume attributed to the ten largest billing domains on this tab</p>
     </div>
     <div class="kpi k-red">
       <div class="kpi-lbl">Tier 1 audit referrals</div>
       <div class="kpi-desc" style="margin-bottom:8px">Highest risk score across 8 behavioral blocks</div>
       <div class="kpi-val">24</div>
+      <p class="kpi-context">domains scoring in Tier 1 under the composite risk model</p>
     </div>
     <div class="kpi k-green">
       <div class="kpi-lbl">Highest risk score</div>
       <div class="kpi-desc" style="margin-bottom:8px">fam-llc.com · 7 of 8 flags active · 43% default rate</div>
       <div class="kpi-val">45.9</div>
+      <p class="kpi-context">top composite risk score recorded in Q1–Q2 2025 in this extract</p>
     </div>
   </div>
 
@@ -1238,21 +1256,25 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <div class="kpi-lbl">IDRE win rate spread</div>
       <div class="kpi-desc" style="margin-bottom:8px">98.4% (IPRO) → 57.7% (Keystone) · same program</div>
       <div class="kpi-val">40.7 pp</div>
+      <p class="kpi-context">gap in win rates between the highest and lowest ranked arbitrators</p>
     </div>
     <div class="kpi k-orange">
       <div class="kpi-lbl">Peak offer inflation ratio</div>
       <div class="kpi-desc" style="margin-bottom:8px">Same complexity case — higher offer at preferred IDRE</div>
       <div class="kpi-val">18.6×</div>
+      <p class="kpi-context">higher offer submitted at a preferred arbitrator for the same case type</p>
     </div>
     <div class="kpi k-red">
       <div class="kpi-lbl">Case-mix vs gap</div>
       <div class="kpi-desc" style="margin-bottom:8px">RVU-matched complexity does not explain the win-rate gap for most rows</div>
       <div class="kpi-val">12 / 13</div>
+      <p class="kpi-context">providers where RVU-matched case mix alone does not explain the gap</p>
     </div>
     <div class="kpi k-green">
       <div class="kpi-lbl">CRITICAL tier referrals</div>
       <div class="kpi-desc" style="margin-bottom:8px">All signals active — highest composite score in this model</div>
       <div class="kpi-val">4</div>
+      <p class="kpi-context">providers at CRITICAL tier with every signal active in the Step 18 screen</p>
     </div>
   </div>
 
@@ -1508,21 +1530,25 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
           <div class="kpi-lbl">System-level inversion (median)</div>
           <div class="kpi-desc" style="margin-bottom:8px">Extreme-tier cases resolved faster than Routine-tier cases</div>
           <div class="kpi-val">7 days</div>
+          <p class="kpi-context">faster resolution for the highest-payment cases vs routine ones</p>
         </div>
         <div class="kpi k-blue">
           <div class="kpi-lbl">Qualifying records</div>
           <div class="kpi-desc" style="margin-bottom:8px">After filters: default=No, provider wins, matched IDRE, valid numeric fields</div>
           <div class="kpi-val">1,209,444</div>
+          <p class="kpi-context">filtered merit-decision records used for the timing analysis</p>
         </div>
         <div class="kpi k-red">
           <div class="kpi-lbl">IDREs flagged</div>
           <div class="kpi-desc" style="margin-bottom:8px">Extreme cases faster than Routine · minimum 50 Extreme-tier cases</div>
           <div class="kpi-val">7 of 14</div>
+          <p class="kpi-context">IDREs with faster median timelines for Extreme tier than Routine (≥50 Extreme cases)</p>
         </div>
         <div class="kpi k-amber">
           <div class="kpi-lbl">QPA below 50% of Medicare</div>
           <div class="kpi-desc" style="margin-bottom:8px">Share of Routine-tier cases where QPA was already below half Medicare rate</div>
           <div class="kpi-val">81.4%</div>
+          <p class="kpi-context">Routine-tier rows where QPA was below half the Medicare rate for the service code</p>
         </div>
       </div>
 
