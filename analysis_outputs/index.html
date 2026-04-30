@@ -218,7 +218,16 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l3 .paired-row { align-items: stretch; margin-bottom: 16px; }
 #tab-l3 .paired-row > .card { display: flex; flex-direction: column; height: 100%; }
 #tab-l3 .paired-row > .card > .card-body { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-#tab-l3 .paired-row .scatter-wrap { flex: 1; height: auto; min-height: 380px; }
+#tab-l3 .paired-row .scatter-wrap { flex: 1 1 auto; height: auto !important; min-height: 300px; }
+#tab-l3 .paired-row > .card > .card-body.l3-paired-table-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  overscroll-behavior: contain;
+}
 #tab-l3 .table-body-fill { flex: 1 !important; overflow-y: auto !important; padding: 0 !important; display: block !important; }
 /* -- FIT TABLE (Logic3) -- */
 #tab-l3 .fit-table { table-layout: fixed; }
@@ -290,7 +299,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l4 .l4-act-title { font-size:14px; font-weight:600; color:var(--l4-text); margin-bottom:10px; padding-bottom:9px; border-bottom:2px solid var(--l4-border); }
 
 /* chart grids */
-#tab-l4 .l4-chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+#tab-l4 .l4-chart-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; align-items:stretch; }
 #tab-l4 .l4-chart-grid-full { display:grid; grid-template-columns:1fr; gap:16px; margin-bottom:16px; }
 #tab-l4 .l4-chart-grid-stretch { align-items:stretch; }
 
@@ -365,8 +374,35 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 /* ── Logic dashboard: Req 7 & Req 2 (aligned with Logic 3) ── */
 .page{padding:20px 20px 36px}
 .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px;margin-bottom:16px;align-items:start}
-#tab-r7 .grid-2.grid-2--stretch,#tab-r2 .grid-2.grid-2--stretch{align-items:stretch}
-#tab-r7 .grid-2.grid-2--stretch>.card,#tab-r2 .grid-2.grid-2--stretch>.card{display:flex;flex-direction:column;height:100%}
+/* Req 7 / Req 2: equal-width columns + stretch so paired charts/tables share height */
+#tab-r7 .logic-section .grid-2,
+#tab-r2 .logic-section .grid-2{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+}
+#tab-r7 .logic-section .grid-2>.card,
+#tab-r2 .logic-section .grid-2>.card{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  height:100%;
+}
+#tab-r7 .logic-section .grid-2>.card>.chart-wrap,
+#tab-r2 .logic-section .grid-2>.card>.chart-wrap{
+  flex:1 1 auto;
+  min-height:260px;
+  height:auto!important;
+  margin-bottom:0!important;
+}
+#tab-r7 .logic-section .grid-2.grid-2--stretch>.card>.chart-wrap,
+#tab-r2 .logic-section .grid-2.grid-2--stretch>.card>.chart-wrap{
+  flex:3 1 auto;
+}
+@media(max-width:960px){
+  #tab-r7 .logic-section .grid-2,
+  #tab-r2 .logic-section .grid-2{grid-template-columns:1fr}
+}
+#tab-r7 .grid-2.grid-2--stretch>.card,#tab-r2 .grid-2.grid-2--stretch>.card{display:flex;flex-direction:column;height:100%;min-height:0}
 #tab-r7 .logic-section,#tab-r2 .logic-section{margin-bottom:22px}
 #tab-r7 .logic-part-label,#tab-r2 .logic-part-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin:22px 0 12px}
 #tab-r7 h3.act-title,#tab-r2 h3.act-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid var(--border)}
@@ -385,6 +421,13 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-r7 .card>.chart-wrap:last-of-type,#tab-r2 .card>.chart-wrap:last-of-type{margin-bottom:0}
 #tab-r7 .table-scroll,#tab-r2 .table-scroll{overflow-x:auto;overflow-y:auto;max-height:310px;border-radius:0 0 8px 8px;border-top:1px solid #edf0f2}
 #tab-r7 .card .table-scroll,#tab-r2 .card .table-scroll{margin:0;border-radius:0;border:0;border-top:1px solid #edf0f2}
+/* Paired chart + table: --fill scroll areas grow with stretched row height */
+#tab-r7 .grid-2.grid-2--stretch>.card>.table-scroll--fill,
+#tab-r2 .grid-2.grid-2--stretch>.card>.table-scroll--fill{
+  flex:1 1 240px;
+  min-height:240px;
+  max-height:none!important;
+}
 #tab-r7 #tbl_cadence.data-table th,#tab-r7 #tbl_cadence.data-table td{padding:6px;font-size:10.5px}
 #tab-r7 #tbl_cadence.data-table th{white-space:normal;line-height:1.2;vertical-align:bottom}
 #tab-r7 #tbl_cadence.data-table td:first-child,#tab-r7 #tbl_cadence.data-table th:first-child{word-break:break-word;overflow-wrap:anywhere}
@@ -422,9 +465,21 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l1 h3.act-title{font-size:14px;font-weight:600;color:var(--text);margin:22px 0 12px;padding-bottom:9px;border-bottom:2px solid var(--border);line-height:1.35}
 #tab-l1 h3.act-title:first-of-type{margin-top:4px}
 #tab-l1 .grid-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px;margin-bottom:16px;align-items:start}
-#tab-l1 .paired-row.grid-2{align-items:stretch}
-#tab-l1 .paired-row.grid-2>.card{display:flex;flex-direction:column;height:100%}
+#tab-l1 .paired-row.grid-2{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+}
+#tab-l1 .paired-row.grid-2>.card{display:flex;flex-direction:column;height:100%;min-height:0}
 #tab-l1 .paired-row.grid-2>.card>.card-body{flex:1;display:flex;flex-direction:column;min-height:0}
+#tab-l1 .paired-row.grid-2>.card>.card-body>.legend-row{flex-shrink:0}
+#tab-l1 .paired-row.grid-2>.card>.card-body>.chart-wrap{
+  flex:1 1 auto;
+  min-height:260px;
+  height:auto!important;
+}
+@media(max-width:800px){
+  #tab-l1 .paired-row.grid-2{grid-template-columns:1fr}
+}
 #tab-l1 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
 #tab-l1 .card-header{padding:14px 18px 12px;border-bottom:1px solid #edf0f2;flex-shrink:0}
 #tab-l1 .card-title{font-size:15px;font-weight:600;color:#0f1923;margin-bottom:3px}
@@ -589,7 +644,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         <div class="card-title">Top providers by default-win share</div>
         <div class="card-sub">All flagged providers sorted by default-win share — scroll within this panel to see all. Flagged = 60%+ share with 10+ wins and 50+ disputes.</div>
       </div>
-      <div class="card-body" style="padding:0;overflow-y:scroll;overflow-x:hidden;overscroll-behavior:contain;max-height:calc(100vh - 260px);">
+      <div class="card-body l3-paired-table-body">
         <table class="data-table centered-table fit-table" style="width:100%;">
           <colgroup>
             <col style="width:5%">
@@ -651,7 +706,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         <div class="card-title">Plans most exposed to default losses</div>
         <div class="card-sub">All flagged plans sorted by default loss rate — scroll within this panel to see all. Flagged = 40%+ loss rate with 50+ disputes.</div>
       </div>
-      <div class="card-body" style="padding:0;overflow-y:scroll;overflow-x:hidden;overscroll-behavior:contain;max-height:calc(100vh - 260px);">
+      <div class="card-body l3-paired-table-body">
         <table class="data-table centered-table fit-table" style="width:100%;">
           <colgroup>
             <col style="width:5%">
@@ -1086,7 +1141,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
           <div class="card-title">Top dual-track operators by composite index</div>
           <div class="card-sub">Composite index = merit wins × median award. High values mark statistically unusual combinations of merit share and award level relative to QPA and warrant further review.</div>
         </div>
-        <div class="table-scroll">
+        <div class="table-scroll table-scroll--fill">
           <table class="data-table" id="tbl_dual" style="width:100%">
             <thead><tr class="sticky-head">
               <th onclick="sortT('tbl_dual',0)">Domain ↕</th>
@@ -1120,7 +1175,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
           <div class="card-title">Top burst providers — Q1 to Q2 detail</div>
           <div class="card-sub">Q1 and Q2 dispute counts, growth %, default rates in each quarter, and the change in default share (pp).</div>
         </div>
-        <div class="table-scroll">
+        <div class="table-scroll table-scroll--fill">
           <table class="data-table" style="width:100%" id="tbl_cadence">
             <colgroup>
               <col style="width:26%"><col style="width:11%"><col style="width:11%"><col style="width:14%">
@@ -1159,7 +1214,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
           <div class="card-title">Persistence detail — volume and default rates</div>
           <div class="card-sub">Quarter-over-quarter dispute counts and default shares by domain.</div>
         </div>
-        <div class="table-scroll" style="max-height:420px">
+        <div class="table-scroll table-scroll--fill">
           <table class="data-table" id="tbl_persist">
             <thead><tr class="sticky-head">
               <th onclick="sortT('tbl_persist',0)">Domain ↕</th>
@@ -1339,7 +1394,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         <div class="chart-wrap chart-wrap--lg"><canvas id="c_scatter"></canvas></div>
       </div>
       <div class="card">
-        <div class="table-scroll">
+        <div class="table-scroll table-scroll--fill">
           <table class="data-table" style="width:100%" id="tbl_top10">
             <thead><tr class="sticky-head">
               <th>Provider</th><th>IDRE</th>
@@ -1367,7 +1422,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         <div class="chart-wrap chart-wrap--lg"><canvas id="c_validated"></canvas></div>
       </div>
       <div class="card">
-        <div class="table-scroll">
+        <div class="table-scroll table-scroll--fill">
           <table class="data-table" id="tbl_v">
             <thead><tr class="sticky-head">
               <th onclick="sortT('tbl_v',0)">Provider ↕</th><th>Primary IDRE</th>
@@ -1398,7 +1453,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         <div class="chart-wrap chart-wrap--lg"><canvas id="c_s6d_scatter"></canvas></div>
       </div>
       <div class="card">
-        <div class="table-scroll">
+        <div class="table-scroll table-scroll--fill">
           <table class="data-table" id="tbl_s6d">
             <thead><tr class="sticky-head">
               <th onclick="sortT('tbl_s6d',0)">Domain ↕</th><th>Primary IDRE</th>
@@ -1430,7 +1485,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         <div class="chart-wrap chart-wrap--lg"><canvas id="c_15b"></canvas></div>
       </div>
       <div class="card">
-        <div class="table-scroll">
+        <div class="table-scroll table-scroll--fill">
           <table class="data-table" style="width:100%" id="tbl_15b">
             <thead><tr class="sticky-head">
               <th onclick="sortT('tbl_15b',0)">Provider ↕</th>
@@ -1484,7 +1539,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         <div class="chart-wrap chart-wrap--md"><canvas id="c_16_scatter"></canvas></div>
       </div>
       <div class="card">
-        <div class="table-scroll">
+        <div class="table-scroll table-scroll--fill">
           <table class="data-table" id="tbl_16">
             <thead><tr class="sticky-head">
               <th onclick="sortT('tbl_16',0)">Provider ↕</th>
@@ -1629,7 +1684,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
       <h3 class="act-title">The inversion is systemic — present at 7 of 14 certified IDREs</h3>
 
-      <div class="grid-2 paired-row" style="grid-template-columns:2fr 3fr;">
+      <div class="grid-2 paired-row">
         <!-- LEFT: horizontal bar gap chart -->
         <div class="card">
           <div class="card-header">
@@ -1688,7 +1743,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         <strong>Pattern note — halomd.com domain:</strong> Dozens of separately named provider entities share the billing email domain halomd.com — NPPA Services, Precision Emergency Physicians, Emergency Medicine Specialists, IES Arizona PLLC, Villa Park Neurological Services, and more. When grouped by domain, halomd.com shows the largest combined volume of fast Extreme-tier decisions across multiple flagged IDREs in this extract. Entity relationships can be checked against IDRE certification records and billing registration files.
       </div>
 
-      <div class="grid-2 paired-row" style="grid-template-columns:2fr 3fr;">
+      <div class="grid-2 paired-row">
         <!-- LEFT: provider bar chart -->
         <div class="card">
           <div class="card-header">
