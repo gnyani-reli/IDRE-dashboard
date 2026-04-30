@@ -435,11 +435,11 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
 <!-- ===== TAB NAV ===== -->
 <div class="tab-nav">
-  <button class="tab-btn active" onclick="switchTab('l3')">Plan Non-Response Monitor</button>
-  <button class="tab-btn" onclick="switchTab('l4')">High-Ask Provider Monitor</button>
-  <button class="tab-btn" onclick="switchTab('r7')">Volume &amp; Merit Inflation</button>
-  <button class="tab-btn" onclick="switchTab('r2')">Routing Concentration</button>
-  <button class="tab-btn" onclick="switchTab('l1')">High-Payment Timing</button>
+  <button class="tab-btn active" onclick="switchTab('l3')">Plans Not Responding to Disputes</button>
+  <button class="tab-btn" onclick="switchTab('l4')">Providers Billing Far Above Benchmark</button>
+  <button class="tab-btn" onclick="switchTab('r7')">Corporate Network Patterns</button>
+  <button class="tab-btn" onclick="switchTab('r2')">Arbitrator Selection Patterns</button>
+  <button class="tab-btn" onclick="switchTab('l1')">How Quickly High Payments Are Approved</button>
 </div>
 
 <!-- ===== TAB: LOGIC 3 – PLAN NON-RESPONSE MONITOR ===== -->
@@ -450,7 +450,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   <div class="header">
     <div class="header-top">
       <div>
-        <h1>How Health Plans Non-Response Helps Providers Win IDR Disputes</h1>
+        <h1>Plans Not Responding to Disputes</h1>
       </div>
       <div class="filters">
         <div class="filter-group">
@@ -694,7 +694,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 <div class="l4-header">
   <div class="l4-header-top">
     <div>
-      <h1 class="l4-h1">Providers Asking Far Above Expected Rates and Still Winning</h1>
+      <h1 class="l4-h1">Providers Billing Far Above Benchmark</h1>
     </div>
     <div class="l4-filters">
       <div class="l4-filter-group">
@@ -965,7 +965,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   <div class="header">
     <div class="header-top">
       <div>
-        <h1>How Corporate Billing Networks Concentrate National IDR Volume—and Why Merit Inflation, Defaults, and Dual-Track Wins Signal Audit Risk</h1>
+        <h1>Corporate Network Patterns</h1>
       </div>
     </div>
   </div>
@@ -1223,7 +1223,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   <div class="header">
     <div class="header-top">
       <div>
-        <h1>How Routing Disputes to Selected Certified IDREs Changes Merit Wins and Offers When Case Complexity Should Be the Same</h1>
+        <h1>Arbitrator Selection Patterns</h1>
       </div>
     </div>
   </div>
@@ -1491,7 +1491,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <div class="header">
         <div class="header-top">
           <div>
-            <h1>Higher-Payment Cases Are Being Resolved Faster — Not Slower</h1>
+            <h1>How Quickly High Payments Are Approved</h1>
             <div class="header-meta">Payment Timing Anomaly · Q1 + Q2 2025 · OON Emergency + Air Ambulance</div>
           </div>
         </div>
@@ -2212,7 +2212,7 @@ charts['c_s6d_scatter'] = new Chart(document.getElementById('c_s6d_scatter'),{
   options:{plugins:{legend:{display:false},
     tooltip:{callbacks:{label:c=>`${c.raw.dom}  →  ${c.raw.idre}\n${c.raw.p} practices · ${c.raw.d.toLocaleString()} disputes\nRouting: ${c.raw.x}%  ·  Win Rate: ${c.raw.y}%`}}},
     scales:{
-      x:{title:{display:true,text:'Routing Concentration — % to Single IDRE',font:{size:11}},min:70,max:102,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}},
+      x:{title:{display:true,text:'Arbitrator selection — % to single IDRE',font:{size:11}},min:70,max:102,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}},
       y:{title:{display:true,text:'Win Rate at Primary IDRE (%)',font:{size:11}},min:15,max:105,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}}},
     responsive:true,maintainAspectRatio:false}
 });
