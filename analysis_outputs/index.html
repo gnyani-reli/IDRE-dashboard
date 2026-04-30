@@ -930,14 +930,6 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
             </table>
           </div>
         </div>
-        <aside class="risk-exec-cms-box">
-          <div class="risk-exec-cms-h">Recommended Review Focus</div>
-          <ul class="risk-exec-cms-ul">
-            <li>Prioritize these providers for audit sampling</li>
-            <li>Review decision patterns and consistency</li>
-            <li>Validate documentation and justification for high-cost outcomes</li>
-          </ul>
-        </aside>
       </div>
 
       <div class="risk-exec-takeaway" role="note">
@@ -1024,14 +1016,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       .risk-exec-chart-main { width: 100%; }
     }
     .risk-exec-split {
-      display: grid;
-      grid-template-columns: minmax(0, 1.55fr) minmax(200px, 1fr);
-      gap: 20px;
+      display: block;
       padding: 16px 22px 14px;
-      align-items: stretch;
-    }
-    @media (max-width: 820px) {
-      .risk-exec-split { grid-template-columns: 1fr; }
     }
     .risk-exec-table-heading {
       font-size: clamp(13px, 1.1vw, 15px);
@@ -1079,28 +1065,6 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       white-space: nowrap;
     }
     .risk-exec-val-em { font-weight: 700; color: #0f2744; }
-    .risk-exec-cms-box {
-      border: 1px solid #c9d6e8;
-      border-radius: 10px;
-      padding: 16px 18px;
-      background: linear-gradient(180deg, #fafcfe 0%, #f4f7fb 100%);
-    }
-    .risk-exec-cms-h {
-      font-size: clamp(12px, 1vw, 14px);
-      font-weight: 700;
-      color: #0f2744;
-      margin-bottom: 12px;
-    }
-    .risk-exec-cms-ul {
-      margin: 0;
-      padding-left: 18px;
-      font-size: clamp(12px, 1vw, 14px);
-      line-height: 1.55;
-      color: #334155;
-      font-weight: 500;
-    }
-    .risk-exec-cms-ul li { margin-bottom: 8px; }
-    .risk-exec-cms-ul li:last-child { margin-bottom: 0; }
     .risk-exec-takeaway {
       margin: 8px 22px 18px;
       padding: 14px 18px;
