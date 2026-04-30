@@ -456,11 +456,21 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   align-items:stretch;
 }
 #tab-l1 .l1-idre-gap-row>.card{min-height:0}
-#tab-l1 .l1-idre-gap-row>.card>.card-body>.legend-row{flex-shrink:0}
+#tab-l1 .l1-idre-gap-row .card-header{padding:10px 16px 8px}
+#tab-l1 .l1-idre-gap-row>.card>.card-body>.legend-row{
+  flex-shrink:0;
+  margin-bottom:8px;
+}
+#tab-l1 .l1-idre-gap-row .chart-wrap{padding:10px 12px}
 #tab-l1 .l1-idre-gap-row>.card>.card-body>.chart-wrap.chart-wrap--l1-tall{
   flex:1 1 auto;
-  min-height:280px;
+  min-height:210px;
   height:auto!important;
+}
+#tab-l1 .l1-idre-gap-row>.card:first-child>.chart-insight{
+  padding:10px 14px;
+  font-size:12.5px;
+  line-height:1.55;
 }
 #tab-l1 .l1-idre-gap-row>.card>.chart-insight,
 #tab-l1 .l1-idre-gap-row>.card>.callout{flex-shrink:0}
@@ -469,12 +479,14 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   min-height:0;
 }
 #tab-l1 .l1-idre-gap-row .l1-idre-inversion-body #tbl_idre{
-  border-spacing:0 clamp(10px,2.4vmin,22px);
+  border-spacing:0 clamp(3px,0.9vmin,8px);
 }
 #tab-l1 .l1-idre-gap-row .l1-idre-inversion-body #tbl_idre td,
 #tab-l1 .l1-idre-gap-row .l1-idre-inversion-body #tbl_idre th{
-  padding-top:clamp(12px,1.8vmin,22px);
-  padding-bottom:clamp(12px,1.8vmin,22px);
+  padding-top:clamp(5px,1vmin,11px);
+  padding-bottom:clamp(5px,1vmin,11px);
+  padding-left:8px;
+  padding-right:8px;
 }
 #tab-l1 .sticky-head th{position:sticky;top:0;z-index:2;background:var(--surface2)}
 #tab-l1 .name-cell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:0}
@@ -1662,7 +1674,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
             <div class="card-title">Day gap by IDRE — Routine median days minus Extreme median days</div>
             <div class="card-sub">Positive bars = Extreme cases resolved faster than Routine (flagged). Negative = Extreme cases took longer (expected behavior). Sorted by gap descending.</div>
           </div>
-          <div class="card-body" style="padding:14px 16px 0;">
+          <div class="card-body" style="padding:12px 14px 0;">
             <div class="legend-row">
               <span class="li"><span class="dot" style="background:#c0392b"></span>FLAGGED — Extreme faster than Routine</span>
               <span class="li"><span class="dot" style="background:#1a7a4a"></span>No inversion detected</span>
@@ -1702,7 +1714,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
               <tbody id="tb_idre"></tbody>
             </table>
           </div>
-          <div class="callout" style="margin:10px 14px 14px;">
+          <div class="callout" style="margin:8px 12px 10px;">
             <strong>7 flagged IDREs</strong> (positive day gap with ≥50 Extreme-tier cases). 5 have insufficient Extreme-tier data (&lt;50 cases). 2 show no inversion (Provider Resources −5 days, Livanta no Extreme cases).
           </div>
         </div>
