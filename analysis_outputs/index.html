@@ -783,19 +783,62 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
   <div class="l4-card l4-card-flex">
     <div class="l4-card-header">
-      <div class="l4-card-title">Most extreme providers — ranked by average overcharge multiple</div>
-      <div class="l4-card-sub"><strong>Sort order</strong> = highest typical <strong>×QPA</strong> ask first (bar length = severity of pricing). <strong>% on the bar</strong> = share of that provider&rsquo;s disputes they <strong>won</strong>—a separate measure, so a longer bar is <em>not</em> “more winning,” just a bigger typical multiple. Hover for full name and claim counts.</div>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:8px;">
-        <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#5a6475;"><span style="width:12px;height:12px;border-radius:3px;background:rgba(108,40,198,0.78);flex-shrink:0;"></span>Intraoperative Monitoring</span>
-        <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#5a6475;"><span style="width:12px;height:12px;border-radius:3px;background:rgba(7,130,180,0.78);flex-shrink:0;"></span>Radiology</span>
-        <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#5a6475;"><span style="width:12px;height:12px;border-radius:3px;background:rgba(210,74,14,0.78);flex-shrink:0;"></span>Emergency Medicine</span>
-        <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#5a6475;"><span style="width:12px;height:12px;border-radius:3px;background:rgba(95,112,132,0.78);flex-shrink:0;"></span>Other</span>
-        <span style="font-size:11px;color:#5a6475;flex-basis:100%;margin-top:4px;line-height:1.45;"><strong>Executive read:</strong> Top rows = biggest average gap vs the federal QPA benchmark. The <strong>% label</strong> = dispute win rate for that provider—<strong>independent</strong> of rank, so you may see 99% on a shorter bar and 83% on the longest.</span>
-      </div>
+      <div class="l4-card-title">Most extreme providers &mdash; who is actually draining the system?</div>
+      <div class="l4-card-sub">Two things determine real financial risk: <strong>how much a provider overbills</strong> and <strong>how often they win when that bill is disputed</strong>. This matrix combines both signals. <strong>Top-right = highest priority for review.</strong> Hover any provider name for details.</div>
     </div>
-    <div class="l4-card-body-flex">
-      <div class="l4-canvas-wrap l4-canvas-flex l4-canvas-risk"><canvas id="riskBubble"></canvas></div>
-      <p class="l4-chart-note"><strong>What this chart shows.</strong> The list is ranked by one thing only: <strong>how extreme the provider&rsquo;s typical bill is versus the QPA</strong> (the federal out-of-network benchmark). <strong>Longer bar = higher average multiple</strong>—a more aggressive typical ask, not a “score” that mixes in win rate.<br><br><strong>The % on each bar is a second metric.</strong> It is the share of that provider&rsquo;s <strong>disputes they won</strong> in the filtered period. Row order does <em>not</em> follow that percentage, so a top-row provider can legitimately show a lower % than someone below them.<br><br><strong>Oversight takeaway.</strong> <strong>Very high multiples plus high win rates</strong> are the strongest pattern for deeper review: outsized asks are routine for that provider and are often upheld in IDR. <strong>Very high multiples with lower win rates</strong> still flag severe pricing behavior; the case for escalation is strongest when high extremity and high success rates appear together.</p>
+    <div class="l4-card-body-flex" style="flex-direction:column;gap:0;">
+
+      <div id="riskMatrixWrap" style="display:grid;grid-template-columns:26px 1fr 1fr;grid-template-rows:1fr 1fr 24px;gap:5px;padding:14px 14px 6px;flex:1;min-height:400px;">
+
+        <div style="grid-column:1;grid-row:1/3;display:flex;align-items:center;justify-content:center;">
+          <span style="writing-mode:vertical-rl;transform:rotate(180deg);font-size:10px;color:#8a94a6;letter-spacing:.03em;">&#8592; Wins disputes less &nbsp;&nbsp; Wins disputes more &#8594;</span>
+        </div>
+
+        <div id="qTL" style="grid-column:2;grid-row:1;background:#FEF9EC;border:1px solid #F0DFA0;border-radius:9px;padding:10px 12px;overflow:hidden;">
+          <div style="font-size:9.5px;font-weight:700;color:#92680A;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Bills a lot &nbsp;&middot;&nbsp; usually loses disputes</div>
+          <div style="font-size:11.5px;font-weight:600;color:#5A3A00;margin-bottom:6px;">Overbilling &mdash; being caught</div>
+          <div id="pillsTL" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+        </div>
+
+        <div id="qTR" style="grid-column:3;grid-row:1;background:#FEF0F0;border:2px solid #ECA0A0;border-radius:9px;padding:10px 12px;overflow:hidden;position:relative;">
+          <div style="position:absolute;top:8px;right:9px;font-size:9px;font-weight:700;background:#A32D2D;color:#fff;padding:2px 7px;border-radius:20px;letter-spacing:.05em;">ACT NOW</div>
+          <div style="font-size:9.5px;font-weight:700;color:#8B1A1A;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Bills a lot &nbsp;&middot;&nbsp; wins disputes too</div>
+          <div style="font-size:11.5px;font-weight:600;color:#6B1010;margin-bottom:6px;">&#9888; Highest financial risk</div>
+          <div id="pillsTR" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+        </div>
+
+        <div id="qBL" style="grid-column:2;grid-row:2;background:#F2FAF5;border:1px solid #BFDECE;border-radius:9px;padding:10px 12px;overflow:hidden;">
+          <div style="font-size:9.5px;font-weight:700;color:#27650A;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Bills moderately &nbsp;&middot;&nbsp; usually loses</div>
+          <div style="font-size:11.5px;font-weight:600;color:#1B4A07;margin-bottom:6px;">Lower concern</div>
+          <div id="pillsBL" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+        </div>
+
+        <div id="qBR" style="grid-column:3;grid-row:2;background:#EEF5FD;border:1px solid #A8CCF0;border-radius:9px;padding:10px 12px;overflow:hidden;">
+          <div style="font-size:9.5px;font-weight:700;color:#0E4A8C;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Bills moderately &nbsp;&middot;&nbsp; wins disputes</div>
+          <div style="font-size:11.5px;font-weight:600;color:#0A306E;margin-bottom:6px;">Worth watching</div>
+          <div id="pillsBR" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
+        </div>
+
+        <div style="grid-column:2;grid-row:3;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:#8a94a6;">Moderate billing multiple</div>
+        <div style="grid-column:3;grid-row:3;display:flex;align-items:center;justify-content:center;font-size:9.5px;color:#8a94a6;">Very high billing multiple</div>
+      </div>
+
+      <div id="rmTooltip" style="display:none;margin:0 14px 8px;background:#fff;border:1px solid #dde3ec;border-radius:8px;padding:9px 13px;font-size:12px;line-height:1.7;color:#0f1923;"></div>
+
+      <p class="l4-chart-note" style="margin:0 14px 14px;">
+        <strong>How to read this.</strong> Each provider is placed by two independent measures: how extreme their typical bill is vs the federal benchmark (left = moderate, right = very high) and how often they win disputes (bottom = usually stopped, top = usually wins). <strong>Top-right providers are overbilling severely and succeeding</strong> &mdash; these represent the highest financial exposure for the program. Top-left providers overbill but are being caught. Thresholds: high multiple &gt;5,000&times; QPA; high win rate &ge;93%.
+      </p>
+    </div>
+  </div>
+
+  <style>
+    .rm-pill { display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;cursor:pointer;white-space:nowrap;transition:transform .1s;font-weight:500;border:none; }
+    .rm-pill:hover { transform:scale(1.07); }
+    .rm-red   { background:#F5BFBF;color:#6B1010; }
+    .rm-amber { background:#FADFAA;color:#5A3A00; }
+    .rm-green { background:#BFE5CC;color:#0E4020; }
+    .rm-blue  { background:#BAD4F5;color:#0C2D56; }
+  </style>
     </div>
   </div>
 
@@ -3995,41 +4038,68 @@ function l4GetBubbleData(qFilter, svcFilter) {
 }
 
 function l4CreateBubble(bubbleData) {
-  l4DestroyChart('bubble');
-  var el = document.getElementById('riskBubble'); if(!el) return;
-  if (!bubbleData||!bubbleData.length) { el.parentElement.innerHTML='<div class="l4-empty">No providers match the selected filters.</div>'; return; }
-  var top = bubbleData.slice(0,15);
-  var svcColors = {iom:'rgba(108,40,198,0.78)',rad:'rgba(7,130,180,0.78)',em:'rgba(210,74,14,0.78)',other:'rgba(95,112,132,0.78)'};
-  L4_CHARTS.bubble = new Chart(el, {
-    type:'bar',
-    data:{labels:top.map(function(d){return d.name.length>28?d.name.substring(0,27)+'…':d.name;}),
-          datasets:[{label:'Avg overcharge multiple',data:top.map(function(d){return d.ask;}),
-                     backgroundColor:top.map(function(d){return svcColors[d.svc]||svcColors.other;}),borderRadius:4}]},
-    options:{indexAxis:'y',maintainAspectRatio:false,animation:{duration:600},
-      plugins:{legend:{display:false},tooltip:{callbacks:{title:function(items){var d=top[items[0].dataIndex];return d?d.name:'';},label:function(ctx){
-        var d=top[ctx.dataIndex];
-        var lines=['Avg multiple: '+Math.round(ctx.raw).toLocaleString()+'×','Claims: '+d.claims.toLocaleString()];
-        if(d.wr!=null) lines.push('Disputes won: '+d.wr+'%');
-        var sm={iom:'IOM / Neuromonitoring',rad:'Radiology',em:'Emergency Medicine',other:'Other'};
-        lines.push('Service: '+(sm[d.svc]||'Other')); return lines;
-      }}}},
-      scales:{
-        x:{type:'logarithmic',title:{display:true,text:'Average billed multiple vs QPA (log scale) — drives row order',font:{size:10.5},color:'#5a6475'},
-           grid:{color:'#f0f2f5'},ticks:{callback:function(v){var ok=[1,10,100,1000,10000,100000];return ok.indexOf(v)>=0?(v>=1000?(v/1000).toFixed(0)+'k×':v+'×'):null;}}},
-        y:{grid:{display:false},ticks:{display:true,autoSkip:false,maxRotation:0,color:'#5a6475',font:{size:10.5,family:'Inter, system-ui, sans-serif'}}}
-      }},
-    plugins:[{id:'l4WrLabels',afterDatasetsDraw:function(chart){
-      var ctx2=chart.ctx;var meta=chart.getDatasetMeta(0);var area=chart.chartArea;ctx2.save();
-      ctx2.font='600 10.5px Inter,sans-serif';ctx2.fillStyle='#5a6475';
-      meta.data.forEach(function(bar,i){
-        var d=top[i];if(!d||d.wr==null)return;
-        var label=d.wr+'% won';var w=ctx2.measureText(label).width;var pad=6;var y=bar.y+4;
-        var xAfter=bar.x+pad;var right=area.right-2;var left=area.left+2;
-        if(xAfter+w<=right) ctx2.fillText(label,xAfter,y);
-        else { var xBefore=bar.x-w-pad;if(xBefore>=left) ctx2.fillText(label,xBefore,y); else ctx2.fillText(label,Math.max(left,right-w),y); }
-      });
-      ctx2.restore();
-    }}]
+  /* Risk matrix: replaces old bar chart */
+  var HIGH_MULTIPLE = 5000;
+  var HIGH_WIN = 93;
+  var svcLabel = {iom:'Intraoperative Monitoring',rad:'Radiology',em:'Emergency Medicine',other:'Other'};
+
+  var containers = {TR:'pillsTR',TL:'pillsTL',BR:'pillsBR',BL:'pillsBL'};
+  Object.values(containers).forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.innerHTML = '';
+  });
+  var tooltip = document.getElementById('rmTooltip');
+  if(tooltip) { tooltip.style.display='none'; tooltip.innerHTML=''; }
+
+  var wrap = document.getElementById('riskMatrixWrap');
+  if(!wrap) return;
+
+  if(!bubbleData||!bubbleData.length){
+    wrap.innerHTML='<div class="l4-empty" style="grid-column:1/4;display:flex;align-items:center;justify-content:center;">No providers match the selected filters.</div>';
+    return;
+  }
+
+  var top = bubbleData.slice(0,20);
+
+  top.forEach(function(d){
+    var hiM = d.ask >= HIGH_MULTIPLE;
+    var hiW = d.wr != null && d.wr >= HIGH_WIN;
+    var quad = (hiM ? 'T' : 'B') + (hiM && hiW ? 'R' : hiM && !hiW ? 'L' : !hiM && hiW ? 'R' : 'L');
+    if(!hiM && hiW) quad = 'BR';
+    if(!hiM && !hiW) quad = 'BL';
+    if(hiM && hiW) quad = 'TR';
+    if(hiM && !hiW) quad = 'TL';
+
+    var cls = quad==='TR'?'rm-red':quad==='TL'?'rm-amber':quad==='BR'?'rm-blue':'rm-green';
+    var containerId = 'pills'+quad;
+    var container = document.getElementById(containerId);
+    if(!container) return;
+
+    var shortName = d.name.length > 26 ? d.name.substring(0,25)+'…' : d.name;
+    var pill = document.createElement('span');
+    pill.className = 'rm-pill '+cls;
+    pill.textContent = shortName;
+    pill.title = d.name;
+    pill.addEventListener('mouseenter', function(){
+      if(!tooltip) return;
+      var kLabel = d.ask >= 1000 ? (d.ask/1000).toFixed(1)+'k×' : Math.round(d.ask)+'×';
+      var riskDesc = quad==='TR' ? '⚠️ Highest risk — overbilling severely and winning disputes' :
+                     quad==='TL' ? 'Overbilling severely but disputes are being stopped' :
+                     quad==='BR' ? 'Moderate billing but winning disputes consistently — watch closely' :
+                                   'Moderate billing, disputes being stopped — lower concern';
+      tooltip.innerHTML =
+        '<strong>'+d.name+'</strong><br>'+
+        'Bills on average <strong>'+kLabel+' above the federal benchmark</strong><br>'+
+        (d.wr != null ? 'Wins <strong>'+d.wr+'%</strong> of disputes &nbsp;&middot;&nbsp; ' : 'Win rate not available &nbsp;&middot;&nbsp; ')+
+        'Claims in period: <strong>'+(d.claims||'N/A').toLocaleString()+'</strong><br>'+
+        'Service type: '+(svcLabel[d.svc]||'Other')+'<br>'+
+        '<span style="color:#5a6475;font-size:11px;">'+riskDesc+'</span>';
+      tooltip.style.display='block';
+    });
+    pill.addEventListener('mouseleave', function(){
+      if(tooltip) tooltip.style.display='none';
+    });
+    container.appendChild(pill);
   });
 }
 
