@@ -450,6 +450,32 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l1 .l1-idre-inversion-body #tbl_idre th{padding:clamp(10px,1.4vmin,16px) 10px;background:var(--surface2);border-bottom:1px solid #edf0f2;vertical-align:middle}
 #tab-l1 .l1-idre-inversion-body #tbl_idre td{padding:clamp(12px,1.6vmin,20px) 10px;border-bottom:1px solid #edf0f2;vertical-align:middle}
 #tab-l1 .l1-idre-inversion-body #tbl_idre tbody tr:last-child td{border-bottom:1px solid #edf0f2}
+/* Logic 1 — IDRE day-gap bar chart + inversion table only: 50/50 columns, fill card bodies */
+#tab-l1 .l1-idre-gap-row{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  align-items:stretch;
+}
+#tab-l1 .l1-idre-gap-row>.card{min-height:0}
+#tab-l1 .l1-idre-gap-row>.card>.card-body>.legend-row{flex-shrink:0}
+#tab-l1 .l1-idre-gap-row>.card>.card-body>.chart-wrap.chart-wrap--l1-tall{
+  flex:1 1 auto;
+  min-height:280px;
+  height:auto!important;
+}
+#tab-l1 .l1-idre-gap-row>.card>.chart-insight,
+#tab-l1 .l1-idre-gap-row>.card>.callout{flex-shrink:0}
+#tab-l1 .l1-idre-gap-row .l1-idre-inversion-body{
+  flex:1 1 auto;
+  min-height:0;
+}
+#tab-l1 .l1-idre-gap-row .l1-idre-inversion-body #tbl_idre{
+  border-spacing:0 clamp(10px,2.4vmin,22px);
+}
+#tab-l1 .l1-idre-gap-row .l1-idre-inversion-body #tbl_idre td,
+#tab-l1 .l1-idre-gap-row .l1-idre-inversion-body #tbl_idre th{
+  padding-top:clamp(12px,1.8vmin,22px);
+  padding-bottom:clamp(12px,1.8vmin,22px);
+}
 #tab-l1 .sticky-head th{position:sticky;top:0;z-index:2;background:var(--surface2)}
 #tab-l1 .name-cell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:0}
 #tab-l1 .scroll-wrap{overflow-y:auto}
@@ -1629,7 +1655,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
       <h3 class="act-title">The inversion is systemic — present at 7 of 14 certified IDREs</h3>
 
-      <div class="grid-2 paired-row" style="grid-template-columns:1fr 1fr;">
+      <div class="grid-2 paired-row l1-idre-gap-row">
         <!-- LEFT: horizontal bar gap chart -->
         <div class="card">
           <div class="card-header">
