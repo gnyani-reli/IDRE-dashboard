@@ -896,157 +896,186 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
 <div class="l4-chart-grid l4-chart-grid-stretch">
 
-  <div class="l4-card l4-card-flex">
+  <div class="l4-card l4-card-flex l4-risk-ext-card">
     <div class="l4-card-header">
       <div class="l4-card-title">Most extreme providers &mdash; who is actually draining the system?</div>
-      <div class="l4-card-sub">Two axes summarize exposure: <strong>typical offer vs federal benchmark</strong> (horizontal, log scale) and <strong>dispute win rate</strong> (vertical). The <strong>bubble chart</strong> plots exact positions for the highest-multiple providers with known win rates; dashed lines match the matrix thresholds. The <strong>2×2 matrix</strong> lists the top 20 by typical multiple for quick scanning.</div>
+      <div class="l4-card-sub"><strong>Focus area for potential audit review</strong> based on combined typical billing multiple (vs federal benchmark) and dispute win rate in this extract. Shaded region = both signals above policy thresholds used elsewhere on this dashboard (&gt;5,000&times; QPA and &ge;93% wins).</div>
     </div>
     <div class="l4-card-body-flex" style="flex-direction:column;gap:0;">
 
-      <div class="risk-matrix-scatter-host">
-        <div class="risk-matrix-scatter-head">
-          <div class="risk-matrix-scatter-title">Where providers sit on both measures at once</div>
-          <p class="risk-matrix-scatter-lede">Bubble position = typical multiple (×QPA) vs win %. Bubble size ≈ claim volume in this filter. Gray dashed lines: 5,000× and 93% — same cuts as the quadrants below. Providers without win-rate in the merged data appear only in the matrix pills.<span class="risk-axis-note">The vertical axis scales to the plotted providers so spread is visible (not fixed 0–100%).</span></p>
+      <div class="risk-ext-chart-panel">
+        <div class="risk-ext-chart-main">
+          <div class="risk-ext-chart-titles">
+            <div class="risk-ext-chart-h">Billing multiple vs. win rate</div>
+            <p class="risk-ext-chart-lede">Each bubble is a provider. Size reflects estimated claim volume in the selected period. <strong>Numbers (1&ndash;10)</strong> are composite priority rank (joint quadrant + combined signal). Other plotted providers appear without numbers.</p>
+          </div>
+          <div class="risk-matrix-scatter-canvas-wrap risk-ext-canvas">
+            <canvas id="riskMatrixScatter"></canvas>
+          </div>
+          <div id="riskScatterEmpty" class="risk-matrix-scatter-empty" style="display:none;">No providers with both typical multiple and win rate match the current filters.</div>
         </div>
-        <div class="risk-matrix-scatter-canvas-wrap">
-          <canvas id="riskMatrixScatter"></canvas>
-        </div>
-        <div id="riskScatterEmpty" class="risk-matrix-scatter-empty" style="display:none;">No providers with both typical multiple and win rate match the current filters.</div>
+        <aside class="risk-ext-aside" aria-label="Chart interpretation">
+          <div class="risk-ext-aside-item risk-ext-aside-red">
+            <span class="risk-ext-aside-ic" aria-hidden="true">&#9673;</span>
+            <div><strong>Above both thresholds</strong><span class="risk-ext-aside-sub">Providers in the shaded priority zone combine very high typical multiples with high win rates.</span></div>
+          </div>
+          <div class="risk-ext-aside-item risk-ext-aside-amber">
+            <span class="risk-ext-aside-ic" aria-hidden="true">&#8593;</span>
+            <div><strong>High billing, mixed wins</strong><span class="risk-ext-aside-sub">Elevated multiples with win rates below the 93% cut still warrant attention on volume.</span></div>
+          </div>
+          <div class="risk-ext-aside-item risk-ext-aside-blue">
+            <span class="risk-ext-aside-ic" aria-hidden="true">&#9679;</span>
+            <div><strong>Concentrated exposure</strong><span class="risk-ext-aside-sub">Bubble size highlights where dispute volume concentrates among ranked entities.</span></div>
+          </div>
+        </aside>
       </div>
 
-      <div id="riskMatrixWrap">
-
-        <div class="rm-grid-y-label">
-          <span>&#8592; Wins disputes less &nbsp;&nbsp; Wins disputes more &#8594;</span>
+      <div class="risk-ext-split">
+        <div class="risk-ext-table-col">
+          <div class="risk-ext-table-title">Top priority providers for review</div>
+          <div class="risk-ext-table-scroll">
+            <table class="l4-data-table risk-ext-table" style="margin:0;font-size:12px;">
+              <thead>
+                <tr class="l4-sticky-head">
+                  <th class="risk-ext-th-rank">Rank</th>
+                  <th>Provider</th>
+                  <th class="l4r">Avg. billing multiple</th>
+                  <th class="l4r">Win rate (%)</th>
+                  <th class="l4r">Est. claim volume</th>
+                </tr>
+              </thead>
+              <tbody id="riskPriorityBody"></tbody>
+            </table>
+          </div>
+          <p id="riskPriorityFoot" class="risk-ext-table-foot">Note: Prefers providers with &ge;50 claims in period when available; otherwise shows highest-priority rows with available win-rate data.</p>
         </div>
-
-        <div id="qTL" class="rm-quad rm-quad-tl">
-          <div class="rm-quad-kicker">Bills a lot &nbsp;&middot;&nbsp; usually loses disputes</div>
-          <div id="rmSubTL" class="rm-quad-sub">High multiple &mdash; disputes often stopped</div>
-          <div id="pillsTL" class="rm-pills"></div>
+        <div class="risk-ext-cms">
+          <div class="risk-ext-cms-title">What this means for CMS</div>
+          <ul class="risk-ext-cms-list">
+            <li>
+              <span class="risk-ext-cms-ic" aria-hidden="true">&#128269;</span>
+              <div><strong>Focus review</strong><span>Entities in the priority zone jointly maximize billing distance from benchmark and dispute success — natural screening inputs for targeted review (observational only).</span></div>
+            </li>
+            <li>
+              <span class="risk-ext-cms-ic" aria-hidden="true">&#128203;</span>
+              <div><strong>Validate consistency</strong><span>High joint signals invite checks on documentation, coding, and IDR decision patterns alongside operational context.</span></div>
+            </li>
+            <li>
+              <span class="risk-ext-cms-ic" aria-hidden="true">&#128737;</span>
+              <div><strong>Assess impact</strong><span>Volume-weighted bubbles show where financial exposure may concentrate in a small set of billing organizations in this extract.</span></div>
+            </li>
+          </ul>
         </div>
-
-        <div id="qTR" class="rm-quad rm-quad-tr">
-          <div class="rm-quad-review">REVIEW</div>
-          <div class="rm-quad-kicker">Bills a lot &nbsp;&middot;&nbsp; wins disputes too</div>
-          <div id="rmSubTR" class="rm-quad-sub">&#9888; Largest combined spread (this view)</div>
-          <div id="pillsTR" class="rm-pills"></div>
-        </div>
-
-        <div id="qBL" class="rm-quad rm-quad-bl">
-          <div class="rm-quad-kicker">Bills moderately &nbsp;&middot;&nbsp; usually loses</div>
-          <div id="rmSubBL" class="rm-quad-sub">Lower concern</div>
-          <div id="pillsBL" class="rm-pills"></div>
-        </div>
-
-        <div id="qBR" class="rm-quad rm-quad-br">
-          <div class="rm-quad-kicker">Bills moderately &nbsp;&middot;&nbsp; wins disputes</div>
-          <div id="rmSubBR" class="rm-quad-sub">Worth watching</div>
-          <div id="pillsBR" class="rm-pills"></div>
-        </div>
-
-        <div class="rm-grid-x-label rm-grid-x-left">Moderate billing multiple</div>
-        <div class="rm-grid-x-label rm-grid-x-right">Very high billing multiple</div>
       </div>
 
-      <div id="rmTooltip" style="display:none;margin:0 14px 8px;background:#fff;border:1px solid #dde3ec;border-radius:8px;padding:9px 13px;font-size:12px;line-height:1.7;color:#0f1923;"></div>
+      <div class="risk-ext-banner" role="note">
+        <span class="risk-ext-banner-ic" aria-hidden="true">&#128737;</span>
+        <p>A small group of providers combine very high typical billing multiples with consistently high dispute win rates in this data — making them strong <strong>candidates for targeted review</strong> when paired with case-level evidence. Patterns are <strong>statistical and observational</strong>, not allegations of wrongdoing.</p>
+      </div>
 
-      <p class="l4-chart-note" style="margin:0 14px 14px;">
-        <strong>How to read this.</strong> Use the <strong>chart</strong> for relative position and volume; use the <strong>matrix</strong> for named lists. High multiple = typical offer &gt;5,000&times; QPA; high win rate = &ge;93%. <strong>Top-right</strong> combines both &mdash; largest joint signal in this framing. Providers are ranked into the matrix by typical multiple (top 20); the chart shows up to 35 with known win rates.
+      <p class="l4-chart-note" style="margin:12px 14px 14px;">
+        <strong>Thresholds.</strong> Vertical line: <strong>5,000&times;</strong> typical offer vs QPA. Horizontal line: <strong>93%</strong> dispute win rate. Rank uses quadrant priority (both high &gt; high multiple only &gt; moderate quadrants) then a combined score of win rate &times; log(multiple).
       </p>
     </div>
   </div>
 
   <style>
-    .risk-matrix-scatter-host { padding: 12px 14px 4px; flex-shrink: 0; border-bottom: 1px solid #edf0f3; }
-    .risk-matrix-scatter-head { margin-bottom: 8px; }
-    .risk-matrix-scatter-title { font-size: 12px; font-weight: 700; color: #0f1923; letter-spacing: 0.02em; }
-    .risk-matrix-scatter-lede { margin: 6px 0 0; font-size: 11px; line-height: 1.5; color: #5a6475; max-width: 72em; }
-    .risk-matrix-scatter-lede .risk-axis-note { display: block; margin-top: 4px; font-size: 10.5px; color: #7d8794; }
-    .risk-matrix-scatter-canvas-wrap { height: min(300px, 38vh); min-height: 220px; position: relative; }
-    .risk-matrix-scatter-empty { margin-top: 8px; font-size: 12px; color: #8a94a6; text-align: center; padding: 24px 12px; background: #f7f9fb; border-radius: 8px; border: 1px dashed #dde3ec; }
-    #riskMatrixWrap {
-      display: grid;
-      grid-template-columns: 26px 1fr 1fr;
-      grid-template-rows: auto auto 22px;
-      gap: 8px;
-      padding: 12px 14px 6px;
-      align-items: stretch;
-    }
-    .rm-grid-y-label {
-      grid-column: 1;
-      grid-row: 1 / 3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      align-self: stretch;
-    }
-    .rm-grid-y-label span {
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
-      font-size: 10px;
-      color: #8a94a6;
-      letter-spacing: 0.03em;
-    }
-    .rm-quad {
-      border-radius: 9px;
-      padding: 10px 12px;
-      overflow: hidden;
-      align-self: stretch;
-      min-height: 0;
-      display: flex;
-      flex-direction: column;
-    }
-    .rm-quad-tl { grid-column: 2; grid-row: 1; background: #FEF9EC; border: 1px solid #F0DFA0; }
-    .rm-quad-tr { grid-column: 3; grid-row: 1; background: #FEF0F0; border: 2px solid #ECA0A0; position: relative; }
-    .rm-quad-bl { grid-column: 2; grid-row: 2; background: #F2FAF5; border: 1px solid #BFDECE; }
-    .rm-quad-br { grid-column: 3; grid-row: 2; background: #EEF5FD; border: 1px solid #A8CCF0; }
-    .rm-quad-review {
-      position: absolute;
-      top: 8px;
-      right: 9px;
-      font-size: 9px;
-      font-weight: 700;
-      background: #A32D2D;
-      color: #fff;
-      padding: 2px 7px;
-      border-radius: 20px;
-      letter-spacing: 0.05em;
-    }
-    .rm-quad-kicker { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; flex-shrink: 0; }
-    .rm-quad-tl .rm-quad-kicker { color: #92680A; }
-    .rm-quad-tr .rm-quad-kicker { color: #8B1A1A; }
-    .rm-quad-bl .rm-quad-kicker { color: #27650A; }
-    .rm-quad-br .rm-quad-kicker { color: #0E4A8C; }
-    .rm-quad-sub { font-size: 11.5px; font-weight: 600; margin-bottom: 6px; line-height: 1.35; flex-shrink: 0; }
-    .rm-quad-tl .rm-quad-sub { color: #5A3A00; }
-    .rm-quad-tr .rm-quad-sub { color: #6B1010; }
-    .rm-quad-bl .rm-quad-sub { color: #1B4A07; }
-    .rm-quad-br .rm-quad-sub { color: #0A306E; }
-    .rm-pills {
+    .l4-risk-ext-card .l4-card-body-flex { overflow: hidden; }
+    .risk-ext-chart-panel {
       display: flex;
       flex-wrap: wrap;
-      gap: 3px;
-      align-content: flex-start;
-      flex: 1 1 auto;
-      min-height: 0;
+      gap: 16px;
+      align-items: stretch;
+      padding: 14px 16px 16px;
+      border-bottom: 1px solid #edf0f3;
     }
-    .rm-grid-x-label {
-      grid-row: 3;
+    .risk-ext-chart-main { flex: 1 1 320px; min-width: 0; }
+    .risk-ext-chart-titles { margin-bottom: 8px; }
+    .risk-ext-chart-h { font-size: 13px; font-weight: 700; color: #0f1923; }
+    .risk-ext-chart-lede { margin: 6px 0 0; font-size: 11px; line-height: 1.5; color: #5a6475; max-width: 52em; }
+    .risk-matrix-scatter-canvas-wrap { height: min(300px, 38vh); min-height: 220px; position: relative; }
+    .risk-ext-canvas { margin-top: 4px; }
+    .risk-matrix-scatter-empty { margin-top: 8px; font-size: 12px; color: #8a94a6; text-align: center; padding: 24px 12px; background: #f7f9fb; border-radius: 8px; border: 1px dashed #dde3ec; }
+    .risk-ext-aside {
+      flex: 0 1 220px;
+      min-width: 200px;
+      max-width: 280px;
       display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 10px 0 4px;
+      border-left: 1px solid #edf0f3;
+      padding-left: 16px;
+    }
+    @media (max-width: 900px) {
+      .risk-ext-aside { border-left: none; padding-left: 0; border-top: 1px solid #edf0f3; padding-top: 14px; max-width: none; }
+    }
+    .risk-ext-aside-item { display: flex; gap: 10px; align-items: flex-start; font-size: 11.5px; line-height: 1.45; color: #3d4a5c; }
+    .risk-ext-aside-item strong { display: block; color: #0f1923; font-size: 12px; margin-bottom: 2px; }
+    .risk-ext-aside-sub { display: block; color: #5a6475; font-size: 11px; margin-top: 2px; }
+    .risk-ext-aside-ic { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+    .risk-ext-aside-red .risk-ext-aside-ic { background: #fde8e8; color: #b42318; }
+    .risk-ext-aside-amber .risk-ext-aside-ic { background: #fff8e6; color: #b7791f; }
+    .risk-ext-aside-blue .risk-ext-aside-ic { background: #e8f0fc; color: #1f6fb2; }
+    .risk-ext-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.85fr) minmax(240px, 1fr);
+      gap: 16px;
+      padding: 14px 16px 12px;
+      align-items: stretch;
+    }
+    @media (max-width: 960px) {
+      .risk-ext-split { grid-template-columns: 1fr; }
+    }
+    .risk-ext-table-title { font-size: 13px; font-weight: 700; color: #0f1923; margin-bottom: 8px; }
+    .risk-ext-table-scroll { overflow-x: auto; border: 1px solid #edf0f3; border-radius: 8px; max-height: 320px; overflow-y: auto; }
+    .risk-ext-table { width: 100%; border-collapse: collapse; }
+    .risk-ext-table th, .risk-ext-table td { padding: 9px 10px; }
+    .risk-ext-th-rank { width: 52px; text-align: center; }
+    .risk-ext-rank-badge {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 9.5px;
-      color: #8a94a6;
+      min-width: 26px;
+      height: 26px;
+      padding: 0 6px;
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      background: #f0f4f8;
+      color: #0f1923;
+      border: 1px solid #dde3ec;
     }
-    .rm-grid-x-left { grid-column: 2; }
-    .rm-grid-x-right { grid-column: 3; }
-    .rm-pill { display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;cursor:pointer;white-space:nowrap;transition:transform .1s;font-weight:500;border:none; }
-    .rm-pill:hover { transform:scale(1.07); }
-    .rm-red   { background:#F5BFBF;color:#6B1010; }
-    .rm-amber { background:#FADFAA;color:#5A3A00; }
-    .rm-green { background:#BFE5CC;color:#0E4020; }
-    .rm-blue  { background:#BAD4F5;color:#0C2D56; }
+    .risk-ext-rank-badge.is-prio { background: #fde8e8; border-color: #f5c4c4; color: #8b1a1a; }
+    .risk-ext-metric-hot { color: #b42318; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .risk-ext-table-foot { margin: 8px 0 0; font-size: 10.5px; color: #7d8794; line-height: 1.45; }
+    .risk-ext-cms {
+      background: linear-gradient(180deg, #f4f8fd 0%, #eef4fb 100%);
+      border: 1px solid #c5daf0;
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .risk-ext-cms-title { font-size: 13px; font-weight: 700; color: #0e4a8c; margin-bottom: 12px; }
+    .risk-ext-cms-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+    .risk-ext-cms-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 12px; line-height: 1.5; color: #2d3a47; }
+    .risk-ext-cms-list strong { display: block; color: #0f1923; margin-bottom: 2px; }
+    .risk-ext-cms-list span:not(.risk-ext-cms-ic) { display: block; color: #5a6475; font-size: 11px; }
+    .risk-ext-cms-ic { flex-shrink: 0; font-size: 18px; line-height: 1.2; }
+    .risk-ext-banner {
+      margin: 0 16px 14px;
+      padding: 14px 18px;
+      background: linear-gradient(90deg, #0f2744 0%, #152a45 50%, #1a3355 100%);
+      border-radius: 10px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      color: #f0f4f8;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .risk-ext-banner-ic { flex-shrink: 0; font-size: 22px; opacity: 0.95; margin-top: 2px; }
+    .risk-ext-banner p { margin: 0; }
+    .risk-ext-banner strong { color: #fff; font-weight: 600; }
   </style>
 
   <div class="l4-card l4-card-flex">
@@ -4280,6 +4309,75 @@ function l4RiskQuad(d) {
   return 'BL';
 }
 
+function l4RiskPriorityCmp(a, b) {
+  var pri = {TR: 4, TL: 3, BR: 2, BL: 1};
+  var qa = l4RiskQuad(a);
+  var qb = l4RiskQuad(b);
+  if (pri[qb] !== pri[qa]) return pri[qb] - pri[qa];
+  var sa = (a.wr || 0) * Math.log(Math.max(Number(a.ask) || 2, 2));
+  var sb = (b.wr || 0) * Math.log(Math.max(Number(b.ask) || 2, 2));
+  if (sb !== sa) return sb - sa;
+  return Number(b.ask) - Number(a.ask);
+}
+
+function l4FillRiskPriorityTable(bubbleData) {
+  var tbody = document.getElementById('riskPriorityBody');
+  var foot = document.getElementById('riskPriorityFoot');
+  if (!tbody) return;
+  if (!bubbleData || !bubbleData.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="padding:16px;text-align:center;color:#8a94a6;">No providers match the current filters.</td></tr>';
+    if (foot) {
+      foot.textContent = 'Note: Prefers providers with ≥50 claims in period when available; otherwise shows highest-priority rows with available win-rate data.';
+    }
+    return;
+  }
+  var withWr = bubbleData.filter(function (d) {
+    return d.wr != null && d.claims > 0;
+  }).sort(l4RiskPriorityCmp);
+  var minC = 50;
+  var rows = withWr.filter(function (d) {
+    return d.claims >= minC;
+  }).slice(0, 10);
+  var note = 'Note: Table prefers providers with ≥50 claims in the analysis period when available.';
+  if (rows.length < 5) {
+    rows = withWr.slice(0, 10);
+    note = 'Note: Fewer than five providers meet the ≥50-claim screen with win-rate data in this view; showing up to 10 highest-priority rows by combined signal.';
+  }
+  if (foot) foot.textContent = note;
+  tbody.innerHTML = rows
+    .map(function (d, i) {
+      var rank = i + 1;
+      var prio = l4RiskQuad(d) === 'TR';
+      var mult =
+        d.ask >= 1000
+          ? (d.ask / 1000).toFixed(1) + 'k×'
+          : Number(d.ask).toLocaleString(undefined, {maximumFractionDigits: 1}) + '×';
+      var esc = d.name.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+      return (
+        '<tr><td class="l4r"><span class="risk-ext-rank-badge' +
+        (prio ? ' is-prio' : '') +
+        '">' +
+        rank +
+        '</span></td>' +
+        '<td style="font-weight:500;max-width:220px;" title="' +
+        esc +
+        '">' +
+        d.name +
+        '</td>' +
+        '<td class="l4r risk-ext-metric-hot">' +
+        mult +
+        '</td>' +
+        '<td class="l4r risk-ext-metric-hot">' +
+        d.wr +
+        '%</td>' +
+        '<td class="l4r">' +
+        d.claims.toLocaleString() +
+        '</td></tr>'
+      );
+    })
+    .join('');
+}
+
 function l4CreateRiskScatter(bubbleData) {
   var HIGH_MULTIPLE = 5000;
   var HIGH_WIN = 93;
@@ -4290,10 +4388,14 @@ function l4CreateRiskScatter(bubbleData) {
   var emptyEl = document.getElementById('riskScatterEmpty');
   if (!canvas || !cw) return;
 
-  var slice = (bubbleData || []).slice(0, 35).filter(function (d) {
-    return d.wr != null && d.claims > 0 && d.ask > 0;
-  });
-  if (!slice.length) {
+  var pool = (bubbleData || [])
+    .filter(function (d) {
+      return d.wr != null && d.claims > 0 && d.ask > 0;
+    })
+    .sort(l4RiskPriorityCmp)
+    .slice(0, 35);
+
+  if (!pool.length) {
     cw.style.display = 'none';
     if (emptyEl) {
       emptyEl.style.display = 'block';
@@ -4308,61 +4410,171 @@ function l4CreateRiskScatter(bubbleData) {
     return Math.min(24, 5 + Math.sqrt(n || 0));
   }
   var colors = {
-    TR: 'rgba(192,57,43,0.72)',
-    TL: 'rgba(212,160,23,0.78)',
-    BR: 'rgba(31,111,178,0.68)',
-    BL: 'rgba(39,101,14,0.68)',
+    TR: 'rgba(192,57,43,0.78)',
+    TL: 'rgba(212,160,23,0.82)',
+    BR: 'rgba(31,111,178,0.72)',
+    BL: 'rgba(39,101,14,0.72)',
   };
   var borderColors = {
-    TR: 'rgba(139,26,26,0.9)',
-    TL: 'rgba(146,104,10,0.9)',
-    BR: 'rgba(14,74,140,0.9)',
-    BL: 'rgba(27,74,7,0.9)',
+    TR: 'rgba(139,26,26,0.95)',
+    TL: 'rgba(146,104,10,0.95)',
+    BR: 'rgba(14,74,140,0.95)',
+    BL: 'rgba(27,74,7,0.95)',
   };
+  var greyFill = 'rgba(148,163,184,0.55)';
+  var greyBorder = 'rgba(100,116,139,0.85)';
 
-  var pts = slice.map(function (d) {
+  var pts = pool.map(function (d, idx) {
     var q = l4RiskQuad(d);
+    var rank = idx + 1;
+    var grey = rank > 10;
     return {
       x: Math.max(d.ask, 1),
       y: d.wr,
       r: bubbleR(d.claims),
       quad: q,
       meta: d,
+      rank: rank,
+      grey: grey,
     };
   });
 
-  var xVals = pts.map(function (p) { return p.x; });
-  var xMin = Math.max(40, Math.min.apply(null, xVals) * 0.65);
-  var xMax = Math.max.apply(null, xVals) * 1.12;
+  var xVals = pts.map(function (p) {
+    return p.x;
+  });
+  var xMin = Math.max(40, Math.min.apply(null, xVals) * 0.6);
+  var xMax = Math.max.apply(null, xVals) * 1.15;
 
-  var yVals = pts.map(function (p) { return p.y; });
+  var yVals = pts.map(function (p) {
+    return p.y;
+  });
   var yMinData = Math.min.apply(null, yVals);
   var yMaxData = Math.max.apply(null, yVals);
   var ySpan = Math.max(yMaxData - yMinData, 3);
-  var yPadLo = Math.max(2, ySpan * 0.14);
-  var yPadHi = Math.max(1, ySpan * 0.08);
-  var yAxisMin = Math.min(yMinData - yPadLo, HIGH_WIN - 4);
-  yAxisMin = Math.max(50, Math.floor(yAxisMin));
-  if (yAxisMin >= yMinData - 0.5) {
+  var yPadLo = Math.max(2, ySpan * 0.12);
+  var yPadHi = Math.max(1, ySpan * 0.06);
+  var yAxisMin = Math.min(yMinData - yPadLo, HIGH_WIN - 3);
+  yAxisMin = Math.max(75, Math.floor(yAxisMin));
+  if (yMinData < 72) {
     yAxisMin = Math.max(50, Math.floor(yMinData - 3));
   }
   var yAxisMax = Math.min(100, Math.ceil(yMaxData + yPadHi));
-  if (yAxisMax <= yAxisMin + 6) {
-    yAxisMax = Math.min(100, yAxisMin + 8);
+  if (yAxisMax <= yAxisMin + 5) {
+    yAxisMax = Math.min(100, yAxisMin + 7);
   }
 
   var lineVert = [{x: HIGH_MULTIPLE, y: yAxisMin}, {x: HIGH_MULTIPLE, y: yAxisMax}];
   var lineHorz = [{x: xMin, y: HIGH_WIN}, {x: xMax, y: HIGH_WIN}];
+
+  var prioZonePlugin = {
+    id: 'riskPrioZone',
+    beforeDatasetsDraw: function (chart) {
+      var xScale = chart.scales.x;
+      var yScale = chart.scales.y;
+      var ca = chart.chartArea;
+      if (!xScale || !yScale) return;
+      var xThr = xScale.getPixelForValue(HIGH_MULTIPLE);
+      var yThr = yScale.getPixelForValue(HIGH_WIN);
+      var left = Math.max(ca.left, Math.min(xThr, ca.right));
+      var right = ca.right;
+      var top = ca.top;
+      var bot = yThr;
+      if (left >= right || bot <= top) return;
+      var ctx = chart.ctx;
+      ctx.save();
+      ctx.fillStyle = 'rgba(254, 226, 226, 0.45)';
+      ctx.fillRect(left, top, right - left, bot - top);
+      ctx.strokeStyle = 'rgba(185, 28, 28, 0.45)';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([5, 4]);
+      ctx.strokeRect(left + 0.5, top + 0.5, right - left - 1, bot - top - 1);
+      ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(153, 27, 27, 0.88)';
+      ctx.font = '600 9px Inter, system-ui, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'top';
+      var lx = left + 8;
+      var ly = top + 8;
+      if (lx + 160 < right && ly + 12 < bot) {
+        ctx.fillText('PRIORITY REVIEW ZONE · high billing + high wins', lx, ly);
+      }
+      ctx.restore();
+    },
+  };
+
+  var bubbleRankPlugin = {
+    id: 'riskBubbleRanks',
+    afterDatasetsDraw: function (chart) {
+      var meta = chart.getDatasetMeta(0);
+      if (!meta || !meta.data) return;
+      var ctx = chart.ctx;
+      ctx.save();
+      ctx.font = '600 10px Inter, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      meta.data.forEach(function (el, i) {
+        var p = pts[i];
+        if (!p || p.rank > 10) return;
+        var pt = typeof el.getCenterPoint === 'function' ? el.getCenterPoint() : {x: el.x, y: el.y};
+        var x = pt.x;
+        var y = pt.y;
+        var t = String(p.rank);
+        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+        ctx.strokeText(t, x, y);
+        ctx.fillStyle = '#fff';
+        ctx.fillText(t, x, y);
+      });
+      ctx.restore();
+    },
+  };
+
+  var thresholdLabelPlugin = {
+    id: 'riskThrLabels',
+    afterDraw: function (chart) {
+      var xScale = chart.scales.x;
+      var yScale = chart.scales.y;
+      var ca = chart.chartArea;
+      if (!xScale || !yScale) return;
+      var ctx = chart.ctx;
+      var xThr = xScale.getPixelForValue(HIGH_MULTIPLE);
+      var yThr = yScale.getPixelForValue(HIGH_WIN);
+      ctx.save();
+      ctx.font = '10px Inter, system-ui, sans-serif';
+      ctx.fillStyle = '#64748b';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'top';
+      var hx = (ca.left + ca.right) / 2;
+      var hy = Math.min(yThr + 10, ca.bottom - 4);
+      if (yThr < ca.bottom - 18) {
+        ctx.fillText('93% win rate threshold', hx, hy);
+      }
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      var lx = Math.min(xThr + 6, ca.right - 80);
+      var ly = (ca.top + yThr) / 2;
+      ctx.translate(lx, ly);
+      ctx.rotate(-Math.PI / 2);
+      ctx.fillText('5,000× benchmark', 0, 0);
+      ctx.restore();
+    },
+  };
 
   L4_CHARTS.riskScatter = new Chart(canvas.getContext('2d'), {
     data: {
       datasets: [
         {
           type: 'bubble',
-          label: 'Providers (color = quadrant below)',
-          data: pts.map(function (p) { return {x: p.x, y: p.y, r: p.r}; }),
-          backgroundColor: pts.map(function (p) { return colors[p.quad]; }),
-          borderColor: pts.map(function (p) { return borderColors[p.quad]; }),
+          label: 'Providers (priority-ranked)',
+          data: pts.map(function (p) {
+            return {x: p.x, y: p.y, r: p.r};
+          }),
+          backgroundColor: pts.map(function (p) {
+            return p.grey ? greyFill : colors[p.quad];
+          }),
+          borderColor: pts.map(function (p) {
+            return p.grey ? greyBorder : borderColors[p.quad];
+          }),
           borderWidth: 1,
           order: 0,
         },
@@ -4370,7 +4582,7 @@ function l4CreateRiskScatter(bubbleData) {
           type: 'line',
           label: '',
           data: lineVert,
-          borderColor: 'rgba(90,100,120,0.45)',
+          borderColor: 'rgba(90,100,120,0.5)',
           borderDash: [5, 5],
           borderWidth: 1.5,
           pointRadius: 0,
@@ -4382,7 +4594,7 @@ function l4CreateRiskScatter(bubbleData) {
           type: 'line',
           label: '',
           data: lineHorz,
-          borderColor: 'rgba(90,100,120,0.45)',
+          borderColor: 'rgba(90,100,120,0.5)',
           borderDash: [5, 5],
           borderWidth: 1.5,
           pointRadius: 0,
@@ -4413,20 +4625,22 @@ function l4CreateRiskScatter(bubbleData) {
             title: function (items) {
               var it = items[0];
               if (!it || it.datasetIndex !== 0) return '';
-              var d = pts[it.dataIndex].meta;
-              return d.name;
+              return pts[it.dataIndex].meta.name;
             },
             label: function (ctx) {
               if (ctx.datasetIndex !== 0) return '';
-              var d = pts[ctx.dataIndex].meta;
+              var p = pts[ctx.dataIndex];
+              var d = p.meta;
               var kLabel = d.ask >= 1000 ? (d.ask / 1000).toFixed(1) + 'k×' : Math.round(d.ask) + '×';
-              return [
+              var lines = [
+                'Rank (composite): ' + p.rank,
                 'Typical multiple: ' + kLabel + ' vs QPA',
                 'Win rate: ' + d.wr + '%',
                 'Claims: ' + (d.claims || 0).toLocaleString(),
                 'Service: ' + (svcLabel[d.svc] || 'Other'),
-                'Quadrant: ' + (ctx.raw.x >= HIGH_MULTIPLE ? 'High ×' : 'Moderate ×') + ' · ' + (ctx.raw.y >= HIGH_WIN ? 'High wins' : 'Lower wins'),
               ];
+              if (p.grey) lines.push('Outside top-10 priority band (still plotted)');
+              return lines;
             },
           },
         },
@@ -4434,12 +4648,20 @@ function l4CreateRiskScatter(bubbleData) {
       scales: {
         x: {
           type: 'logarithmic',
-          title: {display: true, text: 'Typical multiple vs federal benchmark (log scale)', font: {size: 10}, color: '#5a6475'},
+          title: {
+            display: true,
+            text: 'Billing multiple vs federal benchmark (log scale)',
+            font: {size: 10},
+            color: '#5a6475',
+          },
           grid: {color: '#eef1f4'},
           ticks: {
             callback: function (v) {
-              var ok = [50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000];
-              if (ok.indexOf(v) >= 0) return v >= 1000 ? (v / 1000).toFixed(0).replace(/\.0$/, '') + 'k×' : v + '×';
+              var ok = [1, 5, 10, 20, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000];
+              if (ok.indexOf(v) >= 0) {
+                if (v >= 1000) return (v / 1000).toFixed(0).replace(/\.0$/, '') + 'k×';
+                return v + '×';
+              }
               return null;
             },
           },
@@ -4447,7 +4669,12 @@ function l4CreateRiskScatter(bubbleData) {
           suggestedMax: xMax,
         },
         y: {
-          title: {display: true, text: 'Dispute win rate (%) — scaled to data', font: {size: 10}, color: '#5a6475'},
+          title: {
+            display: true,
+            text: 'Dispute win rate (%)',
+            font: {size: 10},
+            color: '#5a6475',
+          },
           min: yAxisMin,
           max: yAxisMax,
           grid: {color: '#eef1f4'},
@@ -4460,89 +4687,32 @@ function l4CreateRiskScatter(bubbleData) {
         },
       },
     },
+    plugins: [prioZonePlugin, bubbleRankPlugin, thresholdLabelPlugin],
   });
 }
 
 function l4CreateBubble(bubbleData) {
-  var svcLabel = {iom:'Intraoperative Monitoring',rad:'Radiology',em:'Emergency Medicine',other:'Other'};
-
-  var containers = {TR:'pillsTR',TL:'pillsTL',BR:'pillsBR',BL:'pillsBL'};
-  Object.values(containers).forEach(function(id){
-    var el = document.getElementById(id);
-    if(el) el.innerHTML = '';
-  });
-  var tooltip = document.getElementById('rmTooltip');
-  if(tooltip) { tooltip.style.display='none'; tooltip.innerHTML=''; }
-
-  var wrap = document.getElementById('riskMatrixWrap');
-  if(!wrap) return;
+  var canvas = document.getElementById('riskMatrixScatter');
+  if (!canvas) return;
 
   var cw = document.querySelector('.risk-matrix-scatter-canvas-wrap');
   var emptyEl = document.getElementById('riskScatterEmpty');
 
-  if(!bubbleData||!bubbleData.length){
+  if (!bubbleData || !bubbleData.length) {
     l4DestroyChart('riskScatter');
     if (cw) cw.style.display = 'none';
     if (emptyEl) {
       emptyEl.style.display = 'block';
       emptyEl.textContent = 'No providers match the selected filters.';
     }
-    var subs = {rmSubTL:'High multiple — disputes often stopped',rmSubTR:'\u26A0 Largest combined spread (this view)',rmSubBL:'Lower concern',rmSubBR:'Worth watching'};
-    Object.keys(subs).forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=subs[id]; });
+    l4FillRiskPriorityTable([]);
     return;
   }
 
   if (cw) cw.style.display = '';
   if (emptyEl) emptyEl.style.display = 'none';
   l4CreateRiskScatter(bubbleData);
-
-  var top = bubbleData.slice(0,20);
-  var counts = {TR:0,TL:0,BR:0,BL:0};
-  top.forEach(function(d){ counts[l4RiskQuad(d)]++; });
-
-  var subElTL = document.getElementById('rmSubTL');
-  var subElTR = document.getElementById('rmSubTR');
-  var subElBL = document.getElementById('rmSubBL');
-  var subElBR = document.getElementById('rmSubBR');
-  if (subElTL) subElTL.textContent = 'High multiple — disputes often stopped · ' + counts.TL + ' in top 20';
-  if (subElTR) subElTR.textContent = '\u26A0 Largest combined spread (this view) · ' + counts.TR + ' in top 20';
-  if (subElBL) subElBL.textContent = 'Lower concern · ' + counts.BL + ' in top 20';
-  if (subElBR) subElBR.textContent = 'Worth watching · ' + counts.BR + ' in top 20';
-
-  top.forEach(function(d){
-    var quad = l4RiskQuad(d);
-
-    var cls = quad==='TR'?'rm-red':quad==='TL'?'rm-amber':quad==='BR'?'rm-blue':'rm-green';
-    var containerId = 'pills'+quad;
-    var container = document.getElementById(containerId);
-    if(!container) return;
-
-    var shortName = d.name.length > 26 ? d.name.substring(0,25)+'…' : d.name;
-    var pill = document.createElement('span');
-    pill.className = 'rm-pill '+cls;
-    pill.textContent = shortName;
-    pill.title = d.name;
-    pill.addEventListener('mouseenter', function(){
-      if(!tooltip) return;
-      var kLabel = d.ask >= 1000 ? (d.ask/1000).toFixed(1)+'k×' : Math.round(d.ask)+'×';
-      var riskDesc = quad==='TR' ? 'Largest combined multiple and win rate in this view' :
-                     quad==='TL' ? 'Very high typical multiple; disputes more often stopped' :
-                     quad==='BR' ? 'Moderate multiple with high win rate — review with other indicators' :
-                                   'Moderate multiple; disputes more often stopped — lower joint signal';
-      tooltip.innerHTML =
-        '<strong>'+d.name+'</strong><br>'+
-        'Bills on average <strong>'+kLabel+' above the federal benchmark</strong><br>'+
-        (d.wr != null ? 'Wins <strong>'+d.wr+'%</strong> of disputes &nbsp;&middot;&nbsp; ' : 'Win rate not available &nbsp;&middot;&nbsp; ')+
-        'Claims in period: <strong>'+(d.claims||'N/A').toLocaleString()+'</strong><br>'+
-        'Service type: '+(svcLabel[d.svc]||'Other')+'<br>'+
-        '<span style="color:#5a6475;font-size:11px;">'+riskDesc+'</span>';
-      tooltip.style.display='block';
-    });
-    pill.addEventListener('mouseleave', function(){
-      if(tooltip) tooltip.style.display='none';
-    });
-    container.appendChild(pill);
-  });
+  l4FillRiskPriorityTable(bubbleData);
 }
 
 function l4CreateStateCombo() {
