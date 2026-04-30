@@ -445,6 +445,11 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l1 .data-table td.r{text-align:right;font-family:'DM Mono',monospace}
 #tab-l1 .data-table tr:last-child td{border-bottom:none}
 #tab-l1 .data-table tr:hover td{background:var(--surface2)}
+/* IDRE inversion paired card: stretch table area with taller rows so it fills the column vs the bar chart */
+#tab-l1 .l1-idre-inversion-body #tbl_idre{border-collapse:separate;border-spacing:0 clamp(8px,1.6vmin,16px)}
+#tab-l1 .l1-idre-inversion-body #tbl_idre th{padding:clamp(10px,1.4vmin,16px) 10px;background:var(--surface2);border-bottom:1px solid #edf0f2;vertical-align:middle}
+#tab-l1 .l1-idre-inversion-body #tbl_idre td{padding:clamp(12px,1.6vmin,20px) 10px;border-bottom:1px solid #edf0f2;vertical-align:middle}
+#tab-l1 .l1-idre-inversion-body #tbl_idre tbody tr:last-child td{border-bottom:1px solid #edf0f2}
 #tab-l1 .sticky-head th{position:sticky;top:0;z-index:2;background:var(--surface2)}
 #tab-l1 .name-cell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:0}
 #tab-l1 .scroll-wrap{overflow-y:auto}
@@ -1648,7 +1653,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
             <div class="card-title">IDRE inversion detail — all 14 certified entities</div>
             <div class="card-sub">Flagged = ≥50 Extreme-tier cases AND Extreme median days &lt; Routine median days. Sorted by day gap descending.</div>
           </div>
-          <div class="card-body" style="padding:0;overflow-y:auto;overflow-x:auto;overscroll-behavior:contain;max-height:420px;">
+          <div class="card-body l1-idre-inversion-body" style="padding:0;overflow-y:auto;overflow-x:auto;overscroll-behavior:contain;flex:1;min-height:0;">
             <table class="data-table sticky-head" style="width:100%;table-layout:fixed;" id="tbl_idre">
               <colgroup>
                 <col style="width:4%"><col style="width:22%"><col style="width:9%">
