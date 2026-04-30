@@ -151,7 +151,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   font-size: 14px;
   color: #3d4a5c;
   line-height: 1.65;
-  max-width: 780px;
+  width: 100%;
+  box-sizing: border-box;
   margin-bottom: 32px;
 }
 #tab-l3 .kpi-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
@@ -267,7 +268,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l4 .l4-filter-group select { background:var(--l4-surface); border:1px solid #cfd3d8; border-radius:4px; padding:0 8px; font-size:12px; font-family:inherit; color:var(--l4-text); cursor:pointer; outline:none; min-width:118px; height:30px; }
 #tab-l4 .l4-filter-group select:focus { border-color:var(--l4-blue); }
 
-#tab-l4 .l4-insight { background:var(--l4-blue-lt); border-left:4px solid var(--l4-blue); border-radius:0 8px 8px 0; padding:12px 16px; font-size:14px; color:#3d4a5c; line-height:1.65; max-width:780px; margin-bottom:20px; }
+#tab-l4 .l4-insight { background:var(--l4-blue-lt); border-left:4px solid var(--l4-blue); border-radius:0 8px 8px 0; padding:12px 16px; font-size:14px; color:#3d4a5c; line-height:1.65; width:100%; box-sizing:border-box; margin-bottom:20px; }
 #tab-l4 .l4-insight strong { font-weight: 700; }
 
 /* KPI strip */
@@ -413,7 +414,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l1 .header-top{display:flex;justify-content:space-between;align-items:center;gap:14px;background:var(--surface2);border:1px solid #d5d7da;border-radius:10px;padding:12px 14px;margin-bottom:8px;flex-wrap:wrap}
 #tab-l1 .header h1{font-size:22px;font-weight:700;line-height:1.25;color:#0f1923}
 #tab-l1 .header-meta{font-size:13px;color:var(--muted);margin-top:4px}
-#tab-l1 .insight{background:var(--blue-lt);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 16px;font-size:14px;color:#3d4a5c;line-height:1.65;max-width:780px;margin-bottom:24px}
+#tab-l1 .insight{background:var(--blue-lt);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 16px;font-size:14px;color:#3d4a5c;line-height:1.65;width:100%;box-sizing:border-box;margin-bottom:24px}
 #tab-l1 .insight-red{background:#fdecea;border-left:4px solid var(--red);border-radius:0 8px 8px 0;padding:12px 16px;font-size:13px;color:#7a1a12;line-height:1.6;margin-bottom:16px}
 #tab-l1 .insight-green{background:#e8f5ee;border-left:4px solid #1a7a4a;border-radius:0 8px 8px 0;padding:12px 16px;font-size:13px;color:#0e3d22;line-height:1.6;margin-top:12px}
 #tab-l1 .kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
