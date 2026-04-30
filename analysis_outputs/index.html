@@ -4362,6 +4362,24 @@ function l4RiskPriorityCmp(a, b) {
   return Number(b.ask) - Number(a.ask);
 }
 
+function l4GetPriorityRows(bubbleData, maxRows) {
+  var rows = (bubbleData || [])
+    .filter(function (d) {
+      return d.wr != null && d.claims > 0;
+    })
+    .sort(l4RiskPriorityCmp);
+  var minC = 50;
+  var gated = rows
+    .filter(function (d) {
+      return d.claims >= minC;
+    })
+    .slice(0, maxRows);
+  if (gated.length < Math.min(4, maxRows)) {
+    gated = rows.slice(0, maxRows);
+  }
+  return gated;
+}
+
 function l4FillRiskPriorityTable(bubbleData) {
   var tbody = document.getElementById('riskPriorityBody');
   if (!tbody) return;
@@ -4371,20 +4389,7 @@ function l4FillRiskPriorityTable(bubbleData) {
       '<tr><td colspan="4" style="padding:16px;text-align:center;color:#64748b;font-size:13px;">No providers match the current filters.</td></tr>';
     return;
   }
-  var withWr = bubbleData
-    .filter(function (d) {
-      return d.wr != null && d.claims > 0;
-    })
-    .sort(l4RiskPriorityCmp);
-  var minC = 50;
-  var rows = withWr
-    .filter(function (d) {
-      return d.claims >= minC;
-    })
-    .slice(0, maxRows);
-  if (rows.length < 4) {
-    rows = withWr.slice(0, maxRows);
-  }
+  var rows = l4GetPriorityRows(bubbleData, maxRows);
   tbody.innerHTML = rows
     .map(function (d, i) {
       var mult =
@@ -4412,7 +4417,7 @@ function l4FillRiskPriorityTable(bubbleData) {
 function l4CreateRiskScatter(bubbleData) {
   var HIGH_MULTIPLE = 5000;
   var HIGH_WIN = 93;
-  var MAX_POINTS = 10;
+  var MAX_POINTS = 5;
   var BUBBLE_FILL = 'rgba(30, 58, 95, 0.88)';
   var BUBBLE_BORDER = 'rgba(15, 39, 67, 1)';
 
@@ -4422,12 +4427,9 @@ function l4CreateRiskScatter(bubbleData) {
   var emptyEl = document.getElementById('riskScatterEmpty');
   if (!canvas || !cw) return;
 
-  var pool = (bubbleData || [])
-    .filter(function (d) {
-      return d.wr != null && d.claims > 0 && d.ask > 0;
-    })
-    .sort(l4RiskPriorityCmp)
-    .slice(0, MAX_POINTS);
+  var pool = l4GetPriorityRows(bubbleData, MAX_POINTS).filter(function (d) {
+    return d.ask > 0;
+  });
 
   if (!pool.length) {
     cw.style.display = 'none';
@@ -4456,8 +4458,8 @@ function l4CreateRiskScatter(bubbleData) {
   var xVals = pts.map(function (p) {
     return p.x;
   });
-  var xMin = Math.max(40, Math.min.apply(null, xVals) * 0.58);
-  var xMax = Math.max.apply(null, xVals) * 1.12;
+  var xMin = Math.max(40, Math.min.apply(null, xVals) * 0.82);
+  var xMax = Math.max.apply(null, xVals) * 1.22;
 
   var yVals = pts.map(function (p) {
     return p.y;
@@ -4465,14 +4467,14 @@ function l4CreateRiskScatter(bubbleData) {
   var yMinData = Math.min.apply(null, yVals);
   var yMaxData = Math.max.apply(null, yVals);
   var ySpan = Math.max(yMaxData - yMinData, 4);
-  var yAxisMin = Math.min(yMinData - ySpan * 0.12, HIGH_WIN - 2);
-  yAxisMin = Math.max(75, Math.floor(yAxisMin));
+  var yAxisMin = Math.min(yMinData - ySpan * 0.22, HIGH_WIN - 3);
+  yAxisMin = Math.max(72, Math.floor(yAxisMin));
   if (yMinData < 70) {
     yAxisMin = Math.max(55, Math.floor(yMinData - 4));
   }
-  var yAxisMax = Math.min(100, Math.ceil(yMaxData + ySpan * 0.08));
+  var yAxisMax = Math.min(102, Math.ceil(yMaxData + ySpan * 0.22));
   if (yAxisMax <= yAxisMin + 6) {
-    yAxisMax = Math.min(100, yAxisMin + 8);
+    yAxisMax = Math.min(102, yAxisMin + 10);
   }
 
   var lineVert = [{x: HIGH_MULTIPLE, y: yAxisMin}, {x: HIGH_MULTIPLE, y: yAxisMax}];
@@ -4536,6 +4538,7 @@ function l4CreateRiskScatter(bubbleData) {
             return BUBBLE_BORDER;
           }),
           borderWidth: 1.25,
+          clip: false,
           order: 0,
         },
         {
