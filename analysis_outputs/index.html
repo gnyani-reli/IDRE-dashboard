@@ -508,8 +508,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
     </div>
     <div class="card" style="margin:0;">
       <div class="card-header">
-        <div class="card-title">Total disputes by provider domain <span style="font-weight:400;color:var(--muted)">(top 12 flagged networks)</span></div>
-        <div class="card-sub"><span style="color:var(--red)">■</span> Default win rate &gt;30% — high default &nbsp;<span style="color:var(--amber)">■</span> Default 15–30% — elevated &nbsp;<span style="color:var(--blue)">■</span> Default &lt;15% — low</div>
+        <div class="card-title">Total disputes by provider domain</div>
+        <div class="card-sub">Y = billing domain (top 12 by volume) · X = total disputes filed · Bar color = default win rate · <span style="color:var(--red)">●</span> Default &gt;30% · <span style="color:var(--amber)">●</span> Default 15–30% · <span style="color:var(--blue)">●</span> Default &lt;15%</div>
       </div>
       <div class="card-body" style="padding-top:0;">
         <div class="chart-wrap chart-wrap--md"><canvas id="c_l3_market_vol"></canvas></div>
@@ -1019,18 +1019,18 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         <p class="l3-vol-intro">A handful of corporate billing networks dominate the IDR program. halomd.com and teamhealth.com together represent 33% of all national disputes — concentrations that make their win rates and default strategies systemically significant.</p>
       </div>
     </div>
-    <div class="grid-2">
+    <div class="grid-2 grid-2--stretch">
       <div class="card">
         <div class="card-header">
-          <div class="card-title">Total disputes by provider domain <span style="font-weight:400;color:var(--muted)">(top 12 flagged networks)</span></div>
-          <div class="card-sub"><span style="color:var(--red)">■</span> Default win rate &gt;30% — high default &nbsp;<span style="color:var(--amber)">■</span> Default 15–30% — elevated &nbsp;<span style="color:var(--blue)">■</span> Default &lt;15% — low</div>
+          <div class="card-title">Total disputes by provider domain</div>
+          <div class="card-sub">Y = billing domain (top 12 by volume) · X = total disputes filed · Bar color = default win rate · <span style="color:var(--red)">●</span> Default &gt;30% · <span style="color:var(--amber)">●</span> Default 15–30% · <span style="color:var(--blue)">●</span> Default &lt;15%</div>
         </div>
         <div class="chart-wrap chart-wrap--md"><canvas id="c_vol"></canvas></div>
       </div>
       <div class="card">
         <div class="card-header">
           <div class="card-title">Merit win rate vs. default win rate by domain</div>
-          <div class="card-sub">X = merit win rate · Y = default win rate · Size ∝ national dispute share · <span style="color:var(--red)">●</span> Default &gt;30% &nbsp;<span style="color:var(--amber)">●</span> Default 15–30% &nbsp;<span style="color:var(--blue)">●</span> Default &lt;15%</div>
+          <div class="card-sub">X = merit win rate · Y = default win rate · Size ∝ national dispute share · <span style="color:var(--red)">●</span> Default &gt;30% · <span style="color:var(--amber)">●</span> Default 15–30% · <span style="color:var(--blue)">●</span> Default &lt;15%</div>
         </div>
         <div class="chart-wrap chart-wrap--md"><canvas id="c_vol_scatter"></canvas></div>
       </div>
