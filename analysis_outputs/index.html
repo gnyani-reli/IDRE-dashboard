@@ -68,6 +68,9 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 .dash-footer p:last-child { margin-bottom: 0; }
 /* Req 7 & Req 2: full dashboards are inline in .page (charts + story). Iframes removed — they duplicated content and broke when paths/deploy drifted. */
 
+/* User-requested global text lock: force all text to 15px */
+html, body, body * { font-size: 15px !important; }
+
 /* ===== DESIGN TOKENS ===== */
 :root {
   --bg: #f4f6f8;
