@@ -180,14 +180,14 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l3 .bar-list + .chart-insight, #tab-r7 .bar-list + .chart-insight, #tab-r2 .bar-list + .chart-insight { margin-top: 14px; }
 /* -- HEADER META (Logic3) -- */
 #tab-l3 .header-meta { font-size: 13px; color: var(--muted); margin-top: 4px; }
-/* -- L3 market dominance (billing domains) -- */
+/* -- Market dominance landmark (Plan Non-Response + Volume & Merit) -- */
 #tab-l3 .l3-vol-section { margin-bottom: 22px; }
-#tab-l3 .l3-vol-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
-#tab-l3 .l3-vol-step { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
-#tab-l3 .l3-vol-titlewrap { flex: 1; min-width: 200px; }
-#tab-l3 .l3-vol-badge { display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #e6f0fb; color: var(--blue); padding: 3px 10px; border-radius: 100px; margin-top: 6px; }
-#tab-l3 .l3-vol-h2 { font-size: 15px; font-weight: 600; color: var(--text); margin: 0; line-height: 1.35; }
-#tab-l3 .l3-vol-intro { font-size: 12px; color: var(--muted); margin: 8px 0 0; line-height: 1.55; max-width: 920px; }
+#tab-l3 .l3-vol-head, #tab-r7 .l3-vol-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+#tab-l3 .l3-vol-step, #tab-r7 .l3-vol-step { flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--blue); color: #fff; font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+#tab-l3 .l3-vol-titlewrap, #tab-r7 .l3-vol-titlewrap { flex: 1; min-width: 200px; }
+#tab-l3 .l3-vol-badge, #tab-r7 .l3-vol-badge { display: inline-block; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; background: #e6f0fb; color: var(--blue); padding: 3px 10px; border-radius: 100px; margin-top: 6px; }
+#tab-l3 .l3-vol-h2, #tab-r7 .l3-vol-h2 { font-size: 15px; font-weight: 600; color: var(--text); margin: 0; line-height: 1.35; }
+#tab-l3 .l3-vol-intro, #tab-r7 .l3-vol-intro { font-size: 12px; color: var(--muted); margin: 8px 0 0; line-height: 1.55; max-width: 920px; }
 #tab-l3 .chart-wrap { position: relative; background: #fafaf8; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; margin: 0; }
 #tab-l3 .chart-wrap--md { min-height: 300px; height: clamp(260px, 38vh, 380px); }
 #tab-l3 .chart-wrap canvas { display: block; width: 100% !important; height: 100% !important; }
@@ -1010,9 +1010,15 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
     </div>
   </div>
 
-  <div class="logic-section">
-    <h3 class="act-title">Market dominance — 10 networks control 66% of national IDR volume</h3>
-    <p class="chart-intro">A handful of corporate billing networks dominate the IDR program. halomd.com and teamhealth.com together represent 33% of all national disputes — concentrations that make their win rates and default strategies systemically significant.</p>
+  <div class="logic-section" id="market-dominance">
+    <div class="l3-vol-head" style="margin-bottom:14px;">
+      <div class="l3-vol-step" aria-hidden="true">1</div>
+      <div class="l3-vol-titlewrap">
+        <h2 class="l3-vol-h2">Market dominance — 10 networks control 66% of national IDR volume</h2>
+        <span class="l3-vol-badge">Volume landscape</span>
+        <p class="l3-vol-intro">A handful of corporate billing networks dominate the IDR program. halomd.com and teamhealth.com together represent 33% of all national disputes — concentrations that make their win rates and default strategies systemically significant.</p>
+      </div>
+    </div>
     <div class="grid-2">
       <div class="card">
         <div class="card-header">
@@ -2424,10 +2430,20 @@ function switchTab(id) {
   if (id === 'l4') { btns[1].classList.add('active'); l4ApplyFilters(); }
   if (id === 'r7') {
     btns[2].classList.add('active');
+    function bumpR7Charts() {
+      try {
+        Object.keys(charts).forEach(function (k) {
+          if (charts[k] && typeof charts[k].resize === 'function') charts[k].resize();
+        });
+      } catch (e) {}
+    }
     if (!r7Initialized) {
       requestAnimationFrame(function () {
         try { initReq7Charts(); r7Initialized = true; } catch (e) { console.error(e); }
+        requestAnimationFrame(bumpR7Charts);
       });
+    } else {
+      requestAnimationFrame(bumpR7Charts);
     }
   }
   if (id === 'r2') {
@@ -3882,7 +3898,8 @@ function drawCharts(){
   /* Geographic sections (static   not filtered by quarter) */
   renderL3Geo();
   renderL3PlanState();
-  initL3MarketVolChart();
+  var l3Pane = document.getElementById('tab-l3');
+  if (l3Pane && l3Pane.classList.contains('active')) initL3MarketVolChart();
 }
 
 
