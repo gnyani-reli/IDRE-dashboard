@@ -137,7 +137,23 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 #tab-l3 .header, #tab-l4 .header, #tab-r7 .header, #tab-r2 .header { margin-bottom: 14px; }
 #tab-l3 .header-top, #tab-l4 .header-top, #tab-r7 .header-top, #tab-r2 .header-top { display: flex; justify-content: space-between; align-items: center; gap: 14px; background: var(--surface2); border: 1px solid #d5d7da; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; flex-wrap: wrap; }
 #tab-l3 .header h1, #tab-l4 .header h1, #tab-r7 .header h1, #tab-r2 .header h1 { font-size: 22px; font-weight: 700; line-height: 1.25; color: #0f1923; }
-#tab-l3 .header + .insight, #tab-l4 .header + .insight, #tab-r7 .header + .insight, #tab-r2 .header + .insight { background: var(--blue-lt); border-left: 4px solid var(--blue); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: 14px; color: #3d4a5c; line-height: 1.65; max-width: 780px; margin-bottom: 24px; }
+/* Hero insight: banner sits between .header and .insight on l3/r7/r2, so include .idr-observational-banner + .insight */
+#tab-l3 .header + .insight,
+#tab-l3 .idr-observational-banner + .insight,
+#tab-r7 .header + .insight,
+#tab-r7 .idr-observational-banner + .insight,
+#tab-r2 .header + .insight,
+#tab-r2 .idr-observational-banner + .insight {
+  background: var(--blue-lt);
+  border-left: 4px solid var(--blue);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #3d4a5c;
+  line-height: 1.65;
+  max-width: 780px;
+  margin-bottom: 32px;
+}
 #tab-l3 .kpi-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
 #tab-l4 .kpi-strip, #tab-r7 .kpi-strip, #tab-r2 .kpi-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 24px; }
 #tab-l3 .kpi.k-green .kpi-val, #tab-r7 .kpi.k-green .kpi-val, #tab-r2 .kpi.k-green .kpi-val, #tab-l1 .kpi.k-green .kpi-val { color: var(--green); }
