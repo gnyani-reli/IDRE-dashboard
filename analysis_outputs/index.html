@@ -44,6 +44,17 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 .tab-btn.active { color: #185fa5; border-bottom-color: #185fa5; font-weight: 600; }
 .tab-pane { display: none; }
 .tab-pane.active { display: block; }
+.dash-footer {
+  border-top: 1px solid #edf0f3;
+  padding: 24px 0;
+  text-align: center;
+  font-size: 11px;
+  color: #8a94a6;
+  line-height: 1.5;
+  box-sizing: border-box;
+}
+.dash-footer p { margin: 0 0 6px; padding: 0 clamp(10px, 2vw, 24px); }
+.dash-footer p:last-child { margin-bottom: 0; }
 /* Req 7 & Req 2: full dashboards are inline in .page (charts + story). Iframes removed — they duplicated content and broke when paths/deploy drifted. */
 
 /* ===== DESIGN TOKENS ===== */
@@ -1754,6 +1765,12 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
     </div><!-- /page -->
 </div><!-- /tab-l1 -->
+
+<footer class="dash-footer" role="contentinfo">
+  <p>Source: CMS IDR public data extract, Q1–Q2 2025</p>
+  <p>Analysis by RELI Group. All findings reflect statistical patterns in the data and are observational only.</p>
+  <p>This dashboard does not represent official CMS findings, policy positions, or determinations of non-compliance.</p>
+</footer>
 
 <div class="tooltip" id="tooltip"></div>
 
