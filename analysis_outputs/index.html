@@ -906,7 +906,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <div class="risk-matrix-scatter-host">
         <div class="risk-matrix-scatter-head">
           <div class="risk-matrix-scatter-title">Where providers sit on both measures at once</div>
-          <p class="risk-matrix-scatter-lede">Bubble position = typical multiple (×QPA) vs win %. Bubble size ≈ claim volume in this filter. Gray dashed lines: 5,000× and 93% — same cuts as the quadrants below. Providers without win-rate in the merged data appear only in the matrix pills.</p>
+          <p class="risk-matrix-scatter-lede">Bubble position = typical multiple (×QPA) vs win %. Bubble size ≈ claim volume in this filter. Gray dashed lines: 5,000× and 93% — same cuts as the quadrants below. Providers without win-rate in the merged data appear only in the matrix pills.<span class="risk-axis-note">The vertical axis scales to the plotted providers so spread is visible (not fixed 0–100%).</span></p>
         </div>
         <div class="risk-matrix-scatter-canvas-wrap">
           <canvas id="riskMatrixScatter"></canvas>
@@ -962,6 +962,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
     .risk-matrix-scatter-head { margin-bottom: 8px; }
     .risk-matrix-scatter-title { font-size: 12px; font-weight: 700; color: #0f1923; letter-spacing: 0.02em; }
     .risk-matrix-scatter-lede { margin: 6px 0 0; font-size: 11px; line-height: 1.5; color: #5a6475; max-width: 72em; }
+    .risk-matrix-scatter-lede .risk-axis-note { display: block; margin-top: 4px; font-size: 10.5px; color: #7d8794; }
     .risk-matrix-scatter-canvas-wrap { height: min(300px, 38vh); min-height: 220px; position: relative; }
     .risk-matrix-scatter-empty { margin-top: 8px; font-size: 12px; color: #8a94a6; text-align: center; padding: 24px 12px; background: #f7f9fb; border-radius: 8px; border: 1px dashed #dde3ec; }
     #riskMatrixWrap {
@@ -970,7 +971,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       grid-template-rows: auto auto 22px;
       gap: 8px;
       padding: 12px 14px 6px;
-      align-items: start;
+      align-items: stretch;
     }
     .rm-grid-y-label {
       grid-column: 1;
@@ -991,8 +992,10 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       border-radius: 9px;
       padding: 10px 12px;
       overflow: hidden;
-      align-self: start;
+      align-self: stretch;
       min-height: 0;
+      display: flex;
+      flex-direction: column;
     }
     .rm-quad-tl { grid-column: 2; grid-row: 1; background: #FEF9EC; border: 1px solid #F0DFA0; }
     .rm-quad-tr { grid-column: 3; grid-row: 1; background: #FEF0F0; border: 2px solid #ECA0A0; position: relative; }
@@ -1010,17 +1013,24 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       border-radius: 20px;
       letter-spacing: 0.05em;
     }
-    .rm-quad-kicker { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .rm-quad-kicker { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; flex-shrink: 0; }
     .rm-quad-tl .rm-quad-kicker { color: #92680A; }
     .rm-quad-tr .rm-quad-kicker { color: #8B1A1A; }
     .rm-quad-bl .rm-quad-kicker { color: #27650A; }
     .rm-quad-br .rm-quad-kicker { color: #0E4A8C; }
-    .rm-quad-sub { font-size: 11.5px; font-weight: 600; margin-bottom: 6px; line-height: 1.35; }
+    .rm-quad-sub { font-size: 11.5px; font-weight: 600; margin-bottom: 6px; line-height: 1.35; flex-shrink: 0; }
     .rm-quad-tl .rm-quad-sub { color: #5A3A00; }
     .rm-quad-tr .rm-quad-sub { color: #6B1010; }
     .rm-quad-bl .rm-quad-sub { color: #1B4A07; }
     .rm-quad-br .rm-quad-sub { color: #0A306E; }
-    .rm-pills { display: flex; flex-wrap: wrap; gap: 3px; align-content: flex-start; }
+    .rm-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      align-content: flex-start;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
     .rm-grid-x-label {
       grid-row: 3;
       display: flex;
@@ -4325,7 +4335,23 @@ function l4CreateRiskScatter(bubbleData) {
   var xMin = Math.max(40, Math.min.apply(null, xVals) * 0.65);
   var xMax = Math.max.apply(null, xVals) * 1.12;
 
-  var lineVert = [{x: HIGH_MULTIPLE, y: 48}, {x: HIGH_MULTIPLE, y: 100}];
+  var yVals = pts.map(function (p) { return p.y; });
+  var yMinData = Math.min.apply(null, yVals);
+  var yMaxData = Math.max.apply(null, yVals);
+  var ySpan = Math.max(yMaxData - yMinData, 3);
+  var yPadLo = Math.max(2, ySpan * 0.14);
+  var yPadHi = Math.max(1, ySpan * 0.08);
+  var yAxisMin = Math.min(yMinData - yPadLo, HIGH_WIN - 4);
+  yAxisMin = Math.max(50, Math.floor(yAxisMin));
+  if (yAxisMin >= yMinData - 0.5) {
+    yAxisMin = Math.max(50, Math.floor(yMinData - 3));
+  }
+  var yAxisMax = Math.min(100, Math.ceil(yMaxData + yPadHi));
+  if (yAxisMax <= yAxisMin + 6) {
+    yAxisMax = Math.min(100, yAxisMin + 8);
+  }
+
+  var lineVert = [{x: HIGH_MULTIPLE, y: yAxisMin}, {x: HIGH_MULTIPLE, y: yAxisMax}];
   var lineHorz = [{x: xMin, y: HIGH_WIN}, {x: xMax, y: HIGH_WIN}];
 
   L4_CHARTS.riskScatter = new Chart(canvas.getContext('2d'), {
@@ -4421,11 +4447,16 @@ function l4CreateRiskScatter(bubbleData) {
           suggestedMax: xMax,
         },
         y: {
-          title: {display: true, text: 'Dispute win rate (%)', font: {size: 10}, color: '#5a6475'},
-          min: 48,
-          max: 100,
+          title: {display: true, text: 'Dispute win rate (%) — scaled to data', font: {size: 10}, color: '#5a6475'},
+          min: yAxisMin,
+          max: yAxisMax,
           grid: {color: '#eef1f4'},
-          ticks: {stepSize: 5},
+          ticks: {
+            maxTicksLimit: 10,
+            callback: function (val) {
+              return val + '%';
+            },
+          },
         },
       },
     },
