@@ -503,7 +503,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <div class="l3-vol-titlewrap">
         <h2 class="l3-vol-h2">Market dominance — 10 networks control 66% of national IDR volume</h2>
         <span class="l3-vol-badge">Volume landscape</span>
-        <p class="l3-vol-intro">A handful of corporate billing networks dominate the IDR program. halomd.com and teamhealth.com together represent 33% of all national disputes — concentration that makes default-win patterns on this tab materially tied to a small set of corporate domains.</p>
+        <p class="l3-vol-intro">A handful of corporate billing networks dominate the IDR program. halomd.com and teamhealth.com together represent 33% of all national disputes — concentration that associates default-win patterns on this tab with a small set of corporate domains in the extract.</p>
       </div>
     </div>
     <div class="card" style="margin:0;">
@@ -577,8 +577,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
     </div>
   </div>
   <div class="two-col" style="margin-top:-8px;margin-bottom:18px;gap:10px;">
-    <p class="chart-insight chart-insight-plain" style="margin:0;">When a health plan misses the federal IDR deadline, the dispute can close in the provider&#39;s favor without a hearing — that&#39;s a <strong>default win</strong>. Each dot is one provider: left-to-right is how many disputes they were in; up-and-down is what <strong>share of their wins</strong> came from the plan not responding (not from a merits decision).<br><br>We flag dots <strong>above the 60% line</strong> because most of those wins are driven by <strong>plan silence</strong>, not adjudication — especially when the dot is also far to the right (high dispute volume).</p>
-    <p class="chart-insight chart-insight-plain" style="margin:0;">This panel ranks every <strong>flagged</strong> provider by default-win share — of all their disputes, how many ended because the plan never answered (subject to minimum wins and dispute counts).<br><br>We flag providers at the top because <strong>rank order</strong> shows who relies most on plans missing deadlines at scale — the priority list for compliance review. Hover a row to see the full legal entity name.</p>
+    <p class="chart-insight chart-insight-plain" style="margin:0;">When a health plan misses the federal IDR deadline, the dispute can close in the provider&#39;s favor without a hearing — that&#39;s a <strong>default win</strong>. Each dot is one provider: left-to-right is how many disputes they were in; up-and-down is what <strong>share of their wins</strong> came from the plan not responding (not from a merits decision).<br><br>Dots <strong>above the 60% line</strong> stand out because most of those wins are driven by <strong>plan silence</strong>, not adjudication — especially when the dot is also far to the right (high dispute volume).</p>
+    <p class="chart-insight chart-insight-plain" style="margin:0;">This panel ranks every <strong>flagged</strong> provider by default-win share — of all their disputes, how many ended because the plan never answered (subject to minimum wins and dispute counts).<br><br><strong>Rank order</strong> surfaces providers with the highest default-win share at scale — a pattern that warrants further review alongside other indicators. Hover a row to see the full legal entity name.</p>
   </div>
 
   <!-- ROW 2: Plan Scatter + Plan Table -->
@@ -639,8 +639,8 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
     </div>
   </div>
   <div class="two-col" style="margin-top:-8px;margin-bottom:18px;gap:10px;">
-    <p class="chart-insight chart-insight-plain" style="margin:0;">Each dot is one <strong>health plan</strong>. Left-to-right is how many disputes involved that plan; up-and-down is what share of those disputes the plan <strong>lost because it never responded</strong> (default loss rate). Dot color shows severity tiers starting at 40%.<br><br>We flag plans <strong>high and to the right</strong> because large volume plus a high default-loss rate means many cases exit without the plan ever engaging IDR — that&#39;s operational or compliance failure at scale, not an isolated clerical miss.</p>
-    <p class="chart-insight chart-insight-plain" style="margin:0;">This table sorts plans by default-loss rate among plans with enough disputes to compare fairly — who forfeits the most share of their portfolio to silence.<br><br>We flag leaders here because even <strong>national carriers</strong> can move massive dollars through uncontested defaults; rank surfaces where plan-side response breakdowns warrant accountability beyond a single national average.</p>
+    <p class="chart-insight chart-insight-plain" style="margin:0;">Each dot is one <strong>health plan</strong>. Left-to-right is how many disputes involved that plan; up-and-down is what share of those disputes the plan <strong>lost because it never responded</strong> (default loss rate). Dot color shows severity tiers starting at 40%.<br><br>Plans <strong>high and to the right</strong> combine large volume with a high default-loss rate, so many cases exit without the plan engaging IDR — a pattern that is statistically unusual at scale relative to low-volume plans and warrants further review.</p>
+    <p class="chart-insight chart-insight-plain" style="margin:0;">This table sorts plans by default-loss rate among plans with enough disputes to compare fairly — who forfeits the most share of their portfolio to silence.<br><br>Leaders on this list include <strong>national carriers</strong> where uncontested defaults still move large dollar volumes; the ranking highlights where plan-side response timing is inconsistent with expected patterns beyond a single national average.</p>
   </div>
 
   <!-- BAR CHARTS ROW -->
@@ -652,7 +652,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       </div>
       <div class="card-body">
         <div class="bar-list" id="provBarList"></div>
-        <p class="chart-insight chart-insight-plain">These bars rank providers by <strong>raw count</strong> of default wins — how many disputes each provider won solely because the opposing plan never responded.<br><br>We flag the longest bars because <strong>sheer volume</strong> shows where the biggest payment flows move without arbitration — priority targets for financial exposure even when the provider&#39;s <em>rate</em> is not the highest on the scatter plot.</p>
+        <p class="chart-insight chart-insight-plain">These bars rank providers by <strong>raw count</strong> of default wins — how many disputes each provider won solely because the opposing plan never responded.<br><br>The longest bars mark where <strong>sheer volume</strong> shows the largest payment flows moving without arbitration — entries that warrant further review even when the provider&#39;s <em>rate</em> is not the highest on the scatter plot.</p>
       </div>
     </div>
     <div class="card">
@@ -662,7 +662,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       </div>
       <div class="card-body">
         <div class="bar-list" id="planBarList"></div>
-        <p class="chart-insight chart-insight-plain">These bars rank plans by <strong>total default losses</strong> — how many disputes each plan forfeited because it did not respond in time.<br><br>We flag top entries because <strong>mass-scale</strong> forfeitures concentrate at large national insurers: even a modest non-response rate across millions of members yields tens of thousands of uncontested outcomes — that&#39;s systemic exposure, not one bad week.</p>
+        <p class="chart-insight chart-insight-plain">These bars rank plans by <strong>total default losses</strong> — how many disputes each plan forfeited because it did not respond in time.<br><br>Top entries show where <strong>mass-scale</strong> forfeitures concentrate at large national insurers: even a modest non-response rate across millions of members yields tens of thousands of uncontested outcomes — a concentration pattern in the data, not a single-week blip.</p>
       </div>
     </div>
   </div>
@@ -679,7 +679,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
     <div class="card-body" style="padding:14px 18px 12px;">
       <div id="l3GeoMap" style="width:100%;"></div>
       <div id="l3GeoLegend" style="margin-top:10px;"></div>
-      <p class="chart-insight chart-insight-plain" style="margin-top:12px;">This map colors each <strong>state (by service location)</strong> by the share of disputes in that state that ended in a provider default win — the plan never filed a response. Darker red = a larger share of in-state disputes closed that way. Grey = not enough data in the extract.<br><br>We flag the deepest red states because geography surfaces <strong>where</strong> plan non-response clusters — useful for regional oversight, not just a single national rate. Hover a state for its exact share, win count, and dispute count.</p>
+      <p class="chart-insight chart-insight-plain" style="margin-top:12px;">This map colors each <strong>state (by service location)</strong> by the share of disputes in that state that ended in a provider default win — the plan never filed a response. Darker red = a larger share of in-state disputes closed that way. Grey = not enough data in the extract.<br><br>The deepest red states show <strong>where</strong> plan non-response clusters in the map — useful for regional oversight, not just a single national rate. Hover a state for its exact share, win count, and dispute count.</p>
     </div>
   </div>
 
@@ -720,12 +720,12 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 </div>
 
 <div class="l4-insight">
-  In Q1-Q2 2025, <strong>10,453 providers</strong> charged <strong>6 times or more</strong> the federally set benchmark rate for out-of-network emergency care and won most of their disputes. Cross-checking against the Medicare fee schedule confirmed that <strong>619 providers</strong> remain extreme by both standards simultaneously, eliminating the most common provider defense that the QPA is set too low. <strong>Key observation:</strong> the single most extreme claim on record was billed at <strong>3,857,500 times</strong> the expected rate.
+  In Q1-Q2 2025, <strong>10,453 providers</strong> charged <strong>6 times or more</strong> the federally set benchmark rate for out-of-network emergency care and won most of their disputes. Cross-checking against the Medicare fee schedule confirmed that <strong>619 providers</strong> remain extreme by both standards simultaneously, which is inconsistent with a QPA-only explanation for the full distribution. <strong>Key observation:</strong> the single most extreme claim on record was billed at <strong>3,857,500 times</strong> the expected rate.
 </div>
 
 <div class="l4-kpi-strip">
   <div class="l4-kpi l4-k-blue">
-    <div class="l4-kpi-desc">Providers who routinely charged 6 times or more the federally set benchmark and filed disputes</div>
+    <div class="l4-kpi-desc">Providers who met the 6× federal benchmark threshold on at least one line and filed disputes in this extract</div>
     <div class="l4-kpi-val" id="kpi1">10,453</div>
   </div>
   <div class="l4-kpi l4-k-red">
@@ -733,7 +733,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
     <div class="l4-kpi-val" id="kpi2">842,565</div>
   </div>
   <div class="l4-kpi l4-k-green">
-    <div class="l4-kpi-desc">Providers confirmed extreme against the Medicare fee schedule — ruling out a low benchmark as the cause</div>
+    <div class="l4-kpi-desc">Providers extreme against the Medicare fee schedule in the same period — a pattern inconsistent with a low benchmark as the sole explanation</div>
     <div class="l4-kpi-val" id="kpi5">619</div>
   </div>
   <div class="l4-kpi l4-k-amber">
@@ -764,7 +764,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <div style="background:#f7f9fb;border-left:4px solid #1f6fb2;border-radius:0 8px 8px 0;padding:12px 14px;font-size:13px;line-height:1.6;color:#0f1923;">
         <strong style="display:block;margin-bottom:8px;color:#0f1923;">Stakeholder takeaways</strong>
         <ul style="margin:0;padding-left:18px;">
-          <li style="margin-bottom:6px;"><strong>Two stories, not one.</strong> About <strong>four in five</strong> organizations (486 of 619) concentrate between <strong>3× and 10× Medicare</strong> — a <strong>broad, structural</strong> pattern of pricing above the government reference, with dispute win rates in those bands typically around <strong>80–83%</strong>.</li>
+          <li style="margin-bottom:6px;"><strong>Two stories, not one.</strong> About <strong>four in five</strong> organizations (486 of 619) concentrate between <strong>3× and 10× Medicare</strong> — a <strong>broad</strong> pattern of pricing above the government reference in this extract, with dispute win rates in those bands typically around <strong>80–83%</strong>.</li>
           <li style="margin-bottom:6px;"><strong>A narrow tail drives the scary average.</strong> Only <strong>47</strong> organizations (~8%) sit at <strong>50× Medicare or higher</strong>; that small group is what inflates the <strong>67× simple average</strong>. Oversight can prioritize the tail without assuming every one of the 619 looks like the average.</li>
           <li style="margin-bottom:6px;"><strong>The KPI count is not a “winners only” list.</strong> The headline <strong>619</strong> does <strong>not</strong> require that an organization win most disputes. If you add a strict “won more than lost” screen, the list shrinks to <strong>572</strong> — still large, but a different policy choice.</li>
           <li style="margin-bottom:6px;"><strong>Sample size caveat.</strong> About <strong>78%</strong> of these organizations have <strong>fewer than ten</strong> qualifying lines in the period; treat per‑organization averages as <strong>directional</strong> there. <strong>135</strong> have ten or more lines and support firmer comparisons.</li>
@@ -817,7 +817,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   <div class="l4-card l4-card-flex">
     <div class="l4-card-header">
       <div class="l4-card-title">Most extreme providers &mdash; who is actually draining the system?</div>
-      <div class="l4-card-sub">Two things determine real financial risk: <strong>how much a provider overbills</strong> and <strong>how often they win when that bill is disputed</strong>. This matrix combines both signals. <strong>Top-right = highest priority for review.</strong> Hover any provider name for details.</div>
+      <div class="l4-card-sub">Two axes summarize exposure in the data: <strong>how far typical offers sit above the federal benchmark</strong> and <strong>how often the provider wins when the offer is disputed</strong>. This matrix combines both. <strong>Top-right = largest joint values on those axes in this view.</strong> Hover any provider name for details.</div>
     </div>
     <div class="l4-card-body-flex" style="flex-direction:column;gap:0;">
 
@@ -829,14 +829,14 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
         <div id="qTL" style="grid-column:2;grid-row:1;background:#FEF9EC;border:1px solid #F0DFA0;border-radius:9px;padding:10px 12px;overflow:hidden;">
           <div style="font-size:9.5px;font-weight:700;color:#92680A;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Bills a lot &nbsp;&middot;&nbsp; usually loses disputes</div>
-          <div style="font-size:11.5px;font-weight:600;color:#5A3A00;margin-bottom:6px;">Overbilling &mdash; being caught</div>
+          <div style="font-size:11.5px;font-weight:600;color:#5A3A00;margin-bottom:6px;">High multiple &mdash; disputes often stopped</div>
           <div id="pillsTL" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
         </div>
 
         <div id="qTR" style="grid-column:3;grid-row:1;background:#FEF0F0;border:2px solid #ECA0A0;border-radius:9px;padding:10px 12px;overflow:hidden;position:relative;">
-          <div style="position:absolute;top:8px;right:9px;font-size:9px;font-weight:700;background:#A32D2D;color:#fff;padding:2px 7px;border-radius:20px;letter-spacing:.05em;">ACT NOW</div>
+          <div style="position:absolute;top:8px;right:9px;font-size:9px;font-weight:700;background:#A32D2D;color:#fff;padding:2px 7px;border-radius:20px;letter-spacing:.05em;">REVIEW</div>
           <div style="font-size:9.5px;font-weight:700;color:#8B1A1A;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;">Bills a lot &nbsp;&middot;&nbsp; wins disputes too</div>
-          <div style="font-size:11.5px;font-weight:600;color:#6B1010;margin-bottom:6px;">&#9888; Highest financial risk</div>
+          <div style="font-size:11.5px;font-weight:600;color:#6B1010;margin-bottom:6px;">&#9888; Largest combined spread (this view)</div>
           <div id="pillsTR" style="display:flex;flex-wrap:wrap;gap:3px;"></div>
         </div>
 
@@ -859,7 +859,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <div id="rmTooltip" style="display:none;margin:0 14px 8px;background:#fff;border:1px solid #dde3ec;border-radius:8px;padding:9px 13px;font-size:12px;line-height:1.7;color:#0f1923;"></div>
 
       <p class="l4-chart-note" style="margin:0 14px 14px;">
-        <strong>How to read this.</strong> Each provider is placed by two independent measures: how extreme their typical bill is vs the federal benchmark (left = moderate, right = very high) and how often they win disputes (bottom = usually stopped, top = usually wins). <strong>Top-right providers are overbilling severely and succeeding</strong> &mdash; these represent the highest financial exposure for the program. Top-left providers overbill but are being caught. Thresholds: high multiple &gt;5,000&times; QPA; high win rate &ge;93%.
+        <strong>How to read this.</strong> Each provider is placed by two independent measures: how extreme their typical bill is vs the federal benchmark (left = moderate, right = very high) and how often they win disputes (bottom = usually stopped, top = usually wins). <strong>Top-right cells combine very high typical multiples with very high win rates</strong> &mdash; the largest joint values in this matrix. Top-left cells combine very high multiples with outcomes more often stopped in dispute. Thresholds: high multiple &gt;5,000&times; QPA; high win rate &ge;93%.
       </p>
     </div>
   </div>
@@ -876,7 +876,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   <div class="l4-card l4-card-flex">
     <div class="l4-card-header">
       <div class="l4-card-title">Sharpest billing escalations from Q1 to Q2</div>
-      <div class="l4-card-sub">Providers that significantly increased their charge multiple between quarters. A rising multiple mid-year is a behavioral signal — testing or expanding an aggressive billing strategy.</div>
+      <div class="l4-card-sub">Providers that significantly increased their charge multiple between quarters. A sharp mid-year increase is statistically unusual relative to gradual fee drift and warrants further review with operational context.</div>
     </div>
     <div class="l4-scroll-wrap" style="flex:1;">
       <table class="l4-data-table">
@@ -890,7 +890,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       </table>
     </div>
     <div style="padding:12px 18px;border-top:1px solid #edf0f3;">
-      <p class="l4-chart-note" style="margin:0;padding:0;border:none;">This table shows providers who dramatically increased how much they charged between Q1 and Q2 2025. A provider that went from charging 10× the benchmark in Q1 to 5,000× in Q2 did not stumble into that number — that is a deliberate decision.<br><br>We flag sudden jumps because legitimate billing adjustments do not produce thousand-fold increases in a single quarter. Mid-year escalations like these signal a provider testing or expanding an aggressive strategy after seeing early arbitration success.</p>
+      <p class="l4-chart-note" style="margin:0;padding:0;border:none;">This table shows providers who dramatically increased how much they charged between Q1 and Q2 2025. A move from charging 10× the benchmark in Q1 to 5,000× in Q2 is statistically unusual relative to typical quarter-to-quarter drift in this dataset.<br><br>Sudden jumps of this size are inconsistent with expected patterns for gradual billing or fee updates in most settings. Mid-year escalations of this magnitude warrant further review alongside case-level context.</p>
     </div>
   </div>
 
@@ -971,7 +971,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   </div>
 
   <div class="insight">
-  In Q1–Q2 2025, national IDR volume reached roughly <strong>1.06 million</strong> disputes (OON E&amp;NE + air ambulance). The market is <strong>highly concentrated</strong> — <strong>10 corporate billing networks control 66%</strong> of all filings. Among top domains, <strong>24</strong> show multi-signal patterns (high default wins, cross-plan targeting, volume bursts, dual-track strategies) inconsistent with ordinary dispute activity. <strong>Key observation:</strong> the highest composite risk score on record is <strong>45.9</strong> (fam-llc.com), supporting Tier 1 audit referral where patterns align.
+  In Q1–Q2 2025, national IDR volume reached roughly <strong>1.06 million</strong> disputes (OON E&amp;NE + air ambulance). The market is <strong>highly concentrated</strong> — <strong>10 corporate billing networks control 66%</strong> of all filings. Among top domains, <strong>24</strong> show multi-signal patterns (high default wins, cross-plan volume concentration, volume bursts, dual-track combinations) inconsistent with expected patterns for ordinary dispute activity. <strong>Key observation:</strong> the highest composite risk score on record is <strong>45.9</strong> (fam-llc.com), aligning with Tier 1 review where multiple signals coincide in this scoring frame.
   </div>
 
   <!-- KPI strip -->
@@ -1000,7 +1000,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
   <div class="logic-section" id="market-dominance">
     <h3 class="act-title">Market dominance — 10 networks control 66% of national IDR volume</h3>
-    <p class="chart-intro">A handful of corporate billing networks dominate the IDR program. halomd.com and teamhealth.com together represent 33% of all national disputes — concentrations that make their win rates and default strategies systemically significant.</p>
+    <p class="chart-intro">A handful of corporate billing networks dominate the IDR program. halomd.com and teamhealth.com together represent 33% of all national disputes — concentrations where default and merit outcomes in the extract warrant further review alongside volume.</p>
     <div class="grid-2">
       <div class="card">
         <div class="card-header">
@@ -1017,24 +1017,24 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         <div class="chart-wrap chart-wrap--md"><canvas id="c_vol_scatter"></canvas></div>
       </div>
     </div>
-    <p class="chart-insight">The bar chart ranks the top 12 corporate billing networks by total disputes filed in 2025 Q1–Q2. Bar color reflects <strong>default win rate</strong> — how often the provider won purely because the insurer failed to respond. The scatter (right) maps each network's merit win rate against their default win rate; bubble size reflects national dispute share. <strong>Key observation:</strong> Two distinct archetypes emerge: high-merit operators (teamhealth.com 87%, saparm.com 82%) win through adjudication, while default-heavy operators (fam-llc.com 43%, qmacsmso.com 40%) win primarily through insurer non-response. With 10 networks controlling 66% of national IDR volume, these behavioral patterns have systemic financial consequences.</p>
+    <p class="chart-insight">The bar chart ranks the top 12 corporate billing networks by total disputes filed in 2025 Q1–Q2. Bar color reflects <strong>default win rate</strong> — how often the provider won purely because the insurer failed to respond. The scatter (right) maps each network's merit win rate against their default win rate; bubble size reflects national dispute share. <strong>Key observation:</strong> Two clusters appear in the data: networks with high merit win rates (teamhealth.com 87%, saparm.com 82%) and networks with high default win rates (fam-llc.com 43%, qmacsmso.com 40%). With 10 networks controlling 66% of national IDR volume, the split between adjudicated wins and insurer non-response is visible at scale in this extract.</p>
   </div>
 
   <div class="logic-section">
     <h3 class="act-title">Dual-track operators — merit wins and defaults simultaneously</h3>
-    <p class="chart-intro">A dual-track operator achieves above-average merit win rates <em>and</em> elevated default win rates — extracting value through both adjudicated wins and insurer non-response. The extraction index (merit wins × median award) captures total financial extraction capacity.</p>
+    <p class="chart-intro">A dual-track operator shows above-average merit win rates <em>and</em> elevated default win rates in the same period — adjudicated wins appearing alongside insurer non-response. The composite index (merit wins × median award) summarizes how those dimensions combine in the data.</p>
     <div class="grid-2 grid-2--stretch">
       <div class="card">
         <div class="card-header">
           <div class="card-title">Merit win rate vs. median award (% of QPA)</div>
-          <div class="card-sub">X = merit win rate · Y = median award as % of QPA · Size ∝ dispute volume · Hover for detail. Providers top-right are highest-value extractors.</div>
+          <div class="card-sub">X = merit win rate · Y = median award as % of QPA · Size ∝ dispute volume · Hover for detail. The upper-right shows the highest composite index values.</div>
         </div>
         <div class="chart-wrap chart-wrap--lg"><canvas id="c_dual"></canvas></div>
       </div>
       <div class="card">
         <div class="card-header">
-          <div class="card-title">Top dual-track operators by extraction index</div>
-          <div class="card-sub">Extraction Index = merit wins × median award. High values indicate large systematic financial extraction.</div>
+          <div class="card-title">Top dual-track operators by composite index</div>
+          <div class="card-sub">Composite index = merit wins × median award. High values mark statistically unusual combinations of merit share and award level relative to QPA and warrant further review.</div>
         </div>
         <div class="table-scroll">
           <table class="data-table" id="tbl_dual" style="width:100%">
@@ -1044,19 +1044,19 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
               <th class="r" onclick="sortT('tbl_dual',2)">Merit % ↕</th>
               <th class="r">Default %</th>
               <th class="r" onclick="sortT('tbl_dual',4)">Award %QPA ↕</th>
-              <th class="r" onclick="sortT('tbl_dual',5)">Extr. Index ↕</th>
+              <th class="r" onclick="sortT('tbl_dual',5)">Composite ↕</th>
             </tr></thead>
             <tbody id="tb_dual"></tbody>
           </table>
         </div>
       </div>
     </div>
-    <p class="chart-insight">The scatter plots each operator's <strong>merit win rate</strong> (x-axis) against their <strong>median award as % of QPA</strong> (y-axis), with bubble size proportional to dispute volume. Providers in the upper-right quadrant are the highest-value extractors — winning frequently on merit and collecting high awards per win. The Extraction Index (merit wins × median award) in the table quantifies total financial extraction capacity. <strong>Key observation:</strong> Dual-track operators are not just winning more — they are winning more often and collecting more per win simultaneously. High dispute volumes mean even small advantages in merit win rate or award size translate into large financial transfers out of the IDR program.</p>
+    <p class="chart-insight">The scatter plots each operator's <strong>merit win rate</strong> (x-axis) against their <strong>median award as % of QPA</strong> (y-axis), with bubble size proportional to dispute volume. The upper-right quadrant combines high merit win rates with high median awards as a share of QPA. The composite index (merit wins × median award) in the table ranks that joint outcome in the data. <strong>Key observation:</strong> Dual-track operators cluster toward higher merit outcomes and higher awards per win at the same time; at large dispute volumes, small differences in either dimension translate into large observed payment movement in this extract.</p>
   </div>
 
   <div class="logic-section">
-    <h3 class="act-title">Volume bursts — Q1→Q2 escalations signal strategic filing</h3>
-    <p class="chart-intro">Providers that multiply dispute volume by 10x–100x in a single quarter — especially when paired with rising default rates — indicate coordinated filing campaigns, not organic dispute activity. Legitimate operational growth does not produce 1,000–11,000% quarter-over-quarter jumps.</p>
+    <h3 class="act-title">Volume bursts — Q1→Q2 escalations</h3>
+    <p class="chart-intro">Providers that multiply dispute volume by 10x–100x in a single quarter — especially when paired with rising default rates — are an anomaly in the data relative to typical quarter-to-quarter growth. Simple operational scaling rarely produces 1,000–11,000% quarter-over-quarter jumps in this extract.</p>
     <div class="grid-2 grid-2--stretch">
       <div class="card">
         <div class="card-header">
@@ -1090,12 +1090,12 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         </div>
       </div>
     </div>
-    <p class="chart-insight">This chart shows the <strong>percentage change in dispute volume from Q1 to Q2 2025</strong> for the ten fastest-growing providers. Legitimate business growth does not produce 1,000–11,000% quarter-over-quarter jumps — such spikes indicate coordinated filing campaigns timed to exploit insurer response patterns or system conditions. Bar colour reflects the severity of the burst. <strong>Key observation:</strong> chs.net grew 11,200% (1 → 113 disputes) while its default rate jumped to 97.3% in Q2 — virtually every Q2 dispute was won through non-response, not adjudication. When a volume burst is paired with a spike in default rate, it is the clearest signal of opportunistic default farming rather than genuine out-of-network billing activity.</p>
+    <p class="chart-insight">This chart shows the <strong>percentage change in dispute volume from Q1 to Q2 2025</strong> for the ten fastest-growing providers. Jumps of 1,000–11,000% quarter-over-quarter are statistically unusual in this dataset and warrant further review alongside operational context. Bar colour reflects the severity of the burst. <strong>Key observation:</strong> chs.net grew 11,200% (1 → 113 disputes) while its default rate jumped to 97.3% in Q2 — virtually every Q2 dispute was won through non-response, not adjudication. When a volume burst coincides with a sharp rise in default-win share, the combined pattern is inconsistent with expected random variation and should be reviewed alongside other signals.</p>
   </div>
 
   <div class="logic-section">
     <h3 class="act-title">Behavioral persistence — dual-track patterns in both quarters</h3>
-    <p class="chart-intro">Cross-quarter validation confirms these are sustained strategies, not one-time anomalies. 19 providers maintained dual-track behavior (high merit wins + high defaults) independently in both Q1 and Q2 — ruling out seasonal or administrative explanations.</p>
+    <p class="chart-intro">Cross-quarter validation shows the same dual-track pattern in both quarters, not a single-quarter blip. 19 providers maintained dual-track behavior (high merit wins + high defaults) independently in both Q1 and Q2 — reducing purely seasonal or one-off administrative explanations in the data.</p>
     <div class="grid-2 grid-2--stretch">
       <div class="card">
         <div class="card-header">
@@ -1124,17 +1124,17 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         </div>
       </div>
     </div>
-    <p class="chart-insight">The grouped bars show each dual-track operator's <strong>merit win rate in Q1</strong> (blue) and <strong>Q2</strong> (green). If these patterns were random or administrative, win rates would vary significantly across quarters. Consistent bar heights confirm the behavior is intentional and sustained. The table alongside shows dispute volume growth and default rates in both quarters. <strong>Key observation:</strong> 19 providers maintained dual-track behavior independently in both Q1 and Q2, ruling out seasonal or administrative explanations. fam-llc.com grew 191% in volume while holding a 42–46% default rate in both quarters. Persistence across two separate data periods is the strongest available indicator of a deliberate, stable extraction strategy.</p>
+    <p class="chart-insight">The grouped bars show each dual-track operator's <strong>merit win rate in Q1</strong> (blue) and <strong>Q2</strong> (green). If quarter-to-quarter noise dominated, merit win rates would often move more between periods; similar bar heights across quarters describe a stable pattern in the data. The table alongside shows dispute volume growth and default rates in both quarters. <strong>Key observation:</strong> 19 providers maintained dual-track behavior independently in both Q1 and Q2, which limits purely seasonal or administrative explanations. fam-llc.com grew 191% in volume while holding a 42–46% default rate in both quarters. Persistence across two periods is a strong statistical signal in this extract and warrants further review with other indicators.</p>
   </div>
 
   <div class="logic-section">
     <h3 class="act-title">Priority audit targets — final cross-reference ranking</h3>
-    <p class="chart-intro">Each domain is scored across 8 behavioral blocks (B1–B8). Risk score combines flag count with volume weighting. Tier 1 = highest priority for audit referral; Tier 2 = enhanced monitoring.</p>
+    <p class="chart-intro">Each domain is scored across 8 behavioral blocks (B1–B8). Risk score combines flag count with volume weighting. Tier 1 = highest score in this frame for review; Tier 2 = enhanced monitoring.</p>
     <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 18px;margin-bottom:8px;display:inline-block">
       <span style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-right:10px">Risk score formula</span>
       <code style="font-size:13px;color:var(--text);font-family:'DM Mono',monospace;font-weight:600">risk_score = total_flags &times; log<sub>10</sub>(total_disputes) &times; (1 + default_rate / 100)</code>
     </div>
-    <p style="font-size:12px;color:var(--muted);margin-bottom:16px">A higher score indicates a domain that is flagged across more behavioral signals, operates at large scale, and relies heavily on default wins — making it both more suspicious and more financially consequential.</p>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:16px">A higher score indicates a domain that is flagged across more behavioral signals, operates at large scale, and relies heavily on default wins — a combination that is statistically unusual in this scoring frame and warrants further review.</p>
     <div class="card" style="margin-bottom:12px">
       <div class="card-header">
         <div class="card-title">Risk score by domain — Tier 1 audit referrals</div>
@@ -1154,7 +1154,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       </div>
       <div class="chart-wrap chart-wrap--md"><canvas id="c_rank_scatter"></canvas></div>
     </div>
-    <p class="chart-insight">The bar chart ranks each domain by its <strong>composite risk score</strong> — combining the number of behavioral flags triggered (B1–B8), total dispute volume (log-scaled), and default rate. The scatter below maps every audit candidate by default rate (x-axis) against risk score (y-axis); bubble size reflects total disputes. Providers in the upper-right carry both high default exploitation and the highest composite risk — the clearest audit priorities. <strong>Key observation:</strong> Top-ranked domains carry 7–8 active flags simultaneously — volume dominance, dual-track behavior, filing bursts, plan targeting, and cross-quarter persistence all firing at once. These are not borderline cases. The risk score is calculated entirely from CMS public data, making it reproducible and audit-defensible.</p>
+    <p class="chart-insight">The bar chart ranks each domain by its <strong>composite risk score</strong> — combining the number of behavioral flags triggered (B1–B8), total dispute volume (log-scaled), and default rate. The scatter below maps every audit candidate by default rate (x-axis) against risk score (y-axis); bubble size reflects total disputes. Domains in the upper-right combine high default-win share with high composite risk in this scoring frame — the clearest review priorities in the model. <strong>Key observation:</strong> Top-ranked domains carry 7–8 active flags simultaneously — volume dominance, dual-track outcomes, sharp quarter-to-quarter volume changes, cross-plan concentration, and cross-quarter persistence appear together. These rows sit far from the center of the distribution. The risk score is calculated entirely from CMS public data, making it reproducible for independent checks.</p>
   </div>
 
   <div class="logic-section">
@@ -1202,7 +1202,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
           <div style="font-size:12px;font-weight:600;color:var(--text);margin-top:4px">High-volume confirmed dual-track</div>
           <div style="font-size:11px;color:var(--muted);margin-top:2px">Merit &gt;60% AND Default &gt;25% (≥5K disputes)</div>
         </div>
-        <p class="chart-insight" style="border-radius:8px;margin:0">The chart and table show how <strong>key metrics distribute across percentiles</strong> in the full provider population — identifying natural break points that separate anomalous from normal behavior. The threshold matrix (right) shows how the audit population shrinks as dual-track criteria are progressively tightened, helping CMS calibrate a defensible scope. <strong>Key observation:</strong> Merit &gt;60% + Default &gt;20% (≥1K disputes) yields 13 providers — the recommended audit cohort. Only 2 survive the strictest filter, but the middle tier captures the full high-risk population while remaining manageable and evidence-backed.</p>
+        <p class="chart-insight" style="border-radius:8px;margin:0">The chart and table show how <strong>key metrics distribute across percentiles</strong> in the full provider population — identifying natural break points that separate anomalous from normal behavior. The threshold matrix (right) shows how the filtered population shrinks as dual-track criteria are progressively tightened, helping CMS calibrate scope from the data. <strong>Key observation:</strong> Merit &gt;60% + Default &gt;20% (≥1K disputes) yields 13 providers — the recommended review cohort in this frame. Only 2 survive the strictest filter, but the middle tier captures the full tail while remaining bounded by explicit thresholds.</p>
         </div>
       </div>
     </div>
@@ -1229,7 +1229,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   </div>
 
   <div class="insight">
-  Under the same federal program, <strong>IDRE merit win rates span 40.7 percentage points</strong> (98.4% at IPRO vs 57.7% at Keystone), so routing choice is financially decisive. Flagged providers submit offers up to <strong>18.6× higher</strong> at their preferred IDRE for the same case complexity; <strong>12 of 13</strong> cannot explain the gap with case-mix. <strong>Key observation:</strong> the Step 18 scorecard flags <strong>4 CRITICAL-tier</strong> providers for immediate CMS regulatory referral.
+  Under the same federal program, <strong>IDRE merit win rates span 40.7 percentage points</strong> (98.4% at IPRO vs 57.7% at Keystone), so routing choice is financially decisive. Flagged providers submit offers up to <strong>18.6× higher</strong> at their preferred IDRE for the same case complexity; <strong>12 of 13</strong> rows are not explained by RVU-matched case mix alone in this model. <strong>Key observation:</strong> the Step 18 scorecard marks <strong>4 CRITICAL-tier</strong> providers for CMS regulatory review under the published signal rules.
   </div>
 
   <!-- KPI strip -->
@@ -1245,13 +1245,13 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <div class="kpi-val">18.6×</div>
     </div>
     <div class="kpi k-red">
-      <div class="kpi-lbl">Case-mix defense fails</div>
-      <div class="kpi-desc" style="margin-bottom:8px">Complexity cannot explain the win rate gap</div>
+      <div class="kpi-lbl">Case-mix vs gap</div>
+      <div class="kpi-desc" style="margin-bottom:8px">RVU-matched complexity does not explain the win-rate gap for most rows</div>
       <div class="kpi-val">12 / 13</div>
     </div>
     <div class="kpi k-green">
       <div class="kpi-lbl">CRITICAL tier referrals</div>
-      <div class="kpi-desc" style="margin-bottom:8px">All signals active — regulatory referral recommended</div>
+      <div class="kpi-desc" style="margin-bottom:8px">All signals active — highest composite score in this model</div>
       <div class="kpi-val">4</div>
     </div>
   </div>
@@ -1260,14 +1260,14 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
   <div class="logic-section">
     <h3 class="act-title">IDRE merit win rate — all 14 certified IDREs</h3>
-    <p class="chart-intro">Under the same federal QPA standard, IDRE win rates range from 98.4% (IPRO) to 57.7% (Keystone) — a 40.7 pp spread that makes routing to a preferred IDRE financially significant. Some IDREs also carry high default rates (26–28%), giving providers two pathways to win.</p>
+    <p class="chart-intro">Under the same federal QPA standard, IDRE win rates range from 98.4% (IPRO) to 57.7% (Keystone) — a 40.7 pp spread that makes routing to a preferred IDRE financially significant. Some IDREs also carry high default rates (26–28%), so provider outcomes can reflect both merit decisions and insurer non-response in the same period.</p>
     <div class="card">
       <div class="card-header">
         <div class="card-title">Merit win rate by IDRE <span style="font-weight:400;color:var(--muted)">(defaults excluded)</span></div>
         <div class="card-sub">Dashed line = program average 86.8%. &nbsp;<span style="color:var(--red)">■</span> &gt;95% &nbsp;<span style="color:var(--blue)">■</span> above avg &nbsp;<span style="color:#7c3aed">■</span> below avg &nbsp;·&nbsp; Default rate shown in tooltip.</div>
       </div>
       <div class="chart-wrap chart-wrap--lg"><canvas id="c_wr"></canvas></div>
-      <p class="chart-insight">This chart ranks all 14 certified IDREs by their <strong>merit win rate</strong> — the share of disputed cases decided in the provider's favour when the insurer actually shows up to arbitrate. It excludes default wins, so it measures how well each IDRE rules on the merits alone. <strong>Key observation:</strong> Under the same federal program, IDRE win rates span from 98.4% to 57.7% — a 40.7 pp gap that makes IDRE selection enormously valuable. Some IDREs also carry 26–28% default rates, giving providers a second pathway to win without ever needing a merit ruling. This spread is the structural enabler of the entire routing strategy.</p>
+      <p class="chart-insight">This chart ranks all 14 certified IDREs by their <strong>merit win rate</strong> — the share of disputed cases decided in the provider's favour when the insurer actually shows up to arbitrate. It excludes default wins, so it measures how well each IDRE rules on the merits alone. <strong>Key observation:</strong> Under the same federal program, IDRE win rates span from 98.4% to 57.7% — a 40.7 pp gap that makes IDRE selection materially consequential in the data. Some IDREs also carry 26–28% default rates, so a second outcome path appears without a merit ruling. That joint dispersion is a measurable driver of how much routing concentration can move observed outcomes under the same federal rules.</p>
     </div>
   </div>
 
@@ -1296,7 +1296,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         </div>
       </div>
     </div>
-    <p class="chart-insight">Each bubble represents one provider. The further right, the larger the win rate gap between their preferred IDRE and all others. The further up, the more statistically certain that gap is — a <strong>z-score above 3.0</strong> means there is less than a 0.3% probability the gap is random. Bubble size reflects total dispute volume filed. <strong>Key observation:</strong> Every flagged provider exceeds z = 3.0. NPPA SERVICES at z = 31.76 would occur by random chance fewer than 1 in 1,000,000 times. This is not a data anomaly — it is a behavioral pattern confirmed by statistical law.</p>
+    <p class="chart-insight">Each bubble represents one provider. The further right, the larger the win rate gap between their preferred IDRE and all others. The further up, the more statistically certain that gap is — a <strong>z-score above 3.0</strong> means there is less than a 0.3% probability the gap is random. Bubble size reflects total dispute volume filed. <strong>Key observation:</strong> Every flagged provider exceeds z = 3.0. NPPA SERVICES at z = 31.76 would occur by random chance fewer than 1 in 1,000,000 times. That tail position is inconsistent with chance alone under standard assumptions — it warrants further review with other indicators.</p>
   </div>
 
   <div class="logic-section">
@@ -1327,12 +1327,12 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         </div>
       </div>
     </div>
-    <p class="chart-insight">Each bar pair shows one validated provider's <strong>win rate at their preferred IDRE</strong> (blue) alongside their <strong>win rate at all other IDREs</strong> (green), using disputes filed across Q1 and Q2 2025. The gap between the two bars is the performance advantage they gain purely by routing to their chosen IDRE — not by having stronger cases. <strong>Key observation:</strong> 12 providers win 92–100% at their preferred IDRE but only 33–72% everywhere else, under the exact same federal rules. All 12 share one billing domain (halomd.com) and 11 of 12 route exclusively to Capitol Bridge. The pattern was confirmed independently in Q1 and Q2 — ruling out coincidence.</p>
+    <p class="chart-insight">Each bar pair shows one validated provider's <strong>win rate at their preferred IDRE</strong> (blue) alongside their <strong>win rate at all other IDREs</strong> (green), using disputes filed across Q1 and Q2 2025. The gap between the two bars is the difference observed when routing concentrates at a chosen IDRE rather than elsewhere in the data. <strong>Key observation:</strong> 12 providers win 92–100% at their preferred IDRE but only 33–72% everywhere else, under the exact same federal rules. All 12 share one billing domain (halomd.com) and 11 of 12 route exclusively to Capitol Bridge. The pattern was confirmed independently in Q1 and Q2 — a stability that is inconsistent with a single-period chance explanation alone.</p>
   </div>
 
   <div class="logic-section">
-    <h3 class="act-title">Corporate networks route thousands of cases in lockstep</h3>
-    <p class="chart-intro">Networks of 10–140+ practices sharing one billing domain and routing uniformly to the same IDRE signal corporate-level coordination. Two strategies appear: <strong>merit routing</strong> and <strong>default routing</strong>.</p>
+    <h3 class="act-title">Corporate networks — concentrated routing</h3>
+    <p class="chart-intro">Networks of 10–140+ practices sharing one billing domain and routing uniformly to the same IDRE show a high degree of routing concentration in the data. Two recurring patterns appear: <strong>merit routing</strong> and <strong>default routing</strong>.</p>
     <div class="grid-2 grid-2--stretch">
       <div class="card">
         <div class="card-header">
@@ -1357,14 +1357,14 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         </div>
       </div>
     </div>
-    <p class="chart-insight">Each bubble represents a <strong>corporate provider network</strong> — a group of practices sharing one billing domain. The x-axis shows how exclusively they route to a single IDRE; the y-axis shows their win rate there. Bubble size reflects total dispute volume. Red bubbles win ≥80% (merit routing); amber win 40–80% (mixed); grey win &lt;40% (default routing). <strong>Key observation:</strong> Networks of up to 140 practices route uniformly to a single IDRE — a pattern only possible through deliberate corporate coordination. Two strategies are visible: merit routing and default routing (winning through insurer non-response). fam-llc.com alone accounts for 30,438 disputes across 133 practices, all directed to the same IDRE.</p>
+    <p class="chart-insight">Each bubble represents a <strong>corporate provider network</strong> — a group of practices sharing one billing domain. The x-axis shows how exclusively they route to a single IDRE; the y-axis shows their win rate there. Bubble size reflects total dispute volume. Red bubbles win ≥80% (merit routing); amber win 40–80% (mixed); grey win &lt;40% (default routing). <strong>Key observation:</strong> Networks of up to 140 practices route uniformly to a single IDRE — a concentration pattern that is statistically unusual at this scale and warrants further review alongside other signals. Two routing patterns are visible: merit-dominant outcomes and default-heavy outcomes (wins where the insurer did not respond). fam-llc.com alone accounts for 30,438 disputes across 133 practices, all directed to the same IDRE.</p>
   </div>
 
   <p class="logic-part-label">Part B — Medicare benchmarking &amp; case-mix analysis</p>
 
   <div class="logic-section">
     <h3 class="act-title">Offer inflation — higher offers at preferred IDREs</h3>
-    <p class="chart-intro">Flagged providers submit offers that are 2–19× higher at their preferred IDRE compared to other IDREs — even when their Medicare-benchmarked case complexity (RVU ratio) is equal or lower. This eliminates the "higher-complexity cases" defense for offer inflation.</p>
+    <p class="chart-intro">Flagged providers submit offers that are 2–19× higher at their preferred IDRE compared to other IDREs — even when their Medicare-benchmarked case complexity (RVU ratio) is equal or lower. That pattern is inconsistent with a higher-complexity-only explanation for the offer spread in this slice.</p>
     <div class="grid-2 grid-2--stretch">
       <div class="card">
         <div class="card-header">
@@ -1391,12 +1391,12 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         </div>
       </div>
     </div>
-    <p class="chart-insight">This chart compares the <strong>median offer each provider submits at their preferred IDRE</strong> (red) against their median offer at all other IDREs (green), expressed as a percentage of QPA. The inflation ratio is how many times higher the primary-IDRE offer is. If offers were merit-based, the two bars should be similar regardless of which IDRE is handling the case. <strong>Key observation:</strong> South Main Surgery Alliance submits offers 18.6× higher at Capitol Bridge versus all other IDREs — while their cases there are actually simpler (RVU ratio 0.81). The inflation follows the IDRE, not the patient. Medicare RVU data eliminates the "harder cases" defense for every provider flagged with OFFER_EXCEEDS_COMPLEXITY.</p>
+    <p class="chart-insight">This chart compares the <strong>median offer each provider submits at their preferred IDRE</strong> (red) against their median offer at all other IDREs (green), expressed as a percentage of QPA. The inflation ratio is how many times higher the primary-IDRE offer is. If offers were unrelated to IDRE venue, the two bars would often be closer regardless of which IDRE is handling the case. <strong>Key observation:</strong> South Main Surgery Alliance submits offers 18.6× higher at Capitol Bridge versus all other IDREs — while their cases there are actually simpler (RVU ratio 0.81). The ratio moves with IDRE venue in the data, not with patient field alone. Medicare RVU data is inconsistent with a harder-cases-only story for every provider flagged OFFER_EXCEEDS_COMPLEXITY in this extract.</p>
   </div>
 
   <div class="logic-section">
     <h3 class="act-title">IDRE award-to-Medicare ratio — system benchmark</h3>
-    <p class="chart-intro">Across all 13 IDREs, median awards are a fraction of Medicare rates (0.02–0.06×). Despite this, providers fight intensely over which IDRE handles their disputes — because even small differences in award rates at these dispute volumes translate to significant financial outcomes.</p>
+    <p class="chart-intro">Across all 13 IDREs, median awards are a fraction of Medicare rates (0.02–0.06×). Despite this, observed filing volume is high enough that small differences in award rates between IDREs still translate into material payment differences at scale in this extract.</p>
     <div class="grid-2">
       <div class="card">
         <div class="card-header">
@@ -1408,22 +1408,22 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <div class="card">
         <div class="card-header">
           <div class="card-title">% of line items awarded above Medicare rate by IDRE</div>
-          <div class="card-sub"><span style="color:var(--amber)">■</span> % above Medicare &nbsp;<span style="color:var(--red)">■</span> % at 2× Medicare &nbsp;·&nbsp; Even 4–5% of line items above Medicare signals selective high-value dispute filing.</div>
+          <div class="card-sub"><span style="color:var(--amber)">■</span> % above Medicare &nbsp;<span style="color:var(--red)">■</span> % at 2× Medicare &nbsp;·&nbsp; Even 4–5% of line items above Medicare marks a thin tail in the distribution for high-value lines.</div>
         </div>
         <div class="chart-wrap chart-wrap--md"><canvas id="c_15d_pct"></canvas></div>
       </div>
     </div>
-    <p class="chart-insight">The left chart shows the <strong>median award each IDRE approves relative to the Medicare fee schedule rate</strong> — a value of 0.05 means the median approved award is 5% of Medicare. The right chart shows what share of line items were awarded above Medicare. Together these reveal the financial landscape providers are navigating when selecting an IDRE. <strong>Key observation:</strong> All 13 IDREs award at or below Medicare on the median case — yet providers fight intensely over IDRE selection. Maximus Federal awards the most relative to Medicare (0.06× median, 4.9% above Medicare), making it a strategic target for high-value service codes. Small award differences, multiplied across thousands of disputes, represent significant and measurable financial exposure.</p>
+    <p class="chart-insight">The left chart shows the <strong>median award each IDRE approves relative to the Medicare fee schedule rate</strong> — a value of 0.05 means the median approved award is 5% of Medicare. The right chart shows what share of line items were awarded above Medicare. Together these describe the payment landscape providers see when selecting an IDRE. <strong>Key observation:</strong> All 13 IDREs award at or below Medicare on the median case — yet routing still concentrates where small award-level differences exist. Maximus Federal awards the most relative to Medicare (0.06× median, 4.9% above Medicare), so high-value service codes cluster there in the data. Small award differences, multiplied across thousands of disputes, correspond to large observed payment differences at scale.</p>
   </div>
 
   <div class="logic-section">
     <h3 class="act-title">Case-mix complexity control — routing advantage holds</h3>
-    <p class="chart-intro">The most plausible innocent explanation for a win rate gap is that providers route harder cases to a favorable IDRE because they are genuinely harder. This step tests that claim using Medicare RVU weights as a complexity proxy. If providers have similar or easier cases at their preferred IDRE, the defense fails.</p>
+    <p class="chart-intro">The most plausible benign explanation for a win rate gap is that providers route harder cases to a favorable IDRE because they are genuinely harder. This step tests that claim using Medicare RVU weights as a complexity proxy. When RVU at the preferred IDRE is similar or lower than elsewhere, the harder-cases story is a weaker fit in this slice.</p>
     <div class="grid-2 grid-2--stretch">
       <div class="card">
         <div class="card-header">
           <div class="card-title">Case complexity ratio vs. win rate gap — RVU-matched</div>
-          <div class="card-sub">X = RVU ratio (primary / others). X &lt; 1 = simpler cases at primary; X &gt; 1 = harder cases. Y = win rate gap (pp). Size ∝ line items at primary IDRE.<br><span style="color:var(--red)">●</span> Defense FAILS (similar complexity) &nbsp;<span style="color:var(--amber)">●</span> Defense BACKFIRES (simpler cases) &nbsp;<span style="color:var(--green)">●</span> Partial defense (harder cases)</div>
+          <div class="card-sub">X = RVU ratio (primary / others). X &lt; 1 = simpler cases at primary; X &gt; 1 = harder cases. Y = win rate gap (pp). Size ∝ line items at primary IDRE.<br><span style="color:var(--red)">●</span> Case-mix unlikely (similar RVU) &nbsp;<span style="color:var(--amber)">●</span> Case-mix unlikely (lower RVU at primary) &nbsp;<span style="color:var(--green)">●</span> Higher RVU at primary</div>
         </div>
         <div class="chart-wrap chart-wrap--md"><canvas id="c_16_scatter"></canvas></div>
       </div>
@@ -1441,7 +1441,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         </div>
       </div>
     </div>
-    <p class="chart-insight">The <strong>RVU ratio</strong> (x-axis) measures case complexity at a provider's preferred IDRE relative to all other IDREs, using Medicare Relative Value Units as the proxy. A ratio below 1.0 means cases at the preferred IDRE are simpler; above 1.0 means harder. If the "harder cases" defense were valid, flagged providers should cluster to the right. The y-axis shows how large their win rate gap is. <strong>Key observation:</strong> 12 of 13 flagged providers cannot use "harder cases" as a defense — their case complexity at the preferred IDRE is the same or lower than at other IDREs. Two providers (EMCC STEPHENVILLE, ER24 DENTON) route their simplest cases to Capitol Bridge and still win 47–51 pp more there. The routing advantage cannot be explained by clinical complexity — it is structural.</p>
+    <p class="chart-insight">The <strong>RVU ratio</strong> (x-axis) measures case complexity at a provider's preferred IDRE relative to all other IDREs, using Medicare Relative Value Units as the proxy. A ratio below 1.0 means cases at the preferred IDRE are simpler; above 1.0 means harder. If the harder-cases explanation fully accounted for the gap, many flagged points would sit to the right. The y-axis shows how large their win rate gap is. <strong>Key observation:</strong> 12 of 13 flagged providers sit at similar or lower RVU at the preferred IDRE than elsewhere. Two providers (EMCC STEPHENVILLE, ER24 DENTON) route their lowest RVU bucket to Capitol Bridge and still win 47–51 pp more there. The routing gap is not explained by RVU alone in these rows — it remains a concentration pattern in the tabulated fields.</p>
   </div>
 
   <div class="logic-section">
@@ -1450,7 +1450,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
     <div class="card" style="margin-bottom:12px">
       <div class="card-header">
         <div class="card-title">Win rate gap vs. Z-score — final audit candidates</div>
-        <div class="card-sub">X = raw win rate gap (pp) · Y = z-score · Size ∝ total disputes · <span style="color:var(--red)">●</span> CRITICAL — immediate referral &nbsp;<span style="color:var(--amber)">●</span> HIGH — enhanced review · Upper-right = highest priority.</div>
+        <div class="card-sub">X = raw win rate gap (pp) · Y = z-score · Size ∝ total disputes · <span style="color:var(--red)">●</span> CRITICAL tier — all signals &nbsp;<span style="color:var(--amber)">●</span> HIGH tier — enhanced review · Upper-right = strongest joint signal in this frame.</div>
       </div>
       <div class="chart-wrap chart-wrap--md"><canvas id="c_18_scatter"></canvas></div>
     </div>
@@ -1474,7 +1474,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
           <tbody id="tb_18"></tbody>
         </table>
       </div>
-      <p class="chart-insight">This is the <strong>final consolidated output</strong>, scoring each validated provider across every signal — routing concentration, win rate gap, z-score, IDRE outperformance, case-mix verdict, and offer inflation. The x-axis is the raw win rate gap; the y-axis is the statistical z-score. Bubble size reflects total dispute volume. Red bubbles are <strong>CRITICAL tier</strong> (all signals active); amber are <strong>HIGH tier</strong> (most signals active). Providers in the upper-right combine the largest gaps with the strongest statistical certainty. <strong>Key observation:</strong> 4 providers are CRITICAL tier — every signal fires simultaneously. All 4 route to Capitol Bridge through the halomd.com network. These are the first-priority audit referrals derivable directly from CMS public data — no additional data collection required.</p>
+      <p class="chart-insight">This is the <strong>final consolidated output</strong>, scoring each validated provider across every signal — routing concentration, win rate gap, z-score, IDRE outperformance, case-mix verdict, and offer inflation. The x-axis is the raw win rate gap; the y-axis is the statistical z-score. Bubble size reflects total dispute volume. Red bubbles are <strong>CRITICAL tier</strong> (all signals active); amber are <strong>HIGH tier</strong> (most signals active). Providers in the upper-right combine the largest gaps with the strongest statistical certainty. <strong>Key observation:</strong> 4 providers are CRITICAL tier — every signal is active simultaneously in this model. All 4 route to Capitol Bridge through the halomd.com network. These rows rank highest for follow-up review using CMS public fields alone — no additional data collection is required to reproduce the screen.</p>
     </div>
   </div>
 
@@ -1499,7 +1499,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
       <!-- INSIGHT -->
       <div class="insight">
-        Across <strong>1.2 million qualifying merit decisions</strong>, cases where IDREs approved payments furthest above the federal benchmark were resolved in fewer days — not more. Routine cases near the QPA benchmark took a median of <strong>39 days</strong>; cases approved at more than 500% of the benchmark took a median of <strong>32 days</strong>. This 7-day inversion is present at <strong>7 of 14 certified IDREs</strong>, confirming it is systemic rather than isolated. A compliant review process produces the opposite pattern: larger deviations from benchmark should require more scrutiny, not less.
+        Across <strong>1.2 million qualifying merit decisions</strong>, cases where IDREs approved payments furthest above the federal benchmark were resolved in fewer days — not more. Routine cases near the QPA benchmark took a median of <strong>39 days</strong>; cases approved at more than 500% of the benchmark took a median of <strong>32 days</strong>. This 7-day inversion is present at <strong>7 of 14 certified IDREs</strong>, so the pattern is systemic in the extract rather than isolated to one IDRE. Relative to a common expectation that larger benchmark deviations track with longer timelines, the observed ordering is inverted here and warrants further review.
       </div>
 
       <!-- KPI STRIP -->
@@ -1533,7 +1533,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         <div class="card">
           <div class="card-header">
             <div class="card-title">Median days by payment tier — should slope upward, slopes down</div>
-            <div class="card-sub">Each point = median days for all disputes in that tier. The downward slope confirms larger awards are receiving less, not more, review time.</div>
+            <div class="card-sub">Each point = median days for all disputes in that tier. The downward slope shows larger awards associated with shorter median timelines in this extract.</div>
           </div>
           <div class="card-body" style="padding:14px 16px 0;">
             <div class="legend-row">
@@ -1544,14 +1544,14 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
             </div>
             <div class="chart-wrap chart-wrap--l1-md"><canvas id="c_line"></canvas></div>
           </div>
-          <p class="chart-insight">A compliant review process produces an upward slope — larger deviations from benchmark require more scrutiny. The consistent downward trend across all four tiers, confirmed at both the average and median level, indicates high-payment decisions are processed through a lower-scrutiny path regardless of financial magnitude.</p>
+          <p class="chart-insight">Where larger benchmark deviations are associated with more review time, one would expect an upward slope. The consistent downward trend across all four tiers, at both the average and median, shows shorter median timelines as payment tiers rise in this dataset — a pattern that warrants further review against operational controls.</p>
         </div>
 
         <!-- RIGHT: IQR bar chart -->
         <div class="card">
           <div class="card-header">
             <div class="card-title">IQR spread by tier — P25 → Median → P75</div>
-            <div class="card-sub">The spread narrows for the Extreme tier (24–48 days) vs. Routine (26–91 days). High-payment cases are not just faster on average — they are consistently fast, inconsistent with individualized case review.</div>
+            <div class="card-sub">The spread narrows for the Extreme tier (24–48 days) vs. Routine (26–91 days). High-payment cases are not only faster on average — the IQR is tighter, which is inconsistent with a wide idiosyncratic-review story alone.</div>
           </div>
           <div class="card-body" style="padding:14px 16px 0;">
             <div class="chart-wrap chart-wrap--l1-iqr"><canvas id="c_iqr"></canvas></div>
@@ -1562,7 +1562,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
 
       <div class="grid-2" style="margin-top:-4px;margin-bottom:24px;gap:10px;">
         <p class="chart-insight-plain" style="border-radius:8px;border:1px solid var(--border)">Routine cases (near QPA) resolved in median <strong>39 days</strong>. Extreme cases (&gt;500% QPA) resolved in median <strong>32 days</strong>. Both the average and median show the same inversion — this is not an artifact of outliers. P75 drops from 91 days (Routine) to 48 days (Extreme), meaning even the slowest Extreme cases are resolved faster than the typical Routine case.</p>
-        <p class="chart-insight-plain" style="border-radius:8px;border:1px solid var(--border)">Additionally, the Medicare fee schedule cross-check reveals that <strong>81.4% of even Routine-tier cases</strong> have a QPA set below 50% of the Medicare rate for the same service — confirming the high payment variance is partly a reflection of an artificially low QPA baseline, not solely provider overasking. The Medicare comparison (Act 3) separates these two explanations at the service code level.</p>
+        <p class="chart-insight-plain" style="border-radius:8px;border:1px solid var(--border)">Additionally, the Medicare fee schedule cross-check reveals that <strong>81.4% of even Routine-tier cases</strong> have a QPA set below 50% of the Medicare rate for the same service — so high payment variance partly reflects a low QPA baseline in the benchmark data, not only high provider asks. The Medicare comparison (Act 3) separates those components at the service code level.</p>
       </div>
 
       <h3 class="act-title">The inversion is systemic — present at 7 of 14 certified IDREs</h3>
@@ -1582,7 +1582,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
             </div>
             <div class="chart-wrap chart-wrap--l1-tall"><canvas id="c_idre"></canvas></div>
           </div>
-          <p class="chart-insight"><strong>IPRO</strong> leads with a 49-day gap (Routine: 107 days → Extreme: 58 days). Capitol Bridge follows at 18.5 days. <strong>iMPROve Health</strong> shows a gap of 40 days but has only 24 Extreme-tier cases — below the 50-case threshold — so it is classified as insufficient data. <strong>Provider Resources</strong> is the confirmed exception with a −5 day gap, showing Extreme cases take slightly longer than Routine cases — exactly the expected behavior under compliant review.</p>
+          <p class="chart-insight"><strong>IPRO</strong> leads with a 49-day gap (Routine: 107 days → Extreme: 58 days). Capitol Bridge follows at 18.5 days. <strong>iMPROve Health</strong> shows a gap of 40 days but has only 24 Extreme-tier cases — below the 50-case threshold — so it is classified as insufficient data. <strong>Provider Resources</strong> is the confirmed exception with a −5 day gap, showing Extreme cases take slightly longer than Routine cases — the slope direction most often associated with longer timelines for higher tiers in other settings.</p>
         </div>
 
         <!-- RIGHT: IDRE table -->
@@ -1623,7 +1623,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <h3 class="act-title">Providers benefiting most from fast Extreme-tier decisions at flagged IDREs</h3>
 
       <div class="insight-red">
-        <strong>Critical observation — halomd.com domain:</strong> Dozens of separately named provider entities share the billing email domain halomd.com — NPPA Services, Precision Emergency Physicians, Emergency Medicine Specialists, IES Arizona PLLC, Villa Park Neurological Services, and more. When grouped by domain, halomd.com is the single largest beneficiary of fast Extreme-tier decisions across multiple flagged IDREs. Financial relationships between these entities require IDRE certification records and billing entity registration filings.
+        <strong>Pattern note — halomd.com domain:</strong> Dozens of separately named provider entities share the billing email domain halomd.com — NPPA Services, Precision Emergency Physicians, Emergency Medicine Specialists, IES Arizona PLLC, Villa Park Neurological Services, and more. When grouped by domain, halomd.com shows the largest combined volume of fast Extreme-tier decisions across multiple flagged IDREs in this extract. Entity relationships can be checked against IDRE certification records and billing registration files.
       </div>
 
       <div class="grid-2 paired-row" style="grid-template-columns:2fr 3fr;">
@@ -1676,7 +1676,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
       <h3 class="act-title">Which service codes drive high variance — and is the QPA the problem?</h3>
 
       <div class="insight">
-        For each Extreme-tier service code, the QPA is compared against the Medicare fee schedule. <strong>BOTH</strong> = QPA below 50% of Medicare AND provider offer above 3× Medicare simultaneously — the insurer is underpaying and the provider is overasking. <strong>LOW QPA</strong> = high variance explained primarily by artificially low benchmark. The majority of Extreme-tier service codes fall into the BOTH category.
+        For each Extreme-tier service code, the QPA is compared against the Medicare fee schedule. <strong>BOTH</strong> = QPA below 50% of Medicare AND provider offer above 3× Medicare simultaneously — two benchmark dimensions diverge in the same row. <strong>LOW QPA</strong> = high variance explained primarily by a low QPA benchmark in the extract. The majority of Extreme-tier service codes fall into the BOTH category.
       </div>
 
       <div class="grid-2 paired-row">
@@ -1689,14 +1689,14 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
           <div class="card-body" style="padding:14px 16px 0;">
             <div class="chart-wrap chart-wrap--l1-md"><canvas id="c_svc"></canvas></div>
           </div>
-          <p class="chart-insight">CPT 95937 (neuromuscular junction test) and 95955 (EEG during surgery) are the most extreme — QPA values at 0.03–0.04% of Medicare alongside approved provider offers exceeding 300,000% of Medicare. These are not outliers in the ordinary sense; they represent service codes where the dispute process has produced outcomes structurally disconnected from any federal payment reference.</p>
+          <p class="chart-insight">CPT 95937 (neuromuscular junction test) and 95955 (EEG during surgery) are the most extreme — QPA values at 0.03–0.04% of Medicare alongside approved provider offers exceeding 300,000% of Medicare. These codes sit far from the center of the distribution; they are rows where dispute outcomes are far from common Medicare multiples in the extract.</p>
         </div>
 
         <!-- RIGHT: service code table -->
         <div class="card" style="display:flex;flex-direction:column;overflow:hidden;">
           <div class="card-header" style="flex-shrink:0;">
             <div class="card-title">Service code benchmark comparison — Extreme tier</div>
-            <div class="card-sub">Minimum 20 disputes per code. Interpretation answers whether high variance reflects insurer underpaying (LOW QPA), provider overasking (HIGH VARIANCE), or both simultaneously (BOTH).</div>
+            <div class="card-sub">Minimum 20 disputes per code. Interpretation labels whether high variance aligns with a low QPA benchmark (LOW QPA), high offer levels vs Medicare (HIGH VARIANCE), or both (BOTH).</div>
           </div>
           <div class="card-body" style="padding:0;overflow-y:auto;overflow-x:auto;overscroll-behavior:contain;max-height:400px;">
             <table class="data-table sticky-head" style="width:100%;min-width:720px;table-layout:fixed;" id="tbl_svc">
@@ -1721,7 +1721,7 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
             </table>
           </div>
           <div class="insight-green" style="margin:10px 14px 14px;border-radius:0 6px 6px 0;">
-            <strong>How to read Interpretation:</strong> BOTH = QPA below Medicare AND provider offer above 3× Medicare — two problems simultaneously. LOW QPA = high variance mainly from artificially low benchmark. WITHIN EXPECTED = no benchmark flags triggered. Commercial payers typically reimburse at 150–200% of Medicare; QPAs below 50% of Medicare are outside this range.
+            <strong>How to read Interpretation:</strong> BOTH = QPA below Medicare AND provider offer above 3× Medicare — two benchmark dimensions flagged together. LOW QPA = high variance mainly from a low QPA benchmark in the row. WITHIN EXPECTED = no benchmark flags triggered. Commercial payers typically reimburse at 150–200% of Medicare; QPAs below 50% of Medicare sit outside that band in the reference data.
           </div>
         </div>
       </div>
@@ -1840,7 +1840,7 @@ function initReq7Charts() {
   charts['c_dual'] = new Chart(document.getElementById('c_dual'),{
     type:'bubble',
     data:{datasets:[{label:'Dual-Track Operator',data:dualTrackData.map(d=>({x:d.merit,y:d.award,r:Math.max(5,Math.min(22,Math.cbrt(d.d)*1.6)),dom:d.dom,ei:d.ei,idre:d.idre,d:d.d})),backgroundColor:'rgba(220,38,38,.75)',borderColor:'rgba(255,255,255,.5)',borderWidth:1}]},
-    options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.raw.dom}\nMerit: ${c.raw.x}%  Award: ${c.raw.y}% QPA\n${c.raw.d.toLocaleString()} disputes · Index: ${c.raw.ei.toLocaleString()}\nPrimary IDRE: ${c.raw.idre}`}}},scales:{x:{title:{display:true,text:'Merit Win Rate (%)',font:{size:11}},min:55,max:105,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}},y:{title:{display:true,text:'Median Award (% of QPA)',font:{size:11}},min:25,max:130,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}}},responsive:true,maintainAspectRatio:false}
+    options:{plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.raw.dom}\nMerit: ${c.raw.x}%  Award: ${c.raw.y}% QPA\n${c.raw.d.toLocaleString()} disputes · Composite: ${c.raw.ei.toLocaleString()}\nPrimary IDRE: ${c.raw.idre}`}}},scales:{x:{title:{display:true,text:'Merit Win Rate (%)',font:{size:11}},min:55,max:105,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}},y:{title:{display:true,text:'Median Award (% of QPA)',font:{size:11}},min:25,max:130,grid:{color:'#f3f4f6'},ticks:{callback:v=>v+'%',font:{size:10}}}},responsive:true,maintainAspectRatio:false}
   });
   document.getElementById('tb_dual').innerHTML = [...dualTrackData].sort((a,b)=>b.ei-a.ei).map(d=>`<tr>
     <td style="font-family:monospace;font-size:11px;font-weight:700">${d.dom}</td>
@@ -2302,7 +2302,7 @@ charts['c_15d_pct']=new Chart(document.getElementById('c_15d_pct'),{
 
 // ── Section 7: Case-Mix (Step 16) ────────────────────
 const vColor={SIMILAR:'rgba(220,38,38,.8)',EASIER:'rgba(245,158,11,.8)',HARDER:'rgba(22,163,74,.8)'};
-const vLabel={SIMILAR:'Defense FAILS (similar complexity)',EASIER:'Defense BACKFIRES (simpler cases)',HARDER:'Partial defense (harder cases)'};
+const vLabel={SIMILAR:'Case-mix unlikely (similar RVU)',EASIER:'Case-mix unlikely (lower RVU at primary)',HARDER:'Higher RVU at primary'};
 dc('c_16_scatter');
 charts['c_16_scatter']=new Chart(document.getElementById('c_16_scatter'),{
   type:'bubble',
@@ -2323,7 +2323,7 @@ charts['c_16_scatter']=new Chart(document.getElementById('c_16_scatter'),{
     responsive:true,maintainAspectRatio:false}
 });
 document.getElementById('tb_16').innerHTML=step16.map(d=>{
-  const vb=d.v==='SIMILAR'?`<span class="br">Defense FAILS</span>`:d.v==='EASIER'?`<span class="bs">BACKFIRES</span>`:`<span class="bg">Partial</span>`;
+  const vb=d.v==='SIMILAR'?`<span class="br">RVU: similar</span>`:d.v==='EASIER'?`<span class="bs">RVU: lower at primary</span>`:`<span class="bg">RVU: higher at primary</span>`;
   return `<tr>
     <td style="font-size:11px;font-weight:600;max-width:160px;word-break:break-word">${d.n}</td>
     <td class="r" style="font-weight:700;color:#dc2626">${d.gap} pp</td>
@@ -2336,7 +2336,7 @@ dc('c_18_scatter');
 charts['c_18_scatter']=new Chart(document.getElementById('c_18_scatter'),{
   type:'bubble',
   data:{datasets:[
-    {label:'CRITICAL — Immediate Referral',
+    {label:'CRITICAL tier — all signals',
       data:step18.filter(d=>d.tier==='CRITICAL').map(d=>({x:d.gap,y:d.z,r:Math.max(6,Math.min(22,Math.sqrt(d.disp/8))),n:d.n,d:d.disp,cx:d.cx})),
       backgroundColor:'rgba(220,38,38,.85)'},
     {label:'HIGH — Enhanced Review',
@@ -3482,7 +3482,7 @@ function updatePlanFlagSummary(planFg,allPlans){
   var el=document.getElementById('planFlagSummary'); if(!el) return;
   var elig=allPlans.filter(function(d){return (d.disputes||0)>=50;}).length;
   var uniquePlans = new Set(planFg.map(function(d){return d.name;})).size;
-  el.innerHTML='<strong>'+uniquePlans+' plans flagged</strong> out of '+elig+' with 50+ disputes. These plans routinely forfeit cases by not responding.';
+  el.innerHTML='<strong>'+uniquePlans+' plans flagged</strong> out of '+elig+' with 50+ disputes. In this extract those plans show elevated default-loss counts relative to volume.';
 }
 
 /* -- GEOGRAPHIC RENDER FUNCTIONS -- */
@@ -3740,11 +3740,11 @@ function renderL3PlanMatrixSummary(){
   var INSIGHTS={
     'zelis.com':'Payment processor for many insurers — non-response spans its entire client base across 8 states',
     'ibx.com':'Independence Blue Cross — 7,077 disputes lost in PA, the single largest volume in this dataset',
-    'ibxtpa.com':'IBC TPA arm — also failing in PA; same root cause as ibx.com',
-    'centene.com':'TX (3,766) + IN (679) at 83%+ — company-wide compliance problem, not a state anomaly',
+    'ibxtpa.com':'IBC TPA arm — mirrors the PA concentration seen for ibx.com in this extract',
+    'centene.com':'TX (3,766) + IN (679) at 83%+ — multi-state pattern in the data, not isolated to one state',
     'uhsinc.com':'Universal Health Services — 100% non-response for 3,053 disputes in NV',
     'fridayhealthplans.com':'Friday Health Plans went bankrupt in 2023 — explains 100% non-response in TX',
-    'marpaihealth.com':'100% non-response in both NJ and TX — small plan, total compliance failure',
+    'marpaihealth.com':'100% non-response in both NJ and TX — small plan; rate is an extreme tail in this extract',
     'mgb.org':'Mass General Brigham in AR — likely a self-funded employer plan, 100% non-response',
     'umr.com':'UMR (UnitedHealthcare subsidiary) — 98.6% loss rate in TX, 499 disputes'
   };
@@ -3766,7 +3766,7 @@ function renderL3PlanMatrixSummary(){
 
   var header='<p style="font-size:11px;color:var(--muted);margin-bottom:12px;line-height:1.55;">'+
     '<strong style="color:var(--text);">State = service location</strong> — where care was physically delivered. '+
-    'Plans appearing across multiple states have a systemic compliance failure, not an isolated issue. '+
+    'Plans appearing across multiple states show a repeated non-response pattern in the data, not a single-state blip. '+
     'Each card below summarises one plan\'s exposure; state chips are colored by loss-rate severity.</p>';
 
   var cards=plans.map(function(p){
@@ -4164,10 +4164,10 @@ function l4CreateBubble(bubbleData) {
     pill.addEventListener('mouseenter', function(){
       if(!tooltip) return;
       var kLabel = d.ask >= 1000 ? (d.ask/1000).toFixed(1)+'k×' : Math.round(d.ask)+'×';
-      var riskDesc = quad==='TR' ? '⚠️ Highest risk — overbilling severely and winning disputes' :
-                     quad==='TL' ? 'Overbilling severely but disputes are being stopped' :
-                     quad==='BR' ? 'Moderate billing but winning disputes consistently — watch closely' :
-                                   'Moderate billing, disputes being stopped — lower concern';
+      var riskDesc = quad==='TR' ? 'Largest combined multiple and win rate in this view' :
+                     quad==='TL' ? 'Very high typical multiple; disputes more often stopped' :
+                     quad==='BR' ? 'Moderate multiple with high win rate — review with other indicators' :
+                                   'Moderate multiple; disputes more often stopped — lower joint signal';
       tooltip.innerHTML =
         '<strong>'+d.name+'</strong><br>'+
         'Bills on average <strong>'+kLabel+' above the federal benchmark</strong><br>'+
