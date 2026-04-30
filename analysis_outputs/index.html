@@ -903,11 +903,9 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   <div class="l4-card l4-card-flex">
     <div class="l4-card-header">
       <div class="l4-card-title">Provider funnel — from elevated billing to Medicare-confirmed outliers</div>
-      <div class="l4-card-sub">Each bar shows how many providers pass a progressively stricter threshold. The 619 providers at the bottom are extreme on two independent federal standards simultaneously.</div>
     </div>
     <div class="l4-card-body-flex">
       <div class="l4-canvas-wrap-tall"><canvas id="funnelChart"></canvas></div>
-      <p class="l4-chart-note">Starting with all providers who charged at least 2× the benchmark, this chart shows how many remained flagged as the thresholds got stricter. The final bar — 619 providers — passed every filter: extreme against the federal QPA benchmark and against the Medicare fee schedule independently.<br><br>We flag the 619 at the bottom because they cannot argue the benchmark is set too low. Medicare is a second, independent federal standard — and they are extreme against that too. Two flags on two independent standards is the highest-confidence audit signal available.</p>
     </div>
   </div>
 </div>
@@ -918,22 +916,18 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   <div class="l4-card l4-card-flex">
     <div class="l4-card-header">
       <div class="l4-card-title">States with the most extreme claims — volume vs. severity</div>
-      <div class="l4-card-sub">Bars = total claims at ≥6× the federal benchmark (left axis). Line = average overcharge multiple for that state (right axis). Texas leads by raw volume; Oklahoma, Ohio, and New Jersey show the most extreme average charge levels.</div>
     </div>
     <div class="l4-card-body-flex">
       <div class="l4-canvas-wrap l4-canvas-flex"><canvas id="stateCombo"></canvas></div>
-      <p class="l4-chart-note">The bars show how many extreme-rate claims came from each state. The red line shows how extreme the average bill was in that state. A tall bar means a lot of disputes. A high red line means the bills were especially inflated.<br><br>We flag states that are both tall and high on the red line because they face both problems at once — large dispute volumes and unusually extreme billing. That combination points to regional billing networks or plan-level compliance failures concentrated in specific states.</p>
     </div>
   </div>
 
   <div class="l4-card l4-card-flex">
     <div class="l4-card-header">
       <div class="l4-card-title">Highest-risk provider–plan pairs by overcharge magnitude</div>
-      <div class="l4-card-sub">Top 8 specific provider + health plan combinations ranked by average overcharge. Log scale. Color shading = win rate severity. The same plan appearing repeatedly signals systematic targeting.</div>
     </div>
     <div class="l4-card-body-flex">
       <div class="l4-canvas-wrap l4-canvas-flex" id="pairWrap"><canvas id="pairChart"></canvas></div>
-      <p class="l4-chart-note">This chart shows the eight most extreme specific combinations of one provider billing one health plan repeatedly. The longer the bar, the more inflated the average bill was for that pair. Darker bars mean the provider won nearly every dispute against that plan.<br><br>We flag repeated provider–plan combinations because a single plan appearing across multiple providers at extreme rates suggests a systematic vulnerability — either a processing failure or a pattern that specific providers have learned to exploit.</p>
     </div>
   </div>
 
@@ -944,7 +938,6 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
   <div class="l4-card">
     <div class="l4-card-header">
       <div class="l4-card-title">Confirmed outliers — extreme on both benchmarks simultaneously</div>
-      <div class="l4-card-sub">Providers flagged as outliers by two independent federal standards. These providers cannot use the low-QPA argument — they remain extreme against the Medicare rate. Scroll to see all entries.</div>
     </div>
     <div class="l4-scroll-wrap">
       <table class="l4-data-table">
@@ -956,9 +949,6 @@ body { font-family: 'Inter', -apple-system, sans-serif; background: #f4f6f8; col
         </thead>
         <tbody id="dualFlaggedBody"></tbody>
       </table>
-    </div>
-    <div style="padding:12px 18px;border-top:1px solid #edf0f3;">
-      <p class="l4-chart-note" style="margin:0;padding:0;border:none;">This table lists every provider who is extreme on both the federal QPA benchmark and the Medicare fee schedule at the same time. Both are official federal payment references — and these providers are well above both of them simultaneously.<br><br>We flag them because the most common provider defense is &quot;the QPA is set too low.&quot; That argument fails here — Medicare says the same thing independently. These providers have no remaining technical defense and are the highest-priority cases for case-file review.</p>
     </div>
   </div>
 </div>
